@@ -84,7 +84,7 @@ const CreateRecipie = () => {
           >
             {TypeOfFoodButtons.map((button) => {
               return (
-                <Grid item>
+                <Grid key={button.value} item>
                   {foodType === button.value ? (
                     <Button
                       variant="contained"
