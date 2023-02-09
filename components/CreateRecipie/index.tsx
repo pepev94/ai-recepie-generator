@@ -13,7 +13,7 @@ const TypeOfFoodButtons = [
 ];
 
 const CreateRecipie = () => {
-  const [foodType, setFoodType] = useState("");
+  const [foodType, setFoodType] = useState(TypeOfFoodButtons[0]);
   const [targetProtein, setTargetProtein] = useState("30");
   const [targetCarbs, setTargetCarbs] = useState("400");
   const [primaryIngredient, setPrimaryIngredient] = useState("");
@@ -21,8 +21,6 @@ const CreateRecipie = () => {
   const [loading, setLoading] = useState(false);
 
   const [result, setResult] = useState("");
-
-  console.log("loading", loading);
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
     const response = await fetch("/api/open-ai", {
