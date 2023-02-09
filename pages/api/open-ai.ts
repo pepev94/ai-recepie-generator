@@ -39,8 +39,7 @@ export default async function handler(
     const response = await fetch("https://api.openai.com/v1/completions", {
       headers: {
         "Content-Type": "application/json",
-        Authorization:
-          "Bearer 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",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPEN_AI_API_KEY}`,
       },
       method: "POST",
       body: JSON.stringify({
