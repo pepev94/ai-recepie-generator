@@ -40,7 +40,7 @@ export default async function handler(
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer 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",
+          "Bearer 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",
       },
       method: "POST",
       body: JSON.stringify({
