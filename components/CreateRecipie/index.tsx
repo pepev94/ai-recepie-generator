@@ -6,6 +6,7 @@ import { useState } from "react";
 
 const TypeOfFoodButtons = [
   { label: "🌮  Mexican", value: "Mexican" },
+  { label: "🍝  Italian", value: "Italian" },
   { label: "🍣  Sushi", value: "Sushi" },
   { label: "🇬🇷  Greek", value: "Greek" },
   { label: "🇪🇸  Spanish", value: "Spanish" },
@@ -13,7 +14,7 @@ const TypeOfFoodButtons = [
 ];
 
 const CreateRecipie = () => {
-  const [foodType, setFoodType] = useState(TypeOfFoodButtons[0]);
+  const [foodType, setFoodType] = useState(TypeOfFoodButtons[0].value);
   const [targetProtein, setTargetProtein] = useState("30");
   const [targetCarbs, setTargetCarbs] = useState("400");
   const [primaryIngredient, setPrimaryIngredient] = useState("");
