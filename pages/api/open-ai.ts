@@ -55,7 +55,7 @@ export default async function handler(
     });
     const data = await response.json();
     console.log(data);
-    res.status(200).json({ result: (data as any).choices[0].text });
+    res.status(200).json({ result: data as any });
   } catch (err) {
     res.status(500).json({ error: (err as any).message });
   }
