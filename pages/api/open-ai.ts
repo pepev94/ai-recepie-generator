@@ -22,32 +22,41 @@ export type MyCustomRequest = Override<
 
 export default async function handler(
   req: MyCustomRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<Data | { error: string }>
 ) {
-  const { foodType, targetProtein, targetCarbs, primaryIngredient, alergies } =
-    req.body;
-  const prompt = `Give me the title, list of ingredients and step by step process to prepare it, Be specific on the details of the process, add the nutritional information at the en of the the following: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare, and and less than ${targetCarbs} calories per serve, with a target protein of ${targetProtein} gms. ${
-    alergies !== "" ? ` I am allergic to ${alergies}` : ""
-  }. And I want the main ingredient to be ${primaryIngredient}`;
-  console.log(prompt);
-  const response = await fetch("https://api.openai.com/v1/completions", {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization:
-        "Bearer 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",
-    },
-    method: "POST",
-    body: JSON.stringify({
-      model: "text-davinci-003",
-      prompt: prompt,
-      temperature: 0.5,
-      max_tokens: 500,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-    }),
-  });
-  const data = await response.json();
-  console.log(data);
-  res.status(200).json({ result: (data as any).choices[0].text });
+  try {
+    const {
+      foodType,
+      targetProtein,
+      targetCarbs,
+      primaryIngredient,
+      alergies,
+    } = req.body;
+    const prompt = `Give me the title, list of ingredients and step by step process to prepare it, Be specific on the details of the process, add the nutritional information at the en of the the following: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare, and and less than ${targetCarbs} calories per serve, with a target protein of ${targetProtein} gms. ${
+      alergies !== "" ? `I am allergic to ${alergies}` : ""
+    } And I want the main ingredient to be ${primaryIngredient}`;
+    console.log(prompt);
+    const response = await fetch("https://api.openai.com/v1/completions", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer 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",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        model: "text-davinci-003",
+        prompt: prompt,
+        temperature: 0.5,
+        max_tokens: 500,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
+    res.status(200).json({ result: (data as any).choices[0].text });
+  } catch (err) {
+    res.status(500).json({ error: (err as any).message });
+  }
 }
