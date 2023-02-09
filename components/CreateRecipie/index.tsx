@@ -25,18 +25,35 @@ const CreateRecipie = () => {
   console.log("loading", loading);
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
-    setLoading(true);
-    const settings = {
+    const response = await fetch("/api/open-ai", {
       method: "POST",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
-    };
-    const fetchResponse = await fetch("/api/open-ai", settings);
-    const data = await fetchResponse.json();
-    setResult(data.result);
+      body: JSON.stringify({
+        prompt,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      setResult((prev) => prev + chunkValue);
+    }
+
     setLoading(false);
   };
 
