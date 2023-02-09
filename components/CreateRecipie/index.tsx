@@ -30,9 +30,7 @@ const CreateRecipie = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        prompt,
-      }),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
