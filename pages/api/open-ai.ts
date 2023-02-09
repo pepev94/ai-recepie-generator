@@ -40,7 +40,7 @@ export default async function handler(
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer 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",
+          "Bearer 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",
       },
       method: "POST",
       body: JSON.stringify({
@@ -53,6 +53,7 @@ export default async function handler(
         presence_penalty: 0,
       }),
     });
+
     const data = await response.json();
     console.log(data);
     res.status(200).json({ result: data as any });
