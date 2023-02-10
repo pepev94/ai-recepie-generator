@@ -41,7 +41,7 @@ const getPromt = (body: BodyGetOpenAiResult) => {
   } = body;
   switch (selectedLanguage) {
     case LanguagesEnum.es:
-      return `Responde en español los siguiente: Quiero un receta de cocina. Dame el titulo, la lista de ingredientes, el paso a paso para preparar. Se especifico en los detalles de la preparación, agrega la información nutrional al final de lo siguiente: Una comida casera tipo ${foodType} ,f´cil de hacer, que tarde menos de 30 min en hacer.${
+      return `Responde en español los siguiente: Quiero un receta de cocina. Agrega los gramos o cantidades exactas de cada ingrediente. Dame el titulo, la lista de ingredientes, el paso a paso para preparar. Se especifico en los detalles de la preparación, agrega la información nutrional al final de lo siguiente: Una comida casera tipo ${foodType} ,f´cil de hacer, que tarde menos de 30 min en hacer.${
         countMacros
           ? `Que tenga menos de ${targetCarbs} carbohidratos por porción, y  ${targetProtein} gramos de proteina  por porción`
           : ""
@@ -49,7 +49,7 @@ const getPromt = (body: BodyGetOpenAiResult) => {
         alergies !== "" ? `Soy alergico a ${alergies}` : ""
       } Quiero que los ingredientes principales sean ${primaryIngredient}. Debe de ser para ${personCount} personas.`;
     case LanguagesEnum.en:
-      return `Give me the title, list of ingredients and step by step process to prepare it, Be specific on the details of the process, add the nutritional information at the en of the the following: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare. ${
+      return `Give me the title, list of ingredients and step by step process to prepare it, add the exact quantities of ingredients. Be specific on the details of the process, add the nutritional information at the en of the the following: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare. ${
         countMacros
           ? `It must have less ${targetCarbs} calories per serve, with a target protein of ${targetProtein} gms per serve`
           : ""
