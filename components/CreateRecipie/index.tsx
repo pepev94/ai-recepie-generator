@@ -111,6 +111,7 @@ const CreateRecipie = () => {
         sx={{
           borderRadius: 4,
           p: 6,
+          mx: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -137,8 +138,8 @@ const CreateRecipie = () => {
             flexDirection: "column",
             gap: 2,
             width: "100%",
-            maxWidth: "500px",
-            px: 5,
+            maxWidth: "600px",
+            px: 2,
           }}
         >
           <Typography variant="h6" component="h3">
@@ -176,12 +177,12 @@ const CreateRecipie = () => {
         </Box>
         <Box
           sx={{
-            mt: 5,
+            mt: 2,
             display: "flex",
             flexDirection: "column",
             gap: 2,
             width: "100%",
-            p: 5,
+            p: 2,
           }}
         >
           <FormGroup>
@@ -226,12 +227,12 @@ const CreateRecipie = () => {
         </Box>
         <Box
           sx={{
-            mt: 5,
+            mt: 2,
             display: "flex",
             flexDirection: "column",
             gap: 2,
             width: "100%",
-            p: 5,
+            p: 2,
           }}
         >
           <Typography variant="h5" component="h3">
@@ -274,6 +275,7 @@ const CreateRecipie = () => {
         </Box>
 
         <LoadingButton
+          sx={{ mt: 5 }}
           onClick={() =>
             fetchData({
               foodType,

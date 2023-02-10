@@ -8,6 +8,7 @@ import English from "../content/locales/en.json";
 import NavBar from "@/components/navBar";
 import { ThemeProvider } from "@emotion/react";
 import { MuiTheme } from "@/utils/theme";
+import { CssBaseline } from "@mui/material";
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props;
@@ -27,6 +28,8 @@ const App = (props: AppProps) => {
   return (
     <IntlProvider locale={shortLocale} messages={messages} onError={() => null}>
       <ThemeProvider theme={MuiTheme}>
+        <CssBaseline />
+
         <NavBar></NavBar>
         <Component {...pageProps} />
       </ThemeProvider>
