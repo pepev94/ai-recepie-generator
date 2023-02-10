@@ -15,7 +15,7 @@ import { FormattedMessage } from "react-intl";
 import { useRouter } from "next/router";
 import logo from "assets/AiChef.png";
 import Image from "next/image";
-
+import ShareIcon from "@mui/icons-material/Share";
 const TypeOfFoodButtonsEn = [
   { label: "🌮  Mexican", value: "Mexican" },
   { label: "🥗  Vegan", value: "Vegan" },
@@ -56,6 +56,17 @@ const CreateRecipie = () => {
         return [TypeOfFoodButtonsEn, LanguagesEnum.en];
       default:
         return [TypeOfFoodButtonsEn, LanguagesEnum.en];
+    }
+  }, [shortLocale]);
+
+  const shareCTAText = useMemo(() => {
+    switch (shortLocale) {
+      case "es":
+        return "\n\n ¿Quieres crear tus propias recetas con AI? \n  https://aifoodie.co";
+      case "en":
+        return "\n\n Want to create your own recipies using AI? \n  https://aifoodie.co";
+      default:
+        return "\n\n Want to create your own recipies using AI? \n  https://aifoodie.co";
     }
   }, [shortLocale]);
 
@@ -119,7 +130,6 @@ const CreateRecipie = () => {
         }}
       >
         <Image src={logo} alt="Logo" width={200} />
-
         <Typography sx={{ mt: 2 }} variant="h4" component="h1">
           <FormattedMessage id="title" defaultMessage="Recipies AI" />
         </Typography>
@@ -271,7 +281,6 @@ const CreateRecipie = () => {
             }}
           />
         </Box>
-
         <LoadingButton
           sx={{ mt: 5 }}
           onClick={() =>
@@ -294,6 +303,16 @@ const CreateRecipie = () => {
         >
           <FormattedMessage id="generateReciepie" />
         </LoadingButton>
+        <Button
+          onClick={() =>
+            navigator.clipboard.writeText(`${result} ${shareCTAText}`)
+          }
+          sx={{ mt: 2 }}
+          variant="outlined"
+          startIcon={<ShareIcon />}
+        >
+          Compartir
+        </Button>
         <TextField
           sx={{ width: "100%", mt: 3 }}
           id="standard-multiline-static"

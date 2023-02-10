@@ -1,4 +1,3 @@
-import Head from "next/head";
 import CreateRecipie from "@/components/CreateRecipie";
 import Seo from "@/components/SEO/Seo";
 
