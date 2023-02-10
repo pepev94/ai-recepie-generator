@@ -138,11 +138,11 @@ const CreateRecipie = () => {
             gap: 2,
             width: "100%",
             maxWidth: "500px",
-            p: 5,
+            px: 5,
           }}
         >
           <Typography variant="h6" component="h3">
-            <FormattedMessage id="foodType" />
+            <FormattedMessage id="foodType" />: {foodType}
           </Typography>
           <Grid
             direction="row"
@@ -234,7 +234,7 @@ const CreateRecipie = () => {
             p: 5,
           }}
         >
-          <Typography variant="h6" component="h3">
+          <Typography variant="h5" component="h3">
             <FormattedMessage id="recipieDetails" />
           </Typography>
           <TextField
