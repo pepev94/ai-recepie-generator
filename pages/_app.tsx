@@ -1,9 +1,13 @@
 import { AppProps } from "next/app";
+import "../styles/globals.css";
 import { IntlProvider } from "react-intl";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import Spanish from "../content/locales/es.json";
 import English from "../content/locales/en.json";
+import NavBar from "@/components/navBar";
+import { ThemeProvider } from "@emotion/react";
+import { MuiTheme } from "@/utils/theme";
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props;
@@ -22,7 +26,10 @@ const App = (props: AppProps) => {
 
   return (
     <IntlProvider locale={shortLocale} messages={messages} onError={() => null}>
-      <Component {...pageProps} />
+      <ThemeProvider theme={MuiTheme}>
+        <NavBar></NavBar>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </IntlProvider>
   );
 };

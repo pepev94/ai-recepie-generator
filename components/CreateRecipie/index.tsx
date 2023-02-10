@@ -14,6 +14,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useRouter } from "next/router";
+import logo from "assets/AiChef.png";
+import Image from "next/image";
 
 const TypeOfFoodButtonsEn = [
   { label: "🌮  Mexican", value: "Mexican" },
@@ -105,8 +107,10 @@ const CreateRecipie = () => {
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
       <Card
+        elevation={8}
         sx={{
-          p: 5,
+          borderRadius: 4,
+          p: 6,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -115,7 +119,9 @@ const CreateRecipie = () => {
           maxWidth: "900px",
         }}
       >
-        <Typography variant="h4" component="h1">
+        <Image src={logo} alt="Logo" width={200} />
+
+        <Typography sx={{ mt: 2 }} variant="h4" component="h1">
           <FormattedMessage id="title" defaultMessage="Recipies AI" />
         </Typography>
         <Typography variant="h5" component="h2">
