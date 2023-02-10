@@ -1,7 +1,6 @@
 import { BodyGetOpenAiResult } from "@/pages/api/open-ai";
 import {
   Button,
-  Card,
   FormControlLabel,
   FormGroup,
   Grid,
@@ -106,8 +105,7 @@ const CreateRecipie = () => {
     <Box
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
-      <Card
-        elevation={8}
+      <Box
         sx={{
           borderRadius: 4,
           p: 6,
@@ -305,11 +303,14 @@ const CreateRecipie = () => {
           rows={10}
           defaultValue="Default Value"
           variant="outlined"
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <Button onClick={() => setResult("")}>
           <FormattedMessage id="erase" />
         </Button>
-      </Card>
+      </Box>
     </Box>
   );
 };
