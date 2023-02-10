@@ -47,7 +47,7 @@ const getPromt = (body: BodyGetOpenAiResult) => {
           : ""
       }. ${
         alergies !== "" ? `Soy alergico a ${alergies}` : ""
-      } Quiero que los ingredientes principales sean ${primaryIngredient}. Debe de ser para ${personCount} personas`;
+      } Quiero que los ingredientes principales sean ${primaryIngredient}. Debe de ser para ${personCount} personas. Responde en español`;
     case LanguagesEnum.es:
       return `Give me the title, list of ingredients and step by step process to prepare it, Be specific on the details of the process, add the nutritional information at the en of the the following: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare. ${
         countMacros
