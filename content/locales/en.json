@@ -1,14 +1,4 @@
 {
-  "title": "Recipies AI",
-  "subtitle": " Create you own recipies powered by AI",
-  "foodType": "Food Type",
-  "targetMacros": "Want to Count Macros?",
-  "targetMacrosProtein": "Protein Grs",
-  "targetMacrosCarbs": "Carbs grs",
-  "recipieDetails": "Recipie Details",
-  "recipieDetailsIngredients": "Principal Ingredients",
-  "recipieDetailsAlergies": "Are you allergic to something?",
-  "generateReciepie": "Generate Recipie!",
-  "erase": "Erase",
-  "personCount": "Number of persons"
+  "subtitle": "Create you own recipies powered by AI",
+  "title": "Recipies AI"
 }
