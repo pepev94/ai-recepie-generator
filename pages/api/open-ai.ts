@@ -68,7 +68,7 @@ const handler = async (req: Request): Promise<Response> => {
   const payload = {
     model: "text-davinci-003",
     prompt,
-    temperature: 0.5,
+    temperature: body.selectedLanguage === LanguagesEnum.es ? 0.85 : 0.5,
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
