@@ -82,6 +82,7 @@ const CreateRecipie = () => {
   const [result, setResult] = useState("");
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
+    setResult("");
     const response = await fetch("/api/open-ai", {
       method: "POST",
       headers: {
