@@ -1,5 +1,14 @@
 import { BodyGetOpenAiResult } from "@/pages/api/open-ai";
-import { Button, Card, Grid, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useMemo, useState } from "react";
@@ -51,8 +60,10 @@ const CreateRecipie = () => {
 
   const [foodType, setFoodType] = useState(foodTypeButtons[0].value);
   const [targetProtein, setTargetProtein] = useState("30");
+  const [countMacros, setCountMacros] = useState(false);
   const [targetCarbs, setTargetCarbs] = useState("400");
   const [primaryIngredient, setPrimaryIngredient] = useState("");
+  const [personCount, setPersonCount] = useState("1");
   const [alergies, setAlergies] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -167,34 +178,45 @@ const CreateRecipie = () => {
             p: 5,
           }}
         >
-          <Typography variant="h6" component="h3">
-            <FormattedMessage id="targetMacros" />
-            Target Marcos:
-          </Typography>
-          <TextField
-            id="protein-textfield"
-            label={<FormattedMessage id="targetMacrosProtein" />}
-            variant="outlined"
-            fullWidth
-            type="number"
-            value={targetProtein}
-            onChange={(e) => setTargetProtein(e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id="carbs-textfield"
-            label={<FormattedMessage id="targetMacrosCarbs" />}
-            variant="outlined"
-            value={targetCarbs}
-            onChange={(e) => setTargetCarbs(e.target.value)}
-            fullWidth
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={countMacros}
+                  onChange={(e) => setCountMacros(e.target.checked)}
+                />
+              }
+              label={<FormattedMessage id="targetMacros" />}
+            />
+          </FormGroup>
+          {countMacros && (
+            <>
+              <TextField
+                id="protein-textfield"
+                label={<FormattedMessage id="targetMacrosProtein" />}
+                variant="outlined"
+                fullWidth
+                type="number"
+                value={targetProtein}
+                onChange={(e) => setTargetProtein(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+              <TextField
+                id="carbs-textfield"
+                label={<FormattedMessage id="targetMacrosCarbs" />}
+                variant="outlined"
+                value={targetCarbs}
+                onChange={(e) => setTargetCarbs(e.target.value)}
+                fullWidth
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </>
+          )}
         </Box>
         <Box
           sx={{
@@ -231,6 +253,18 @@ const CreateRecipie = () => {
               shrink: true,
             }}
           />
+          <TextField
+            id="outlined-basic"
+            label={<FormattedMessage id="personCount" />}
+            type="number"
+            variant="outlined"
+            value={personCount}
+            onChange={(e) => setPersonCount(e.target.value)}
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </Box>
 
         <LoadingButton
@@ -242,6 +276,8 @@ const CreateRecipie = () => {
               primaryIngredient,
               alergies,
               selectedLanguage,
+              countMacros,
+              personCount,
             })
           }
           disabled={loading}

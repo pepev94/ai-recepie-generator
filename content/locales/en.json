@@ -9,5 +9,6 @@
   "recipieDetailsIngredients": "Principal Ingredients",
   "recipieDetailsAlergies": "Are you allergic to something?",
   "generateReciepie": "Generate Recipie",
-  "erase": "Erase"
+  "erase": "Erase",
+  "personCount": "Number of persons"
 }
