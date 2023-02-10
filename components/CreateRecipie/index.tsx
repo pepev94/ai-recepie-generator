@@ -2,19 +2,54 @@ import { BodyGetOpenAiResult } from "@/pages/api/open-ai";
 import { Button, Card, Grid, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { FormattedMessage } from "react-intl";
+import { useRouter } from "next/router";
 
-const TypeOfFoodButtons = [
+const TypeOfFoodButtonsEn = [
   { label: "🌮  Mexican", value: "Mexican" },
+  { label: "🥗  Vegan", value: "Vegan" },
   { label: "🍝  Italian", value: "Italian" },
   { label: "🍣  Sushi", value: "Sushi" },
   { label: "🇬🇷  Greek", value: "Greek" },
   { label: "🇪🇸  Spanish", value: "Spanish" },
   { label: "🇩🇪  German", value: "German" },
+  { label: "🏮 Chinese", value: "Chinese" },
+  { label: "🥟 Korean", value: "Korean" },
 ];
 
+const TypeOfFoodButtonsEs = [
+  { label: "🌮  Mexicana", value: "Mexicana" },
+  { label: "🥗  Vegan", value: "Vegana" },
+  { label: "🍝  Italian", value: "Italiana" },
+  { label: "🍣  Sushi", value: "Sushi" },
+  { label: "🇬🇷  Griega", value: "Griega" },
+  { label: "🇪🇸  Española", value: "Española" },
+  { label: "🇩🇪  Alemana", value: "Alemana" },
+  { label: "🏮 China", value: "China" },
+  { label: "🥟  Coreana", value: "Coreana" },
+];
+
+export enum LanguagesEnum {
+  es = "es",
+  en = "en",
+}
+
 const CreateRecipie = () => {
-  const [foodType, setFoodType] = useState(TypeOfFoodButtons[0].value);
+  const { locale } = useRouter();
+  const [shortLocale] = locale ? locale.split("-") : ["en"];
+  const [foodTypeButtons, selectedLanguage] = useMemo(() => {
+    switch (shortLocale) {
+      case "es":
+        return [TypeOfFoodButtonsEs, LanguagesEnum.es];
+      case "en":
+        return [TypeOfFoodButtonsEn, LanguagesEnum.en];
+      default:
+        return [TypeOfFoodButtonsEn, LanguagesEnum.en];
+    }
+  }, [shortLocale]);
+
+  const [foodType, setFoodType] = useState(foodTypeButtons[0].value);
   const [targetProtein, setTargetProtein] = useState("30");
   const [targetCarbs, setTargetCarbs] = useState("400");
   const [primaryIngredient, setPrimaryIngredient] = useState("");
@@ -29,7 +64,7 @@ const CreateRecipie = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ ...body }),
     });
 
     if (!response.ok) {
@@ -70,10 +105,13 @@ const CreateRecipie = () => {
         }}
       >
         <Typography variant="h4" component="h1">
-          Recipies AI
+          <FormattedMessage id="title" defaultMessage="Recipies AI" />
         </Typography>
         <Typography variant="h5" component="h2">
-          Create you own recipies powered by AI
+          <FormattedMessage
+            id="subtitle"
+            defaultMessage="Create you own recipies powered by AI"
+          />
         </Typography>
         <Box
           sx={{
@@ -87,7 +125,7 @@ const CreateRecipie = () => {
           }}
         >
           <Typography variant="h6" component="h3">
-            Food Type:
+            <FormattedMessage id="foodType" />
           </Typography>
           <Grid
             direction="row"
@@ -96,7 +134,7 @@ const CreateRecipie = () => {
             spacing={2}
             container
           >
-            {TypeOfFoodButtons.map((button) => {
+            {foodTypeButtons.map((button) => {
               return (
                 <Grid key={button.value} item>
                   {foodType === button.value ? (
@@ -130,11 +168,12 @@ const CreateRecipie = () => {
           }}
         >
           <Typography variant="h6" component="h3">
+            <FormattedMessage id="targetMacros" />
             Target Marcos:
           </Typography>
           <TextField
             id="protein-textfield"
-            label="Protein grs"
+            label={<FormattedMessage id="targetMacrosProtein" />}
             variant="outlined"
             fullWidth
             type="number"
@@ -146,7 +185,7 @@ const CreateRecipie = () => {
           />
           <TextField
             id="carbs-textfield"
-            label="Carbs grs"
+            label={<FormattedMessage id="targetMacrosCarbs" />}
             variant="outlined"
             value={targetCarbs}
             onChange={(e) => setTargetCarbs(e.target.value)}
@@ -168,11 +207,11 @@ const CreateRecipie = () => {
           }}
         >
           <Typography variant="h6" component="h3">
-            Recipie Details:
+            <FormattedMessage id="recipieDetails" />
           </Typography>
           <TextField
             id="outlined-basic"
-            label="Principal Ingredients"
+            label={<FormattedMessage id="recipieDetailsIngredients" />}
             onChange={(e) => setPrimaryIngredient(e.target.value)}
             value={primaryIngredient}
             variant="outlined"
@@ -183,7 +222,7 @@ const CreateRecipie = () => {
           />
           <TextField
             id="outlined-basic"
-            label="Are you allergic to something?"
+            label={<FormattedMessage id="recipieDetailsAlergies" />}
             variant="outlined"
             value={alergies}
             onChange={(e) => setAlergies(e.target.value)}
@@ -202,6 +241,7 @@ const CreateRecipie = () => {
               targetCarbs,
               primaryIngredient,
               alergies,
+              selectedLanguage,
             })
           }
           disabled={loading}
@@ -210,7 +250,7 @@ const CreateRecipie = () => {
           fullWidth
           variant="contained"
         >
-          Generate Recipie
+          <FormattedMessage id="generateReciepie" />
         </LoadingButton>
         <TextField
           sx={{ width: "100%", mt: 3 }}
@@ -222,6 +262,9 @@ const CreateRecipie = () => {
           defaultValue="Default Value"
           variant="outlined"
         />
+        <Button onClick={() => setResult("")}>
+          <FormattedMessage id="erase" />
+        </Button>
       </Card>
     </Box>
   );
