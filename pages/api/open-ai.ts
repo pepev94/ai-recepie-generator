@@ -1,7 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { LanguagesEnum } from "@/components/CreateRecipie";
 import { OpenAIStream } from "@/utils/OpenAIStream";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest } from "next";
+
+enum LanguagesEnum {
+  es = "es",
+  en = "en",
+}
 
 export type BodyGetOpenAiResult = {
   foodType: string;
