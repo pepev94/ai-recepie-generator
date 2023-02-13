@@ -1,4 +1,14 @@
 {
   "subtitle": "Create you own recipies powered by AI",
-  "title": "Recipies AI"
+  "title": "Recipies AI",
+  "foodType": "Food type",
+  "targetMacros": "Do you want to count macros?",
+  "targetMacrosProtein": "Protein gms",
+  "targetMacrosCarbs": "Carbs gms",
+  "recipieDetails": "Recipie Detail",
+  "recipieDetailsIngredients": "Principal ingridients for the recepie",
+  "recipieDetailsAlergies": "Ingredients a omitir",
+  "generateReciepie": "Create Recipie!",
+  "erase": "Erase",
+  "personCount": "Number of servings"
 }
