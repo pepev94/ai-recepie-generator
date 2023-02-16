@@ -10,12 +10,18 @@ import { ThemeProvider } from "@emotion/react";
 import { MuiTheme } from "@/utils/theme";
 import { CssBaseline } from "@mui/material";
 import Script from "next/script";
+import { SessionProvider } from "next-auth/react";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
 
-const App = (props: AppProps) => {
-  const { Component, pageProps } = props;
-
+const App = ({ Component, pageProps }: AppProps) => {
   const { locale } = useRouter();
   const [shortLocale] = locale ? locale.split("-") : ["en"];
+
+  const queryClient = new QueryClient();
 
   const messages = useMemo(() => {
     switch (shortLocale) {
@@ -37,23 +43,24 @@ const App = (props: AppProps) => {
           window.dataLayer = window.dataLayer || [];
           function gtag(){window.dataLayer.push(arguments);}
           gtag('js', new Date());
-
           gtag('config', 'G-9RQ9TBFXW6');
         `}
       </Script>
-
-      <IntlProvider
-        locale={shortLocale}
-        messages={messages}
-        onError={() => null}
-      >
-        <ThemeProvider theme={MuiTheme}>
-          <CssBaseline />
-
-          <NavBar></NavBar>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </IntlProvider>
+      <QueryClientProvider client={queryClient}>
+        <SessionProvider session={pageProps.session}>
+          <IntlProvider
+            locale={shortLocale}
+            messages={messages}
+            onError={() => null}
+          >
+            <ThemeProvider theme={MuiTheme}>
+              <CssBaseline />
+              <NavBar />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </IntlProvider>
+        </SessionProvider>
+      </QueryClientProvider>
     </>
   );
 };

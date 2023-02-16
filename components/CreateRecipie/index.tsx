@@ -1,9 +1,11 @@
 import { BodyGetOpenAiResult } from "@/pages/api/open-ai";
 import {
   Button,
+  Card,
   FormControlLabel,
   FormGroup,
   Grid,
+  Paper,
   Switch,
   TextField,
   Typography,
@@ -16,6 +18,11 @@ import { useRouter } from "next/router";
 import logo from "assets/AiChef.png";
 import Image from "next/image";
 import ShareIcon from "@mui/icons-material/Share";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import ClearIcon from "@mui/icons-material/Clear";
+import { User } from "../../models/User";
+
 const TypeOfFoodButtonsEn = [
   { label: "🌮  Mexican", value: "Mexican" },
   { label: "🥗  Vegan", value: "Vegan" },
@@ -45,7 +52,24 @@ export enum LanguagesEnum {
   en = "en",
 }
 
+const fetchUser = (): Promise<{ data: User[] }> =>
+  fetch("api/user").then((res) => res.json());
+
 const CreateRecipie = () => {
+  const {
+    isLoading,
+    error,
+    data: userData,
+    refetch,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+  });
+
+  const session = useSession();
+
+  const isAuthenticated = session.status === "authenticated";
+
   const { locale } = useRouter();
   const [shortLocale] = locale ? locale.split("-") : ["en"];
   const [foodTypeButtons, selectedLanguage] = useMemo(() => {
@@ -83,31 +107,47 @@ const CreateRecipie = () => {
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
     setResult("");
-    const response = await fetch("/api/open-ai", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...body }),
-    });
-
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-
-    const data = response.body;
-    if (!data) {
+    if (userData?.data[0].availableTokens === 0) {
+      alert("Favro de comprar");
       return;
     }
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-    let done = false;
+    if (userData?.data.length) {
+      await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          availableTokens: (userData.data[0].availableTokens || 10) - 1,
+        }),
+      });
+      refetch();
+      const response = await fetch("/api/open-ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...body }),
+      });
 
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      const chunkValue = decoder.decode(value);
-      setResult((prev) => prev + chunkValue);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const data = response.body;
+      if (!data) {
+        return;
+      }
+      const reader = data.getReader();
+      const decoder = new TextDecoder();
+      let done = false;
+
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        const chunkValue = decoder.decode(value);
+        setResult((prev) => prev + chunkValue);
+      }
     }
 
     setLoading(false);
@@ -140,196 +180,232 @@ const CreateRecipie = () => {
             defaultMessage="Create you own recipies powered by AI"
           />
         </Typography>
+        {!isAuthenticated && (
+          <Card elevation={12} sx={{ p: 5, m: 5, width: "100%" }}>
+            <Typography variant="h5" component="h2">
+              <FormattedMessage id="signInCTA" />
+            </Typography>
+            <Button
+              fullWidth
+              sx={{ mt: 2 }}
+              variant="contained"
+              onClick={() => signIn()}
+            >
+              <FormattedMessage id="signIn" />
+            </Button>
+          </Card>
+        )}
         <Box
-          sx={{
-            mt: 5,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            width: "100%",
-            maxWidth: "600px",
-            px: 2,
-          }}
+          sx={isAuthenticated ? {} : { opacity: 0.4, pointerEvents: "none" }}
         >
-          <Typography variant="h6" component="h3">
-            <FormattedMessage id="foodType" />: {foodType}
-          </Typography>
-          <Grid
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
-            container
+          <Box
+            sx={{
+              mt: 5,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              width: "100%",
+              maxWidth: "600px",
+              px: 2,
+            }}
           >
-            {foodTypeButtons.map((button) => {
-              return (
-                <Grid key={button.value} item>
-                  {foodType === button.value ? (
-                    <Button
-                      variant="contained"
-                      onClick={() => setFoodType(button.value)}
-                    >
-                      {button.label}
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="outlined"
-                      onClick={() => setFoodType(button.value)}
-                    >
-                      {button.label}
-                    </Button>
-                  )}{" "}
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Box>
-        <Box
-          sx={{
-            mt: 2,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            width: "100%",
-            p: 2,
-          }}
-        >
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={countMacros}
-                  onChange={(e) => setCountMacros(e.target.checked)}
+            <Typography variant="h6" component="h3">
+              <FormattedMessage id="foodType" />: {foodType}
+            </Typography>
+            <Grid
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+              container
+            >
+              {foodTypeButtons.map((button) => {
+                return (
+                  <Grid key={button.value} item>
+                    {foodType === button.value ? (
+                      <Button
+                        variant="contained"
+                        onClick={() => setFoodType(button.value)}
+                      >
+                        {button.label}
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outlined"
+                        onClick={() => setFoodType(button.value)}
+                      >
+                        {button.label}
+                      </Button>
+                    )}{" "}
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Box>
+          <Box
+            sx={{
+              mt: 2,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              width: "100%",
+              p: 2,
+            }}
+          >
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={countMacros}
+                    onChange={(e) => setCountMacros(e.target.checked)}
+                  />
+                }
+                label={<FormattedMessage id="targetMacros" />}
+              />
+            </FormGroup>
+            {countMacros && (
+              <>
+                <TextField
+                  id="protein-textfield"
+                  label={<FormattedMessage id="targetMacrosProtein" />}
+                  variant="outlined"
+                  fullWidth
+                  type="number"
+                  value={targetProtein}
+                  onChange={(e) => setTargetProtein(e.target.value)}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
-              }
-              label={<FormattedMessage id="targetMacros" />}
+                <TextField
+                  id="carbs-textfield"
+                  label={<FormattedMessage id="targetMacrosCarbs" />}
+                  variant="outlined"
+                  value={targetCarbs}
+                  onChange={(e) => setTargetCarbs(e.target.value)}
+                  fullWidth
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </>
+            )}
+          </Box>
+          <Box
+            sx={{
+              mt: 2,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              width: "100%",
+              p: 2,
+            }}
+          >
+            <Typography variant="h5" component="h3">
+              <FormattedMessage id="recipieDetails" />
+            </Typography>
+            <TextField
+              id="outlined-basic"
+              label={<FormattedMessage id="recipieDetailsIngredients" />}
+              onChange={(e) => setPrimaryIngredient(e.target.value)}
+              value={primaryIngredient}
+              variant="outlined"
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
-          </FormGroup>
-          {countMacros && (
-            <>
-              <TextField
-                id="protein-textfield"
-                label={<FormattedMessage id="targetMacrosProtein" />}
-                variant="outlined"
-                fullWidth
-                type="number"
-                value={targetProtein}
-                onChange={(e) => setTargetProtein(e.target.value)}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-              <TextField
-                id="carbs-textfield"
-                label={<FormattedMessage id="targetMacrosCarbs" />}
-                variant="outlined"
-                value={targetCarbs}
-                onChange={(e) => setTargetCarbs(e.target.value)}
-                fullWidth
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </>
+            <TextField
+              id="outlined-basic"
+              label={<FormattedMessage id="recipieDetailsAlergies" />}
+              variant="outlined"
+              value={alergies}
+              onChange={(e) => setAlergies(e.target.value)}
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="outlined-basic"
+              label={<FormattedMessage id="personCount" />}
+              type="number"
+              variant="outlined"
+              value={personCount}
+              onChange={(e) => setPersonCount(e.target.value)}
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Box>
+
+          <LoadingButton
+            sx={{ mt: 5 }}
+            onClick={() =>
+              fetchData({
+                foodType,
+                targetProtein,
+                targetCarbs,
+                primaryIngredient,
+                alergies,
+                selectedLanguage,
+                countMacros,
+                personCount,
+              })
+            }
+            disabled={loading}
+            loading={loading}
+            size="large"
+            fullWidth
+            variant="contained"
+          >
+            <FormattedMessage id="generateReciepie" />
+          </LoadingButton>
+          <Box sx={{ display: "flex", my: 2, width: "100%", gap: 2 }}>
+            <Button
+              startIcon={<ClearIcon />}
+              fullWidth
+              variant="outlined"
+              onClick={() => setResult("")}
+            >
+              <FormattedMessage id="erase" />
+            </Button>
+            <Button
+              fullWidth
+              onClick={() =>
+                navigator.clipboard.writeText(`${result} ${shareCTAText}`)
+              }
+              variant="outlined"
+              startIcon={<ShareIcon />}
+            >
+              Compartir
+            </Button>
+          </Box>
+
+          <TextField
+            sx={{ width: "100%", mt: 2 }}
+            id="standard-multiline-static"
+            label="Recipie"
+            value={result}
+            multiline
+            rows={10}
+            defaultValue="Default Value"
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          {userData?.data.length && (
+            <Typography sx={{ mt: 2 }}>
+              Creditos restantes: {userData.data[0].availableTokens}
+            </Typography>
           )}
+          <Button sx={{ my: 2 }} variant="outlined" fullWidth>
+            Comprar más creditos
+          </Button>
         </Box>
-        <Box
-          sx={{
-            mt: 2,
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            width: "100%",
-            p: 2,
-          }}
-        >
-          <Typography variant="h5" component="h3">
-            <FormattedMessage id="recipieDetails" />
-          </Typography>
-          <TextField
-            id="outlined-basic"
-            label={<FormattedMessage id="recipieDetailsIngredients" />}
-            onChange={(e) => setPrimaryIngredient(e.target.value)}
-            value={primaryIngredient}
-            variant="outlined"
-            fullWidth
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id="outlined-basic"
-            label={<FormattedMessage id="recipieDetailsAlergies" />}
-            variant="outlined"
-            value={alergies}
-            onChange={(e) => setAlergies(e.target.value)}
-            fullWidth
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id="outlined-basic"
-            label={<FormattedMessage id="personCount" />}
-            type="number"
-            variant="outlined"
-            value={personCount}
-            onChange={(e) => setPersonCount(e.target.value)}
-            fullWidth
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </Box>
-        <LoadingButton
-          sx={{ mt: 5 }}
-          onClick={() =>
-            fetchData({
-              foodType,
-              targetProtein,
-              targetCarbs,
-              primaryIngredient,
-              alergies,
-              selectedLanguage,
-              countMacros,
-              personCount,
-            })
-          }
-          disabled={loading}
-          loading={loading}
-          size="large"
-          fullWidth
-          variant="contained"
-        >
-          <FormattedMessage id="generateReciepie" />
-        </LoadingButton>
-        <Button
-          onClick={() =>
-            navigator.clipboard.writeText(`${result} ${shareCTAText}`)
-          }
-          sx={{ mt: 2 }}
-          variant="outlined"
-          startIcon={<ShareIcon />}
-        >
-          Compartir
-        </Button>
-        <TextField
-          sx={{ width: "100%", mt: 3 }}
-          id="standard-multiline-static"
-          label="Recipie"
-          value={result}
-          multiline
-          rows={10}
-          defaultValue="Default Value"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <Button onClick={() => setResult("")}>
-          <FormattedMessage id="erase" />
-        </Button>
       </Box>
     </Box>
   );
