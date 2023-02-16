@@ -20,7 +20,9 @@ export default function NavBar() {
                 width: "100%",
               }}
             >
-              <Button color="inherit">Comprar más Creditos</Button>
+              <Button color="inherit">
+                <FormattedMessage id="buyTokensCTA" />
+              </Button>
               <Button onClick={() => signOut()} color="inherit">
                 <FormattedMessage id="signOut" />
               </Button>

@@ -13,5 +13,7 @@
   "recipieDetailsAlergies": "Ingredients a omitir",
   "generateReciepie": "Create Recipie!",
   "erase": "Erase",
-  "personCount": "Number of servings"
+  "personCount": "Number of servings",
+  "buyTokensCTA": "Buy more Credits",
+  "availableTokens": "Available Credits: "
 }

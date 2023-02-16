@@ -7,6 +7,8 @@
   "foodType": "Tipo de Comida",
   "targetMacros": "Quieres contar Macros?",
   "targetMacrosProtein": "Gramos de Proteina",
+  "buyTokensCTA": "Comprar más créditos",
+  "availableTokens": "Créditos disponibles: ",
   "targetMacrosCarbs": "Gramos de Carbs",
   "recipieDetails": "Detalles de la receta",
   "recipieDetailsIngredients": "Ingredientes Principales de la receta",

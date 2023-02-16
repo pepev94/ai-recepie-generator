@@ -399,11 +399,12 @@ const CreateRecipie = () => {
           />
           {userData?.data.length && (
             <Typography sx={{ mt: 2 }}>
-              Creditos restantes: {userData.data[0].availableTokens}
+              {<FormattedMessage id="availableTokens" />}{" "}
+              {userData.data[0].availableTokens}
             </Typography>
           )}
           <Button sx={{ my: 2 }} variant="outlined" fullWidth>
-            Comprar más creditos
+            <FormattedMessage id="buyTokensCTA" />
           </Button>
         </Box>
       </Box>
