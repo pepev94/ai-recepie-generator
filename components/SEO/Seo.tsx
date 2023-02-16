@@ -2,7 +2,7 @@ import Head from "next/head";
 
 const DOMAIN = "http://aifoodie.co/";
 const DEFAULT_OG_IMAGE =
-  "https://ai-recepie-generator-353vm5epk-pepev94.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAiChef.708d2e4b.png&q=75&w=640";
+  "https://aifoodie.co/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FlogoRojo.6071538e.png&w=100&q=75";
 
 export default function Seo({
   title = "Create Recipies powered by AI",
