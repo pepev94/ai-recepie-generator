@@ -15,12 +15,15 @@ import { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useRouter } from "next/router";
 import logo from "assets/logoRojo.png";
+import logoWhite from "assets/logoBlanco.png";
+
 import Image from "next/image";
 import ShareIcon from "@mui/icons-material/Share";
 import { useSession, signIn } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import ClearIcon from "@mui/icons-material/Clear";
 import { User } from "../../models/User";
+import { styled } from "@mui/material/styles";
 
 const TypeOfFoodButtonsEn = [
   { label: "🌮  Mexican", value: "Mexican" },
@@ -50,6 +53,10 @@ export enum LanguagesEnum {
   es = "es",
   en = "en",
 }
+
+const CardWithGradient = styled(Card)(({ theme }) => ({
+  background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+}));
 
 const fetchUser = (): Promise<{ data: User[] }> =>
   fetch("api/user").then((res) => res.json());
@@ -160,7 +167,7 @@ const CreateRecipie = () => {
       <Box
         sx={{
           borderRadius: 4,
-          p: 6,
+          p: 2,
           mx: 1,
           display: "flex",
           flexDirection: "column",
@@ -170,30 +177,59 @@ const CreateRecipie = () => {
           maxWidth: "900px",
         }}
       >
-        <Image src={logo} alt="Logo" width={200} />
-        <Typography sx={{ mt: 2 }} variant="h4" component="h1">
-          <FormattedMessage id="title" defaultMessage="Recipies AI" />
-        </Typography>
-        <Typography variant="h5" component="h2">
-          <FormattedMessage
-            id="subtitle"
-            defaultMessage="Create you own recipies powered by AI"
-          />
-        </Typography>
-        {!isAuthenticated && (
-          <Card elevation={12} sx={{ p: 5, m: 5, width: "100%" }}>
+        {isAuthenticated && (
+          <>
+            <Image src={logo} alt="Logo" width={200} />
+            <Typography sx={{ mt: 2 }} variant="h4" component="h1">
+              <FormattedMessage id="title" defaultMessage="Recipies AI" />
+            </Typography>
             <Typography variant="h5" component="h2">
+              <FormattedMessage
+                id="subtitle"
+                defaultMessage="Create you own recipies powered by AI"
+              />
+            </Typography>{" "}
+          </>
+        )}
+        {!isAuthenticated && (
+          <CardWithGradient elevation={12} sx={{ p: 5, width: "100%" }}>
+            <Image src={logoWhite} alt="Logo" width={200} />
+            <Typography
+              color="white"
+              sx={{ mt: 2 }}
+              variant="h4"
+              component="h1"
+            >
+              <FormattedMessage id="title" defaultMessage="Recipies AI" />
+            </Typography>
+            <Typography
+              sx={{ mt: 2 }}
+              color="white"
+              variant="h5"
+              component="h2"
+            >
+              <FormattedMessage
+                id="subtitle"
+                defaultMessage="Create you own recipies powered by AI"
+              />
+            </Typography>
+            <Typography
+              sx={{ mt: 3 }}
+              color="white"
+              variant="h5"
+              component="h2"
+            >
               <FormattedMessage id="signInCTA" />
             </Typography>
             <Button
               fullWidth
-              sx={{ mt: 2 }}
+              sx={{ mt: 2, color: "black", backgroundColor: "white" }}
               variant="contained"
               onClick={() => signIn()}
             >
               <FormattedMessage id="signIn" />
             </Button>
-          </Card>
+          </CardWithGradient>
         )}
         <Box
           sx={isAuthenticated ? {} : { opacity: 0.4, pointerEvents: "none" }}
