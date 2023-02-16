@@ -418,7 +418,7 @@ const CreateRecipie = () => {
               variant="outlined"
               startIcon={<ShareIcon />}
             >
-              Compartir
+              Share
             </Button>
           </Box>
 

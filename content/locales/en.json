@@ -10,7 +10,7 @@
   "targetMacrosCarbs": "Carbs gms",
   "recipieDetails": "Recipie Detail",
   "recipieDetailsIngredients": "Principal ingridients for the recepie",
-  "recipieDetailsAlergies": "Ingredients a omitir",
+  "recipieDetailsAlergies": "ingredients to skip",
   "generateReciepie": "Create Recipie!",
   "erase": "Erase",
   "personCount": "Number of servings",
