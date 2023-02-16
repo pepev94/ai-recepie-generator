@@ -63,6 +63,7 @@ const CreateRecipie = () => {
   } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
+    initialData: { data: [] },
   });
 
   const session = useSession();
@@ -396,7 +397,7 @@ const CreateRecipie = () => {
               shrink: true,
             }}
           />
-          {userData?.data.length && (
+          {userData?.data?.length && (
             <Typography sx={{ mt: 2 }}>
               {<FormattedMessage id="availableTokens" />}{" "}
               {userData.data[0].availableTokens}
