@@ -5,12 +5,17 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import { useSession, signOut } from "next-auth/react";
 import { FormattedMessage } from "react-intl";
+import { styled } from "@mui/material/styles";
+
+const AppBarWithTheme = styled(AppBar)(({ theme }) => ({
+  background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+}));
 
 export default function NavBar() {
   const session = useSession();
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBarWithTheme position="static">
         <Toolbar>
           {session.status === "authenticated" && (
             <Box
@@ -20,7 +25,7 @@ export default function NavBar() {
                 width: "100%",
               }}
             >
-              <Button color="inherit">
+              <Button variant="contained" color="secondary">
                 <FormattedMessage id="buyTokensCTA" />
               </Button>
               <Button onClick={() => signOut()} color="inherit">
@@ -29,7 +34,7 @@ export default function NavBar() {
             </Box>
           )}
         </Toolbar>
-      </AppBar>
+      </AppBarWithTheme>
     </Box>
   );
 }

@@ -14,7 +14,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useRouter } from "next/router";
-import logo from "assets/AiChef.png";
+import logo from "assets/logoRojo.png";
 import Image from "next/image";
 import ShareIcon from "@mui/icons-material/Share";
 import { useSession, signIn } from "next-auth/react";
@@ -161,7 +161,7 @@ const CreateRecipie = () => {
         sx={{
           borderRadius: 4,
           p: 6,
-          mx: 2,
+          mx: 1,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -206,7 +206,7 @@ const CreateRecipie = () => {
               gap: 2,
               width: "100%",
               maxWidth: "600px",
-              px: 2,
+              px: 1,
             }}
           >
             <Typography variant="h6" component="h3">
@@ -366,6 +366,7 @@ const CreateRecipie = () => {
           <Box sx={{ display: "flex", my: 2, width: "100%", gap: 2 }}>
             <Button
               startIcon={<ClearIcon />}
+              color="secondary"
               fullWidth
               variant="outlined"
               onClick={() => setResult("")}
@@ -374,6 +375,7 @@ const CreateRecipie = () => {
             </Button>
             <Button
               fullWidth
+              color="secondary"
               onClick={() =>
                 navigator.clipboard.writeText(`${result} ${shareCTAText}`)
               }
@@ -403,7 +405,12 @@ const CreateRecipie = () => {
               {userData.data[0].availableTokens}
             </Typography>
           )}
-          <Button sx={{ my: 2 }} variant="outlined" fullWidth>
+          <Button
+            color="secondary"
+            sx={{ my: 2 }}
+            variant="contained"
+            fullWidth
+          >
             <FormattedMessage id="buyTokensCTA" />
           </Button>
         </Box>
