@@ -5,7 +5,6 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
-  Paper,
   Switch,
   TextField,
   Typography,
@@ -18,7 +17,7 @@ import { useRouter } from "next/router";
 import logo from "assets/AiChef.png";
 import Image from "next/image";
 import ShareIcon from "@mui/icons-material/Share";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import ClearIcon from "@mui/icons-material/Clear";
 import { User } from "../../models/User";
