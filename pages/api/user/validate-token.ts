@@ -25,23 +25,19 @@ export default async function handler(
           const existingToken = await StripeToken.findOne({
             token: stripeToken,
           });
-          console.log({ existingToken });
           if (existingToken) {
             res.status(400).json({ success: false });
             return;
           }
           let user = await User.findOne({ email: session.user.email });
-          console.log({ user });
           await StripeToken.create({
             token: stripeToken,
-            user_id: user?.id,
+            user_id: user?._id,
           });
           const updatedUser = await User.updateOne(
             { email: session.user.email },
             { availableTokens: (user?.availableTokens || 0) + 30 }
           );
-          console.log({ updatedUser });
-
           res.status(201).json({ data: updatedUser });
         } catch (error) {
           res.status(400).json({ success: false });

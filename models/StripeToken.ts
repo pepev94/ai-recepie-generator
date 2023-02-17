@@ -5,8 +5,8 @@ export class StripeToken {
   @prop()
   public token?: string;
 
-  @prop()
-  public user_id?: Ref<User>;
+  @prop({ ref: "User" })
+  public user_id?: User;
 }
 
 const StripeTokenModel = getModelForClass(StripeToken);
