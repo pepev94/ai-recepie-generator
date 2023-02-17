@@ -125,11 +125,37 @@ const CreateRecipie = () => {
   const [personCount, setPersonCount] = useState("1");
   const [alergies, setAlergies] = useState("");
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState("");
 
   const [result, setResult] = useState("");
 
+  // const fetchImage = async () => {
+  //   setImage("");
+  //   if (userData?.data[0].availableTokens === 0) {
+  //     alert("Favro de comprar");
+  //     return;
+  //   }
+  //   console.log(result);
+  //   if (userData?.data.length) {
+  //     const response = await fetch("/api/open-ai/dalle-2", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ prompt: result }),
+  //     });
+
+  //     const data = await response.json();
+  //     setImage(data.data);
+
+  //     console.log(data);
+  //   }
+  //   setLoading(false);
+  // };
+
   const fetchData = async (body: BodyGetOpenAiResult) => {
     setResult("");
+    setImage("");
     if (userData?.data[0].availableTokens === 0) {
       alert("Favro de comprar");
       return;
@@ -172,7 +198,7 @@ const CreateRecipie = () => {
         setResult((prev) => prev + chunkValue);
       }
     }
-
+    // fetchImage();
     setLoading(false);
   };
 
@@ -477,6 +503,17 @@ const CreateRecipie = () => {
               shrink: true,
             }}
           />
+          {image !== "" && (
+            <Box
+              component="img"
+              sx={{
+                mt: 2,
+                height: 300,
+              }}
+              alt="The house from the offer."
+              src={image}
+            />
+          )}
           {userData?.data?.length && (
             <Typography sx={{ mt: 2 }}>
               {<FormattedMessage id="availableTokens" />}{" "}

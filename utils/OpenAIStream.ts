@@ -4,13 +4,13 @@ import {
   ReconnectInterval,
 } from "eventsource-parser";
 
-export async function OpenAIStream(payload: any) {
+export async function OpenAIStream(payload: any, url: string) {
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
 
   let counter = 0;
 
-  const res = await fetch("https://api.openai.com/v1/completions", {
+  const res = await fetch(url, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${process.env.OPEN_AI_API_KEY ?? ""}`,

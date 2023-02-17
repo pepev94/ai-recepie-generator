@@ -74,12 +74,15 @@ const handler = async (req: Request): Promise<Response> => {
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
-    max_tokens: 500,
+    max_tokens: 800,
     stream: true,
     n: 1,
   };
 
-  const stream = await OpenAIStream(payload);
+  const stream = await OpenAIStream(
+    payload,
+    "https://api.openai.com/v1/completions"
+  );
   return new Response(stream);
 };
 
