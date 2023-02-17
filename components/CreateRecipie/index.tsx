@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useRouter } from "next/router";
 import logo from "assets/logoRojo.png";
@@ -129,29 +129,28 @@ const CreateRecipie = () => {
 
   const [result, setResult] = useState("");
 
-  // const fetchImage = async () => {
-  //   setImage("");
-  //   if (userData?.data[0].availableTokens === 0) {
-  //     alert("Favro de comprar");
-  //     return;
-  //   }
-  //   console.log(result);
-  //   if (userData?.data.length) {
-  //     const response = await fetch("/api/open-ai/dalle-2", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ prompt: result }),
-  //     });
+  const fetchImage = async (prompt: string) => {
+    setImage("");
+    if (userData?.data[0].availableTokens === 0) {
+      alert("Favro de comprar");
+      return;
+    }
+    if (userData?.data.length) {
+      const response = await fetch("/api/open-ai/dalle-2", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: prompt.slice(0, 700) }),
+      });
 
-  //     const data = await response.json();
-  //     setImage(data.data);
+      const data = await response.json();
+      setImage(data.data);
 
-  //     console.log(data);
-  //   }
-  //   setLoading(false);
-  // };
+      console.log(data);
+    }
+    setLoading(false);
+  };
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
     setResult("");
@@ -167,7 +166,7 @@ const CreateRecipie = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          availableTokens: (userData.data[0].availableTokens || 10) - 1,
+          availableTokens: (userData.data[0].availableTokens || 10) - 2,
         }),
       });
       refetch();
@@ -191,12 +190,16 @@ const CreateRecipie = () => {
       const decoder = new TextDecoder();
       let done = false;
 
+      let prompt = "";
+
       while (!done) {
         const { value, done: doneReading } = await reader.read();
         done = doneReading;
         const chunkValue = decoder.decode(value);
         setResult((prev) => prev + chunkValue);
+        prompt = prompt + chunkValue;
       }
+      fetchImage(prompt);
     }
     // fetchImage();
     setLoading(false);
