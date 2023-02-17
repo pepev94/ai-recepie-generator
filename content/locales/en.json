@@ -15,5 +15,7 @@
   "erase": "Erase",
   "personCount": "Number of servings",
   "buyTokensCTA": "Buy more Credits",
-  "availableTokens": "Available Credits: "
+  "availableTokens": "Available Credits: ",
+  "backToHome": "Back to Home",
+  "addedCredits": "Credits Added"
 }

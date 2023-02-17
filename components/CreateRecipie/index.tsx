@@ -24,6 +24,8 @@ import { useQuery } from "@tanstack/react-query";
 import ClearIcon from "@mui/icons-material/Clear";
 import { User } from "../../models/User";
 import { styled } from "@mui/material/styles";
+import getStripe from "@/utils/get-stripe";
+import { Oval } from "react-loader-spinner";
 
 const TypeOfFoodButtonsEn = [
   { label: "🌮  Mexican", value: "Mexican" },
@@ -57,6 +59,23 @@ export enum LanguagesEnum {
 const CardWithGradient = styled(Card)(({ theme }) => ({
   background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
 }));
+
+export const redirectToStripe = async () => {
+  const response = await fetch("/api/stripe/checkout_sessions");
+  if (response.status !== 200) {
+    console.error(response.status);
+    return;
+  }
+  const data = await response.json();
+
+  const stripe = await getStripe();
+  const { error } = await stripe!.redirectToCheckout({
+    // Make the id field from the Checkout Session creation API response
+    // available to this file, so you can provide it as parameter here
+    // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
+    sessionId: data.data.id,
+  });
+};
 
 const fetchUser = (): Promise<{ data: User[] }> =>
   fetch("api/user").then((res) => res.json());
@@ -159,6 +178,32 @@ const CreateRecipie = () => {
 
     setLoading(false);
   };
+
+  if (session.status === "loading")
+    return (
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        <Oval
+          height={80}
+          width={80}
+          color="#EB1245"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#EC6314"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </Box>
+    );
 
   return (
     <Box
@@ -446,6 +491,7 @@ const CreateRecipie = () => {
             sx={{ my: 2 }}
             variant="contained"
             fullWidth
+            onClick={() => redirectToStripe()}
           >
             <FormattedMessage id="buyTokensCTA" />
           </Button>

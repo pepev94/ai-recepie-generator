@@ -13,7 +13,7 @@ export async function OpenAIStream(payload: any) {
   const res = await fetch("https://api.openai.com/v1/completions", {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPEN_AI_API_KEY ?? ""}`,
+      Authorization: `Bearer ${process.env.OPEN_AI_API_KEY ?? ""}`,
     },
     method: "POST",
     body: JSON.stringify(payload),
