@@ -17,7 +17,7 @@ export default async function handler(
     switch (method) {
       case "GET":
         try {
-          const query = req.query;
+          const query = { email: session.user.email };
           const users = await User.find(query);
           res.status(200).json({ data: users });
         } catch (error) {
