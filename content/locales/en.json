@@ -17,5 +17,19 @@
   "buyTokensCTA": "Buy more Credits",
   "availableTokens": "Available Credits: ",
   "backToHome": "Back to Home",
-  "addedCredits": "Credits Added"
+  "addedCredits": "Credits Added",
+  "shareCTA": "\n\n Want to create your own recipies using AI? \n  https://aifoodie.co",
+  "cocktailType": "Cocktail type: ",
+  "cocktailStyle": "Cocktail Style: ",
+  "cocktailStyleHelper": "Fresh ",
+  "cocktailMainIngredients": "Cocktail Main Ingredients",
+  "cocktailMainIngredientsHelper": "Tequila",
+  "cocktailSecondaryIngredients": "Cocktail Secondary Ingredients",
+  "cocktailSecondaryIngredientsHelper": "Spearmint",
+  "cocktailStyleHeader": "Cocktail Style",
+  "cocktailMainIngredientsHeader": "Main Ingredients (Liquor)",
+  "cocktailSecondaryIngredientsHeader": "Secondary Ingredientes",
+  "generateCocktail": "Create Cocktail!",
+  "cocktailTitle": "Coctail Title",
+  "cocktailSubtitle": "Coctail Subtitle"
 }

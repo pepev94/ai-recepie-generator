@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import { useSession, signOut } from "next-auth/react";
 import { FormattedMessage } from "react-intl";
 import { styled } from "@mui/material/styles";
-import { redirectToStripe } from "../CreateRecipie";
+import Link from "next/link";
 
 const AppBarWithTheme = styled(AppBar)(({ theme }) => ({
   background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
@@ -26,13 +26,19 @@ export default function NavBar() {
                 width: "100%",
               }}
             >
-              <Button
-                onClick={() => redirectToStripe()}
-                variant="contained"
-                color="secondary"
-              >
-                <FormattedMessage id="buyTokensCTA" />
-              </Button>
+              <Box>
+                <Link style={{ textDecoration: "none" }} href="/">
+                  <Button sx={{ color: "white" }} color="inherit">
+                    <FormattedMessage id="Home" />
+                  </Button>
+                </Link>
+                <Link style={{ textDecoration: "none" }} href="/cocktails">
+                  <Button sx={{ color: "white" }} color="inherit">
+                    <FormattedMessage id="Cocktails" />
+                  </Button>
+                </Link>
+              </Box>
+
               <Button onClick={() => signOut()} color="inherit">
                 <FormattedMessage id="signOut" />
               </Button>

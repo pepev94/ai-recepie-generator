@@ -2,7 +2,7 @@ import { AppProps } from "next/app";
 import "../styles/globals.css";
 import { IntlProvider } from "react-intl";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Spanish from "../content/locales/es.json";
 import English from "../content/locales/en.json";
 import NavBar from "@/components/navBar";
@@ -11,26 +11,34 @@ import { MuiTheme } from "@/utils/theme";
 import { CssBaseline } from "@mui/material";
 import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LanguageMenu from "@/components/LanguageMenu";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { locale } = useRouter();
-  const [shortLocale] = locale ? locale.split("-") : ["en"];
+  let [shortLocale] = locale ? locale.split("-") : ["en"];
+  const [selectedLanguage, setSelectedLanguage] = useState("");
 
   const queryClient = new QueryClient();
 
   const messages = useMemo(() => {
+    if (selectedLanguage !== "") {
+      switch (selectedLanguage) {
+        case "es":
+          return Spanish;
+        case "en":
+          return English;
+      }
+    }
     switch (shortLocale) {
       case "es":
         return Spanish;
       case "en":
         return English;
     }
-  }, [shortLocale]);
+  }, [shortLocale, selectedLanguage]);
+
+  console.log("selectedLanguage", selectedLanguage, messages);
 
   return (
     <>
@@ -62,13 +70,14 @@ const App = ({ Component, pageProps }: AppProps) => {
       <QueryClientProvider client={queryClient}>
         <SessionProvider session={pageProps.session}>
           <IntlProvider
-            locale={shortLocale}
+            locale={selectedLanguage !== "" ? selectedLanguage : shortLocale}
             messages={messages}
             onError={() => null}
           >
             <ThemeProvider theme={MuiTheme}>
               <CssBaseline />
               <NavBar />
+              <LanguageMenu setSelectedLanguage={setSelectedLanguage} />
               <Component {...pageProps} />
             </ThemeProvider>
           </IntlProvider>
