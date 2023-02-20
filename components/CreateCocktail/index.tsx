@@ -1,4 +1,3 @@
-import { BodyGetOpenAiResult } from "@/pages/api/open-ai/food";
 import { TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -8,37 +7,45 @@ import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "../../models/User";
 import LoginCta from "./loginCta";
-import {
-  TypeOfFoodButtonsEs,
-  TypeOfFoodButtonsEn,
-  LanguagesEnum,
-} from "@/utils/createRecepie";
+import { LanguagesEnum } from "@/utils/createRecepie";
 import LoadingScreen from "./loadingScreen";
 import { updateUser } from "@/lib/api/user";
 import { getDalle2Image } from "@/lib/api/open-ai/dalle-2";
-import FoodType from "./foodType";
-import CountMacros from "./countMacros";
 import ExtraActions from "./extraActions";
-import RecipieDetails from "./recipieDetails";
 import BuyTokensCta from "../shared/BuyTokensCta";
 import PageHeader from "../shared/header";
-import { getLanguage } from "../CreateCocktail";
+import CocktailDetails from "./cocktailDetails";
+import {
+  TypeOfCocktailButtonsEn,
+  TypeOfCocktailButtonsEs,
+} from "@/utils/createCocktail";
+import { BodyGetOpenAiCocktailResult } from "@/pages/api/open-ai/cocktail";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
     case "es":
-      return TypeOfFoodButtonsEs;
+      return TypeOfCocktailButtonsEs;
     case "en":
-      return TypeOfFoodButtonsEn;
+      return TypeOfCocktailButtonsEn;
     default:
-      return TypeOfFoodButtonsEs;
+      return TypeOfCocktailButtonsEs;
   }
 };
 
+export const getLanguage = (shortLocale: string) => {
+  switch (shortLocale) {
+    case "es":
+      return LanguagesEnum.es;
+    case "en":
+      return LanguagesEnum.en;
+    default:
+      return LanguagesEnum.es;
+  }
+};
 const fetchUser = (): Promise<{ data: User[] }> =>
   fetch("api/user").then((res) => res.json());
 
-const CreateRecipie = () => {
+const CreateCocktail = () => {
   const { data: userData, refetch } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
@@ -50,16 +57,18 @@ const CreateRecipie = () => {
   const isAuthenticated = session.status === "authenticated";
 
   const intl = useIntl();
-  const shortLocale = intl.locale;
-  const foodTypeButtons = getButtonsLanguage(shortLocale);
 
-  const [foodType, setFoodType] = useState(foodTypeButtons[0].value);
-  const [targetProtein, setTargetProtein] = useState("30");
-  const [countMacros, setCountMacros] = useState(false);
-  const [targetCarbs, setTargetCarbs] = useState("400");
-  const [primaryIngredient, setPrimaryIngredient] = useState("");
-  const [personCount, setPersonCount] = useState("1");
-  const [alergies, setAlergies] = useState("");
+  const shortLocale = intl.locale;
+  const cocktailTypeButtons = getButtonsLanguage(shortLocale);
+
+  const [cocktailType, setCocktailType] = useState(
+    TypeOfCocktailButtonsEn[0]?.value
+  );
+  const [cocktailStyle, setCocktailStyle] = useState("");
+  const [cocktailMainIngredients, setCocktailMainIngredients] = useState("");
+  const [cocktailSecondaryIngredients, setCocktailSecondaryIngredients] =
+    useState("");
+
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
@@ -77,7 +86,7 @@ const CreateRecipie = () => {
     setLoading(false);
   };
 
-  const fetchData = async (body: BodyGetOpenAiResult) => {
+  const fetchData = async (body: BodyGetOpenAiCocktailResult) => {
     setResult("");
     setImage("");
     if (userData?.data[0].availableTokens === 0) {
@@ -90,7 +99,7 @@ const CreateRecipie = () => {
       });
       refetch();
       // TODO: Refactor this
-      const response = await fetch("/api/open-ai/food", {
+      const response = await fetch("/api/open-ai/cocktail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -146,9 +155,17 @@ const CreateRecipie = () => {
       >
         {isAuthenticated && (
           <PageHeader
-            title={<FormattedMessage id="title" defaultMessage="Recipies AI" />}
+            title={
+              <FormattedMessage
+                id="cocktailTitle"
+                defaultMessage="Recipies AI"
+              />
+            }
             subTitle={
-              <FormattedMessage id="subTitle" defaultMessage="Recipies AI" />
+              <FormattedMessage
+                id="cocktailSubtitle"
+                defaultMessage="Recipies AI"
+              />
             }
           />
         )}
@@ -156,40 +173,27 @@ const CreateRecipie = () => {
         <Box
           sx={isAuthenticated ? {} : { opacity: 0.4, pointerEvents: "none" }}
         >
-          <FoodType
-            foodType={foodType}
-            setFoodType={setFoodType}
-            foodTypeButtons={foodTypeButtons}
+          <CocktailDetails
+            cocktailType={cocktailType}
+            setCocktailType={setCocktailType}
+            cocktailStyle={cocktailStyle}
+            setCocktailStyle={setCocktailStyle}
+            cocktailMainIngredients={cocktailMainIngredients}
+            setCocktailMainIngredients={setCocktailMainIngredients}
+            cocktailSecondaryIngredients={cocktailSecondaryIngredients}
+            setCocktailSecondaryIngredients={setCocktailSecondaryIngredients}
+            cocktailTypeButtons={cocktailTypeButtons}
           />
 
-          <CountMacros
-            countMacros={countMacros}
-            setCountMacros={setCountMacros}
-            targetProtein={targetProtein}
-            setTargetProtein={setTargetProtein}
-            targetCarbs={targetCarbs}
-            setTargetCarbs={setTargetCarbs}
-          />
-          <RecipieDetails
-            setPrimaryIngredient={setPrimaryIngredient}
-            primaryIngredient={primaryIngredient}
-            alergies={alergies}
-            setAlergies={setAlergies}
-            personCount={personCount}
-            setPersonCount={setPersonCount}
-          />
           <LoadingButton
             sx={{ mt: 5 }}
             onClick={() =>
               fetchData({
-                foodType,
-                targetProtein,
-                targetCarbs,
-                primaryIngredient,
-                alergies,
+                cocktailType,
+                cocktailStyle,
+                cocktailMainIngredients,
+                cocktailSecondaryIngredients,
                 selectedLanguage: getLanguage(shortLocale),
-                countMacros,
-                personCount,
               })
             }
             disabled={loading}
@@ -198,7 +202,7 @@ const CreateRecipie = () => {
             fullWidth
             variant="contained"
           >
-            <FormattedMessage id="generateReciepie" />
+            <FormattedMessage id="generateCocktail" />
           </LoadingButton>
 
           <ExtraActions result={result} setResult={setResult} />
@@ -206,7 +210,7 @@ const CreateRecipie = () => {
           <TextField
             sx={{ width: "100%", mt: 2 }}
             id="standard-multiline-static"
-            label="Recipie"
+            label="Cocktail"
             value={result}
             multiline
             rows={10}
@@ -240,4 +244,4 @@ const CreateRecipie = () => {
   );
 };
 
-export default CreateRecipie;
+export default CreateCocktail;
