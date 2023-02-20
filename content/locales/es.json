@@ -17,19 +17,5 @@
   "erase": "Borrar",
   "personCount": "Numero de personas",
   "backToHome": "Ir a inicio",
-  "addedCredits": "Créditos Agregados",
-  "shareCTA": "\n\n ¿Quieres crear tus propias recetas con AI? \n  https://aifoodie.co",
-  "cocktailType": "Cocktail type: ",
-  "cocktailStyle": "Estilo de Cocktail ",
-  "cocktailStyleHelper": "Fresco",
-  "cocktailMainIngredients": "Ingrediente principal (Licor)",
-  "cocktailMainIngredientsHelper": "Tequila",
-  "cocktailSecondaryIngredients": "Ingredientes Secundarios",
-  "cocktailSecondaryIngredientsHelper": "Yerbabuena",
-  "cocktailStyleHeader": "Estilo de Cocktail",
-  "cocktailMainIngredientsHeader": "Ingrediente principal (Licor)",
-  "cocktailSecondaryIngredientsHeader": "Ingredientes Secundarios",
-  "generateCocktail": "Crear Cocktail!",
-  "cocktailTitle": "Coctail Title",
-  "cocktailSubtitle": "Coctail Subtitle"
+  "addedCredits": "Créditos Agregados"
 }

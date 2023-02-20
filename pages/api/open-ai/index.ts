@@ -2,7 +2,7 @@
 import { OpenAIStream } from "@/utils/OpenAIStream";
 import type { NextApiRequest } from "next";
 
-export enum LanguagesEnum {
+enum LanguagesEnum {
   es = "es",
   en = "en",
 }
