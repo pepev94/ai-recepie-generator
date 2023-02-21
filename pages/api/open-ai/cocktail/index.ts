@@ -31,9 +31,9 @@ const getPromt = (body: BodyGetOpenAiCocktailResult) => {
   } = body;
   switch (selectedLanguage) {
     case LanguagesEnum.es:
-      return `Responde en español los siguiente: Quiero un receta de cocteleria. Agrega los gramos o cantidades exactas de cada ingrediente. Dame el titulo, la lista de ingredientes, el paso a paso para preparar. Se especifico en los detalles de la preparación, agrega la información nutrional al final de lo siguiente: Un coctel de tipo ${cocktailType} , que tenga un aroma y sabor ${cocktailStyle}, facil de hacer, que tarde menos de 10 min en hacer. Quiero que los licores principales sean ${cocktailMainIngredients}, y que también tenga ${cocktailSecondaryIngredients}`;
+      return `Responde en español los siguiente: Quiero un receta de cocteleria. Agrega los gramos o cantidades exactas de cada ingrediente. Dame el titulo, la lista de ingredientes, el paso a paso para preparar. Se especifico en los detalles de la preparación, agrega la información nutrional al final de lo siguiente: Un coctel de tipo ${cocktailType} , que tenga un aroma y sabor ${cocktailStyle}, facil de hacer. Quiero que los licores principales sean ${cocktailMainIngredients}, y que también tenga ${cocktailSecondaryIngredients}. Quiero que sea una receta que se pueda preparar en menos de 10 minutos.`;
     case LanguagesEnum.en:
-      return `I want a cocktail recipe Give me the title, list of ingredients and step by step process to prepare it, add the exact quantities of ingredients. Be specific on the details of the process, add the nutritional information at the en of the the following: A  ${cocktailType} cocktail, that has easy to do, that has ${cocktailStyle} scent, takes less than 10 minutes to prepare. And I want the main ingredient to be ${cocktailMainIngredients}, and also using ${cocktailSecondaryIngredients}`;
+      return `Give me the title, list of ingredients and step by step process to prepare it, add the exact quantities of ingredients. Be specific on the details of the process, add the nutritional information at the en of the the following: A  ${cocktailType} cocktail, that has easy to do, that has ${cocktailStyle} scent. And I want the main ingredient to be ${cocktailMainIngredients}, and that also has ${cocktailSecondaryIngredients}.I want it to take less than 10 minutes to prepare`;
   }
 };
 //

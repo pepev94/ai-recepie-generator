@@ -38,8 +38,6 @@ const App = ({ Component, pageProps }: AppProps) => {
     }
   }, [shortLocale, selectedLanguage]);
 
-  console.log("selectedLanguage", selectedLanguage, messages);
-
   return (
     <>
       <Script

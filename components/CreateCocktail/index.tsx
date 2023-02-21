@@ -103,8 +103,6 @@ const CreateCocktail = () => {
   };
 
   const fetchData = async (body: BodyGetOpenAiCocktailResult) => {
-    setResult("");
-    setImage("");
     if (userData?.data[0].availableTokens === 0) {
       alert("Favro de comprar");
       return;
@@ -204,15 +202,17 @@ const CreateCocktail = () => {
 
           <LoadingButton
             sx={{ mt: 5 }}
-            onClick={() =>
+            onClick={() => {
+              setResult("");
+              setImage("");
               fetchData({
                 cocktailType,
                 cocktailStyle,
                 cocktailMainIngredients,
                 cocktailSecondaryIngredients,
                 selectedLanguage: getLanguage(shortLocale),
-              })
-            }
+              });
+            }}
             disabled={loading}
             loading={loading}
             size="large"
