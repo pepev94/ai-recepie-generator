@@ -16,6 +16,8 @@ import BuyTokensCta from "../shared/BuyTokensCta";
 import PageHeader from "../shared/header";
 import CocktailDetails from "./cocktailDetails";
 import {
+  StyleOfCocktailButtonsEn,
+  StyleOfCocktailButtonsEs,
   TypeOfCocktailButtonsEn,
   TypeOfCocktailButtonsEs,
 } from "@/utils/createCocktail";
@@ -29,6 +31,17 @@ const getButtonsLanguage = (shortLocale: string) => {
       return TypeOfCocktailButtonsEn;
     default:
       return TypeOfCocktailButtonsEs;
+  }
+};
+
+const getButtonsStyleLanguage = (shortLocale: string) => {
+  switch (shortLocale) {
+    case "es":
+      return StyleOfCocktailButtonsEs;
+    case "en":
+      return StyleOfCocktailButtonsEn;
+    default:
+      return StyleOfCocktailButtonsEs;
   }
 };
 
@@ -60,11 +73,14 @@ const CreateCocktail = () => {
 
   const shortLocale = intl.locale;
   const cocktailTypeButtons = getButtonsLanguage(shortLocale);
+  const cocktailStyleButtons = getButtonsStyleLanguage(shortLocale);
 
   const [cocktailType, setCocktailType] = useState(
     TypeOfCocktailButtonsEn[0]?.value
   );
-  const [cocktailStyle, setCocktailStyle] = useState("");
+  const [cocktailStyle, setCocktailStyle] = useState(
+    StyleOfCocktailButtonsEn[0]?.value
+  );
   const [cocktailMainIngredients, setCocktailMainIngredients] = useState("");
   const [cocktailSecondaryIngredients, setCocktailSecondaryIngredients] =
     useState("");
@@ -183,6 +199,7 @@ const CreateCocktail = () => {
             cocktailSecondaryIngredients={cocktailSecondaryIngredients}
             setCocktailSecondaryIngredients={setCocktailSecondaryIngredients}
             cocktailTypeButtons={cocktailTypeButtons}
+            cocktailStyleButtons={cocktailStyleButtons}
           />
 
           <LoadingButton

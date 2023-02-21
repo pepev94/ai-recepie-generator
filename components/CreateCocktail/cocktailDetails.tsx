@@ -11,12 +11,14 @@ type Props = {
   cocktailSecondaryIngredients: string;
   setCocktailSecondaryIngredients: any;
   cocktailTypeButtons: { label: string; value: string }[];
+  cocktailStyleButtons: { label: string; value: string }[];
 };
 
 const CocktailDetails = ({
   cocktailType,
   setCocktailType,
   cocktailTypeButtons,
+  cocktailStyleButtons,
   cocktailStyle,
   setCocktailStyle,
   cocktailMainIngredients,
@@ -37,7 +39,7 @@ const CocktailDetails = ({
       }}
     >
       <Typography variant="h6" component="h3">
-        <FormattedMessage id="cocktailType" />: {cocktailType}
+        <FormattedMessage id="cocktailType" /> {cocktailType}
       </Typography>
       <Grid
         direction="row"
@@ -70,20 +72,37 @@ const CocktailDetails = ({
       </Grid>
 
       <Typography variant="h5" component="h3">
-        <FormattedMessage id="cocktailStyleHeader" />
+        <FormattedMessage id="cocktailStyleHeader" />: {cocktailStyle}
       </Typography>
-      <TextField
-        id="outlined-basic"
-        label={<FormattedMessage id="cocktailStyleHeader" />}
-        onChange={(e) => setCocktailStyle(e.target.value)}
-        placeholder="Fresh"
-        value={cocktailStyle}
-        variant="outlined"
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
+      <Grid
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={2}
+        container
+      >
+        {cocktailStyleButtons.map((button) => {
+          return (
+            <Grid key={button.value} item>
+              {cocktailStyle === button.value ? (
+                <Button
+                  variant="contained"
+                  onClick={() => setCocktailStyle(button.value)}
+                >
+                  {button.label}
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  onClick={() => setCocktailStyle(button.value)}
+                >
+                  {button.label}
+                </Button>
+              )}{" "}
+            </Grid>
+          );
+        })}
+      </Grid>
 
       <Typography variant="h5" component="h3">
         <FormattedMessage id="cocktailMainIngredientsHeader" />
