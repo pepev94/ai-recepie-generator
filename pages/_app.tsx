@@ -75,6 +75,7 @@ const App = ({ Component, pageProps }: AppProps) => {
             <ThemeProvider theme={MuiTheme}>
               <CssBaseline />
               <NavBar />
+
               <LanguageMenu setSelectedLanguage={setSelectedLanguage} />
               <Component {...pageProps} />
             </ThemeProvider>

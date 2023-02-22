@@ -21,6 +21,8 @@ import ExtraActions from "./extraActions";
 import BuyTokensCta from "../shared/BuyTokensCta";
 import PageHeader from "../shared/header";
 import { getLanguage } from "../CreateCocktail";
+import CountMacros from "./countMacros";
+import RecipieDetails from "./recipieDetails";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {

@@ -18,32 +18,31 @@ export default function NavBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBarWithTheme position="static">
         <Toolbar>
-          {session.status === "authenticated" && (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
-              <Box>
-                <Link style={{ textDecoration: "none" }} href="/">
-                  <Button sx={{ color: "white" }} color="inherit">
-                    <FormattedMessage id="Home" />
-                  </Button>
-                </Link>
-                <Link style={{ textDecoration: "none" }} href="/cocktails">
-                  <Button sx={{ color: "white" }} color="inherit">
-                    <FormattedMessage id="Cocktails" />
-                  </Button>
-                </Link>
-              </Box>
-
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <Box>
+              <Link style={{ textDecoration: "none" }} href="/">
+                <Button sx={{ color: "white" }} color="inherit">
+                  <FormattedMessage id="Home" />
+                </Button>
+              </Link>
+              <Link style={{ textDecoration: "none" }} href="/cocktails">
+                <Button sx={{ color: "white" }} color="inherit">
+                  <FormattedMessage id="Cocktails" />
+                </Button>
+              </Link>
+            </Box>
+            {session.status === "authenticated" && (
               <Button onClick={() => signOut()} color="inherit">
                 <FormattedMessage id="signOut" />
               </Button>
-            </Box>
-          )}
+            )}
+          </Box>
         </Toolbar>
       </AppBarWithTheme>
     </Box>
