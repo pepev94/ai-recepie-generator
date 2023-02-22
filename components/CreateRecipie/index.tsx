@@ -1,8 +1,8 @@
 import { BodyGetOpenAiResult } from "@/pages/api/open-ai/food";
-import { TextField, Typography } from "@mui/material";
+import { Dialog, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
@@ -17,12 +17,12 @@ import LoadingScreen from "./loadingScreen";
 import { updateUser } from "@/lib/api/user";
 import { getDalle2Image } from "@/lib/api/open-ai/dalle-2";
 import FoodType from "./foodType";
-import CountMacros from "./countMacros";
 import ExtraActions from "./extraActions";
-import RecipieDetails from "./recipieDetails";
 import BuyTokensCta from "../shared/BuyTokensCta";
 import PageHeader from "../shared/header";
 import { getLanguage } from "../CreateCocktail";
+import CountMacros from "./countMacros";
+import RecipieDetails from "./recipieDetails";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -64,6 +64,8 @@ const CreateRecipie = () => {
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
 
+  const [openAuthModal, setOpenAuthModal] = useState(false);
+
   const fetchImage = async (prompt: string) => {
     setImage("");
     if (userData?.data[0].availableTokens === 0) {
@@ -78,6 +80,10 @@ const CreateRecipie = () => {
   };
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
+    if (!isAuthenticated) {
+      setOpenAuthModal(true);
+      return;
+    }
     setResult("");
     setImage("");
     if (userData?.data[0].availableTokens === 0) {
@@ -144,18 +150,22 @@ const CreateRecipie = () => {
           maxWidth: "900px",
         }}
       >
-        {isAuthenticated && (
-          <PageHeader
-            title={<FormattedMessage id="title" defaultMessage="Recipies AI" />}
-            subTitle={
-              <FormattedMessage id="subTitle" defaultMessage="Recipies AI" />
-            }
-          />
-        )}
-        {!isAuthenticated && <LoginCta />}
-        <Box
-          sx={isAuthenticated ? {} : { opacity: 0.4, pointerEvents: "none" }}
+        <PageHeader
+          title={<FormattedMessage id="title" defaultMessage="Recipies AI" />}
+          subTitle={
+            <FormattedMessage id="subTitle" defaultMessage="Recipies AI" />
+          }
+        />
+
+        <Dialog
+          open={openAuthModal}
+          onClose={() => setOpenAuthModal(false)}
+          aria-labelledby="modal-sign-in"
+          aria-describedby="modal-sign-in"
         >
+          <LoginCta />
+        </Dialog>
+        <Box>
           <FoodType
             foodType={foodType}
             setFoodType={setFoodType}
@@ -200,9 +210,7 @@ const CreateRecipie = () => {
           >
             <FormattedMessage id="generateReciepie" />
           </LoadingButton>
-
           <ExtraActions result={result} setResult={setResult} />
-
           <TextField
             sx={{ width: "100%", mt: 2 }}
             id="standard-multiline-static"
@@ -227,13 +235,17 @@ const CreateRecipie = () => {
               src={image}
             />
           )}
-          {userData?.data?.length && (
-            <Typography sx={{ mt: 2 }}>
-              {<FormattedMessage id="availableTokens" />}{" "}
-              {userData.data[0].availableTokens}
-            </Typography>
+          {isAuthenticated && (
+            <>
+              {userData?.data?.length && (
+                <Typography sx={{ mt: 2 }}>
+                  {<FormattedMessage id="availableTokens" />}{" "}
+                  {userData.data[0].availableTokens}
+                </Typography>
+              )}
+              <BuyTokensCta />
+            </>
           )}
-          <BuyTokensCta />
         </Box>
       </Box>
     </Box>

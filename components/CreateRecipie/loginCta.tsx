@@ -11,7 +11,17 @@ const CardWithGradient = styled(Card)(({ theme }) => ({
 
 const LoginCta = () => {
   return (
-    <CardWithGradient elevation={12} sx={{ p: 5, width: "100%" }}>
+    <CardWithGradient
+      elevation={12}
+      sx={{
+        p: 7,
+        width: "100%",
+        alignItems: "center",
+        display: "flex",
+        flexDirection: "column",
+        textAlign: "center",
+      }}
+    >
       <Image src={logoWhite} alt="Logo" width={200} />
       <Typography color="white" sx={{ mt: 2 }} variant="h4" component="h1">
         <FormattedMessage id="title" defaultMessage="Recipies AI" />

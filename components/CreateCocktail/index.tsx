@@ -1,7 +1,7 @@
-import { TextField, Typography } from "@mui/material";
+import { Dialog, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
@@ -85,6 +85,8 @@ const CreateCocktail = () => {
   const [cocktailSecondaryIngredients, setCocktailSecondaryIngredients] =
     useState("");
 
+  const [openAuthModal, setOpenAuthModal] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
@@ -103,6 +105,10 @@ const CreateCocktail = () => {
   };
 
   const fetchData = async (body: BodyGetOpenAiCocktailResult) => {
+    if (!isAuthenticated) {
+      setOpenAuthModal(true);
+      return;
+    }
     if (userData?.data[0].availableTokens === 0) {
       alert("Favro de comprar");
       return;
@@ -167,26 +173,27 @@ const CreateCocktail = () => {
           maxWidth: "900px",
         }}
       >
-        {isAuthenticated && (
-          <PageHeader
-            title={
-              <FormattedMessage
-                id="cocktailTitle"
-                defaultMessage="Recipies AI"
-              />
-            }
-            subTitle={
-              <FormattedMessage
-                id="cocktailSubtitle"
-                defaultMessage="Recipies AI"
-              />
-            }
-          />
-        )}
-        {!isAuthenticated && <LoginCta />}
-        <Box
-          sx={isAuthenticated ? {} : { opacity: 0.4, pointerEvents: "none" }}
+        <PageHeader
+          title={
+            <FormattedMessage id="cocktailTitle" defaultMessage="Recipies AI" />
+          }
+          subTitle={
+            <FormattedMessage
+              id="cocktailSubtitle"
+              defaultMessage="Recipies AI"
+            />
+          }
+        />
+
+        <Dialog
+          open={openAuthModal}
+          onClose={() => setOpenAuthModal(false)}
+          aria-labelledby="modal-sign-in"
+          aria-describedby="modal-sign-in"
         >
+          <LoginCta />
+        </Dialog>
+        <Box>
           <CocktailDetails
             cocktailType={cocktailType}
             setCocktailType={setCocktailType}
@@ -248,13 +255,17 @@ const CreateCocktail = () => {
               src={image}
             />
           )}
-          {userData?.data?.length && (
-            <Typography sx={{ mt: 2 }}>
-              {<FormattedMessage id="availableTokens" />}{" "}
-              {userData.data[0].availableTokens}
-            </Typography>
+          {isAuthenticated && (
+            <>
+              {userData?.data?.length && (
+                <Typography sx={{ mt: 2 }}>
+                  {<FormattedMessage id="availableTokens" />}{" "}
+                  {userData.data[0].availableTokens}
+                </Typography>
+              )}
+              <BuyTokensCta />
+            </>
           )}
-          <BuyTokensCta />
         </Box>
       </Box>
     </Box>
