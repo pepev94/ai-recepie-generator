@@ -152,9 +152,7 @@ const CreateRecipie = () => {
       >
         <PageHeader
           title={<FormattedMessage id="title" defaultMessage="Recipies AI" />}
-          subTitle={
-            <FormattedMessage id="subTitle" defaultMessage="Recipies AI" />
-          }
+          subTitle={<FormattedMessage id="subtitle" defaultMessage=" AI" />}
         />
 
         <Dialog

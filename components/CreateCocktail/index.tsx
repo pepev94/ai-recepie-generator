@@ -178,10 +178,7 @@ const CreateCocktail = () => {
             <FormattedMessage id="cocktailTitle" defaultMessage="Recipies AI" />
           }
           subTitle={
-            <FormattedMessage
-              id="cocktailSubtitle"
-              defaultMessage="Recipies AI"
-            />
+            <FormattedMessage id="cocktailSubtitle" defaultMessage="d AI" />
           }
         />
 
