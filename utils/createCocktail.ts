@@ -1,29 +1,34 @@
 export const TypeOfCocktailButtonsEn = [
-  { label: "🍶  Shots", value: "Short Drinks" },
-  { label: "🍹  Drinks", value: "Long Drinks" },
-  { label: "🥃  Aperitif", value: "Aperitif" },
-  { label: "🍸  Digestif", value: "Digestif" },
+  { icon: "🍶", color: "#ffe4e1", label: "Shots", value: "Short Drinks" },
+  { icon: "🍹", color: "#fcb7af", label: "Drinks", value: "Long Drinks" },
+  { icon: "🥃", color: "#ffda9e", label: "Aperitif", value: "Aperitif" },
+  { icon: "🍸", color: "#b0c2f2", label: "Digestif", value: "Digestif" },
 ];
 
 export const TypeOfCocktailButtonsEs = [
-  { label: "🍶  Shots", value: "Shot" },
-  { label: "🍹  Bebida alchólica", value: "Bebida de mixologia" },
-  { label: "🥃  Aperitivo", value: "Aperitivo" },
-  { label: "🍸  Digestivo", value: "Digestivo" },
+  { icon: "🍶", color: "#ffe4e1", label: "Shots", value: "Shot" },
+  {
+    icon: "🍹",
+    color: "#fcb7af",
+    label: "Bebida alchólica",
+    value: "Bebida de mixologia",
+  },
+  { icon: "🥃 ", color: "#ffda9e", label: " Aperitivo", value: "Aperitivo" },
+  { icon: "🍸", color: "#b0c2f2", label: "Digestivo", value: "Digestivo" },
 ];
 
 export const StyleOfCocktailButtonsEn = [
-  { label: "🍋  Citrus", value: "Citrus" },
-  { label: "🌿  Herbs", value: "Herbs" },
-  { label: "🌶️  Spices", value: "Spices" },
-  { label: "🌸  Floral", value: "Floral" },
-  { label: "🚬  Smoky", value: "Smoky" },
+  { icon: "🍋", color: "#b0c2f2", label: "Citrus", value: "Citrus" },
+  { icon: "🌿", color: "#ff94a2", label: "Herbs", value: "Herbs" },
+  { icon: "🌶️", color: "#a3ffac", label: "Spices", value: "Spices" },
+  { icon: "🌸", color: "#ffda9e", label: "Floral", value: "Floral" },
+  { icon: "🚬 ", color: "#ffe4e1", label: "Smoky", value: "Smoky" },
 ];
 
 export const StyleOfCocktailButtonsEs = [
-  { label: "🍋  Cítrico", value: "Cítrico" },
-  { label: "🌿  Hierbas", value: "Hierbas" },
-  { label: "🌶️  Especias", value: "Especias" },
-  { label: "🌸  Floral", value: "Floral" },
-  { label: "🚬  Ahumado", value: "Ahumado" },
+  { icon: "🍋", color: "#b0c2f2", label: "Cítrico", value: "Cítrico" },
+  { icon: "🌿", color: "#ff94a2", label: "Hierbas", value: "Hierbas" },
+  { icon: "🌶️", color: "#a3ffac", label: "Especias", value: "Especias" },
+  { icon: "🌸", color: "#ffda9e", label: "Floral", value: "Floral" },
+  { icon: "🚬", color: "#ffe4e1", label: "Ahumado", value: "Ahumado" },
 ];

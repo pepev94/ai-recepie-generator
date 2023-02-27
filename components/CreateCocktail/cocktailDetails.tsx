@@ -10,8 +10,18 @@ type Props = {
   setCocktailMainIngredients: any;
   cocktailSecondaryIngredients: string;
   setCocktailSecondaryIngredients: any;
-  cocktailTypeButtons: { label: string; value: string }[];
-  cocktailStyleButtons: { label: string; value: string }[];
+  cocktailTypeButtons: {
+    icon: string;
+    label: string;
+    value: string;
+    color: string;
+  }[];
+  cocktailStyleButtons: {
+    icon: string;
+    label: string;
+    value: string;
+    color: string;
+  }[];
 };
 
 const CocktailDetails = ({
@@ -38,9 +48,6 @@ const CocktailDetails = ({
         px: 1,
       }}
     >
-      <Typography variant="h6" component="h3">
-        <FormattedMessage id="cocktailType" /> {cocktailType}
-      </Typography>
       <Grid
         direction="row"
         justifyContent="center"
@@ -51,28 +58,49 @@ const CocktailDetails = ({
         {cocktailTypeButtons.map((button) => {
           return (
             <Grid key={button.value} item>
-              {cocktailType === button.value ? (
-                <Button
-                  variant="contained"
-                  onClick={() => setCocktailType(button.value)}
+              <Box onClick={() => setCocktailType(button.value)}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      backgroundColor: button.color,
+                      borderRadius: 4,
+                      width: "100px",
+                      height: "100px",
+                      border:
+                        cocktailType === button.value
+                          ? "5px solid #EB1245"
+                          : "none",
+                      p: 2,
+                      fontSize: 40,
+                    }}
+                  >
+                    {button.icon}
+                  </Typography>
+                </Box>
+                <Typography
+                  sx={{
+                    mt: 1,
+                    color:
+                      cocktailType === button.value ? "primary.main" : "none",
+                  }}
                 >
                   {button.label}
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  onClick={() => setCocktailType(button.value)}
-                >
-                  {button.label}
-                </Button>
-              )}{" "}
+                </Typography>
+              </Box>
             </Grid>
           );
         })}
       </Grid>
 
-      <Typography variant="h5" component="h3">
-        <FormattedMessage id="cocktailStyleHeader" />: {cocktailStyle}
+      <Typography sx={{ fontWeight: 700, mt: 4 }} variant="h5" component="h3">
+        <FormattedMessage id="cocktailStyleHeader" />
       </Typography>
       <Grid
         direction="row"
@@ -84,21 +112,42 @@ const CocktailDetails = ({
         {cocktailStyleButtons.map((button) => {
           return (
             <Grid key={button.value} item>
-              {cocktailStyle === button.value ? (
-                <Button
-                  variant="contained"
-                  onClick={() => setCocktailStyle(button.value)}
+              <Box onClick={() => setCocktailStyle(button.value)}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      backgroundColor: button.color,
+                      borderRadius: 4,
+                      width: "100px",
+                      height: "100px",
+                      border:
+                        cocktailStyle === button.value
+                          ? "5px solid #EB1245"
+                          : "none",
+                      p: 2,
+                      fontSize: 40,
+                    }}
+                  >
+                    {button.icon}
+                  </Typography>
+                </Box>
+                <Typography
+                  sx={{
+                    mt: 1,
+                    color:
+                      cocktailStyle === button.value ? "primary.main" : "none",
+                  }}
                 >
                   {button.label}
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  onClick={() => setCocktailStyle(button.value)}
-                >
-                  {button.label}
-                </Button>
-              )}{" "}
+                </Typography>
+              </Box>
             </Grid>
           );
         })}

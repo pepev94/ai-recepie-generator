@@ -4,7 +4,12 @@ import { FormattedMessage } from "react-intl";
 type Props = {
   foodType: string;
   setFoodType: any;
-  foodTypeButtons: { label: string; value: string }[];
+  foodTypeButtons: {
+    icon: string;
+    label: string;
+    value: string;
+    color: string;
+  }[];
 };
 
 const FoodType = ({ foodType, setFoodType, foodTypeButtons }: Props) => {
@@ -20,9 +25,6 @@ const FoodType = ({ foodType, setFoodType, foodTypeButtons }: Props) => {
         px: 1,
       }}
     >
-      <Typography variant="h6" component="h3">
-        <FormattedMessage id="foodType" />: {foodType}
-      </Typography>
       <Grid
         direction="row"
         justifyContent="center"
@@ -33,21 +35,41 @@ const FoodType = ({ foodType, setFoodType, foodTypeButtons }: Props) => {
         {foodTypeButtons.map((button) => {
           return (
             <Grid key={button.value} item>
-              {foodType === button.value ? (
-                <Button
-                  variant="contained"
-                  onClick={() => setFoodType(button.value)}
+              <Box onClick={() => setFoodType(button.value)}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      backgroundColor: button.color,
+                      borderRadius: 4,
+                      width: "100px",
+                      height: "100px",
+                      border:
+                        foodType === button.value
+                          ? "5px solid #EB1245"
+                          : "none",
+                      p: 2,
+                      fontSize: 40,
+                    }}
+                  >
+                    {button.icon}
+                  </Typography>
+                </Box>
+                <Typography
+                  sx={{
+                    mt: 1,
+                    color: foodType === button.value ? "primary.main" : "none",
+                  }}
                 >
                   {button.label}
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  onClick={() => setFoodType(button.value)}
-                >
-                  {button.label}
-                </Button>
-              )}{" "}
+                </Typography>
+              </Box>
             </Grid>
           );
         })}
