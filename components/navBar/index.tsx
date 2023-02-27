@@ -7,12 +7,14 @@ import { useSession, signOut } from "next-auth/react";
 import { FormattedMessage } from "react-intl";
 import { styled } from "@mui/material/styles";
 import Link from "next/link";
+import Image from "next/image";
+import logo from "assets/logo2Blanco.png";
 
 const AppBarWithTheme = styled(AppBar)(({ theme }) => ({
   background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
 }));
 
-export default function NavBar() {
+export default function NavBar({}) {
   const session = useSession();
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -36,12 +38,15 @@ export default function NavBar() {
                   <FormattedMessage id="Cocktails" />
                 </Button>
               </Link>
+              {session.status === "authenticated" && (
+                <Button onClick={() => signOut()} color="inherit">
+                  <FormattedMessage id="signOut" />
+                </Button>
+              )}
             </Box>
-            {session.status === "authenticated" && (
-              <Button onClick={() => signOut()} color="inherit">
-                <FormattedMessage id="signOut" />
-              </Button>
-            )}
+            <Box sx={{ display: "flex" }}>
+              <Image src={logo} alt="Logo" width={30} />
+            </Box>
           </Box>
         </Toolbar>
       </AppBarWithTheme>

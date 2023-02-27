@@ -169,7 +169,7 @@ const CreateCocktail = () => {
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          my: 4,
+          mb: 4,
           maxWidth: "900px",
         }}
       >

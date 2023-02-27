@@ -10,7 +10,7 @@ const LanguageMenu = ({ setSelectedLanguage }: Props) => {
         width: "100%",
         display: "flex",
         justifyContent: "center",
-        mt: 2,
+        mt: 4,
         gap: 2,
       }}
     >

@@ -8,6 +8,7 @@
   "targetMacros": "Target Macros 🎯",
   "targetMacrosProtein": "Protein gms",
   "targetMacrosCarbs": "Carbs gms",
+  "targetMacrosFats": "Fats gms",
   "recipieDetails": "Final Step",
   "recipieDetailsIngredients": "Type here the main ingredients for your recipie (hit enter to separet theme)",
   "recipieDetailsAlergies": "ingredients to skip",

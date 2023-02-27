@@ -11,7 +11,6 @@ import LoginCta from "./loginCta";
 import {
   TypeOfFoodButtonsEs,
   TypeOfFoodButtonsEn,
-  LanguagesEnum,
 } from "@/utils/createRecepie";
 import LoadingScreen from "./loadingScreen";
 import { updateUser } from "@/lib/api/user";
@@ -55,11 +54,10 @@ const CreateRecipie = () => {
 
   const [foodType, setFoodType] = useState(foodTypeButtons[0].value);
   const [targetProtein, setTargetProtein] = useState("30");
-  const [countMacros, setCountMacros] = useState(false);
-  const [targetCarbs, setTargetCarbs] = useState("400");
+  const [targetCarbs, setTargetCarbs] = useState("300");
+  const [targetFats, setTargetFats] = useState("5");
   const [primaryIngredient, setPrimaryIngredient] = useState([]);
   const [personCount, setPersonCount] = useState("1");
-  const [alergies, setAlergies] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
@@ -146,7 +144,7 @@ const CreateRecipie = () => {
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          my: 4,
+          mb: 4,
           maxWidth: "900px",
         }}
       >
@@ -171,11 +169,8 @@ const CreateRecipie = () => {
           />
 
           <CountMacros
-            countMacros={countMacros}
-            setCountMacros={setCountMacros}
-            targetProtein={targetProtein}
+            setTargetFats={setTargetFats}
             setTargetProtein={setTargetProtein}
-            targetCarbs={targetCarbs}
             setTargetCarbs={setTargetCarbs}
           />
           <RecipieDetails
@@ -191,9 +186,8 @@ const CreateRecipie = () => {
                 targetProtein,
                 targetCarbs,
                 primaryIngredient,
-                alergies,
+                targetFats,
                 selectedLanguage: getLanguage(shortLocale),
-                countMacros,
                 personCount,
               })
             }

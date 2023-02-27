@@ -1,29 +1,16 @@
-import {
-  FormControlLabel,
-  FormGroup,
-  Slider,
-  Switch,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Slider, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { FormattedMessage } from "react-intl";
 
 type Props = {
-  countMacros: boolean;
-  setCountMacros: any;
-  targetProtein: string;
   setTargetProtein: any;
-  targetCarbs: string;
   setTargetCarbs: any;
+  setTargetFats: any;
 };
 
 const CountMacros = ({
-  countMacros,
-  setCountMacros,
-  targetProtein,
+  setTargetFats,
   setTargetProtein,
-  targetCarbs,
   setTargetCarbs,
 }: Props) => {
   return (
@@ -40,7 +27,6 @@ const CountMacros = ({
       <Typography variant="h5" sx={{ mt: 4, fontWeight: 700 }}>
         <FormattedMessage id="targetMacros" />
       </Typography>
-
       <>
         <Typography>
           <FormattedMessage id="targetMacrosProtein" />
@@ -54,7 +40,6 @@ const CountMacros = ({
           min={10}
           max={110}
         />
-
         <Typography>
           <FormattedMessage id="targetMacrosCarbs" />
         </Typography>
@@ -67,31 +52,17 @@ const CountMacros = ({
           min={100}
           max={1500}
         />
-
         <Typography>
-          <FormattedMessage id="targetMacrosCarbs" />
+          <FormattedMessage id="targetMacrosFats" />
         </Typography>
         <Slider
-          onChange={(e) => setTargetCarbs(e)}
-          defaultValue={30}
+          onChange={(e) => setTargetFats(e)}
+          defaultValue={10}
           valueLabelDisplay="on"
-          step={10}
+          step={1}
           marks
-          min={10}
-          max={110}
-        />
-
-        <Typography>
-          <FormattedMessage id="targetMacrosCarbs" />
-        </Typography>
-        <Slider
-          onChange={(e) => setTargetCarbs(e)}
-          defaultValue={30}
-          valueLabelDisplay="on"
-          step={10}
-          marks
-          min={10}
-          max={110}
+          min={5}
+          max={50}
         />
       </>
     </Box>

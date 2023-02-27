@@ -1,6 +1,4 @@
 import { Typography } from "@mui/material";
-import Image from "next/image";
-import logo from "assets/logoRojo.png";
 import { styled } from "@mui/material/styles";
 
 type Props = {
@@ -18,7 +16,6 @@ const TypographyWith = styled(Typography)(({ theme }) => ({
 const PageHeader = ({ title, subTitle }: Props) => {
   return (
     <>
-      <Image src={logo} alt="Logo" width={200} />
       <TypographyWith
         sx={{
           mt: 2,
