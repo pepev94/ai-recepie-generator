@@ -81,9 +81,9 @@ const CreateCocktail = () => {
   const [cocktailStyle, setCocktailStyle] = useState(
     StyleOfCocktailButtonsEn[0]?.value
   );
-  const [cocktailMainIngredients, setCocktailMainIngredients] = useState("");
+  const [cocktailMainIngredients, setCocktailMainIngredients] = useState([]);
   const [cocktailSecondaryIngredients, setCocktailSecondaryIngredients] =
-    useState("");
+    useState([]);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
 

@@ -1,4 +1,4 @@
-import { Typography, Box, TextField, Slider } from "@mui/material";
+import { Typography, Box, Slider } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import { MuiChipsInput } from "mui-chips-input";
 

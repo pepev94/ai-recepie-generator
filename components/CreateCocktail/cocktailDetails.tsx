@@ -1,14 +1,15 @@
 import { Typography, Grid, Box, Button, TextField } from "@mui/material";
 import { FormattedMessage } from "react-intl";
+import { MuiChipsInput } from "mui-chips-input";
 
 type Props = {
   cocktailType: string;
   setCocktailType: any;
   cocktailStyle: string;
   setCocktailStyle: any;
-  cocktailMainIngredients: string;
+  cocktailMainIngredients: string[];
   setCocktailMainIngredients: any;
-  cocktailSecondaryIngredients: string;
+  cocktailSecondaryIngredients: string[];
   setCocktailSecondaryIngredients: any;
   cocktailTypeButtons: {
     icon: string;
@@ -156,33 +157,17 @@ const CocktailDetails = ({
       <Typography variant="h5" component="h3">
         <FormattedMessage id="cocktailMainIngredientsHeader" />
       </Typography>
-      <TextField
-        id="outlined-basic"
-        label={<FormattedMessage id="cocktailMainIngredientsHeader" />}
-        onChange={(e) => setCocktailMainIngredients(e.target.value)}
-        placeholder="Tequila"
+      <MuiChipsInput
         value={cocktailMainIngredients}
-        variant="outlined"
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
+        onChange={(e) => setCocktailMainIngredients(e)}
       />
 
       <Typography variant="h5" component="h3">
         <FormattedMessage id="cocktailSecondaryIngredientsHeader" />
       </Typography>
-      <TextField
-        id="outlined-basic"
-        label={<FormattedMessage id="cocktailSecondaryIngredients" />}
-        placeholder="Mango"
-        onChange={(e) => setCocktailSecondaryIngredients(e.target.value)}
+      <MuiChipsInput
         value={cocktailSecondaryIngredients}
-        variant="outlined"
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
+        onChange={(e) => setCocktailSecondaryIngredients(e)}
       />
     </Box>
   );
