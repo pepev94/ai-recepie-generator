@@ -14,7 +14,8 @@ const LoginCta = () => {
     <CardWithGradient
       elevation={12}
       sx={{
-        p: 7,
+        py: 7,
+        px: 5,
         width: "100%",
         alignItems: "center",
         display: "flex",
