@@ -35,6 +35,7 @@
     "micro-cors": "^0.1.1",
     "mongodb": "^5.0.1",
     "mongoose": "^6.9.1",
+    "mui-chips-input": "^2.0.0",
     "next": "13.1.6",
     "next-auth": "^4.19.2",
     "node-fetch": "^3.3.0",

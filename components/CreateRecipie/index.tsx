@@ -57,7 +57,7 @@ const CreateRecipie = () => {
   const [targetProtein, setTargetProtein] = useState("30");
   const [countMacros, setCountMacros] = useState(false);
   const [targetCarbs, setTargetCarbs] = useState("400");
-  const [primaryIngredient, setPrimaryIngredient] = useState("");
+  const [primaryIngredient, setPrimaryIngredient] = useState([]);
   const [personCount, setPersonCount] = useState("1");
   const [alergies, setAlergies] = useState("");
   const [loading, setLoading] = useState(false);
@@ -181,9 +181,6 @@ const CreateRecipie = () => {
           <RecipieDetails
             setPrimaryIngredient={setPrimaryIngredient}
             primaryIngredient={primaryIngredient}
-            alergies={alergies}
-            setAlergies={setAlergies}
-            personCount={personCount}
             setPersonCount={setPersonCount}
           />
           <LoadingButton

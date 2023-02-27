@@ -11,7 +11,7 @@ export type BodyGetOpenAiResult = {
   foodType: string;
   targetProtein: string;
   targetCarbs: string;
-  primaryIngredient: string;
+  primaryIngredient: string[];
   alergies: string;
   selectedLanguage: LanguagesEnum;
   countMacros: boolean;
@@ -47,7 +47,9 @@ const getPromt = (body: BodyGetOpenAiResult) => {
           : ""
       }. ${
         alergies !== "" ? `Soy alergico a ${alergies}` : ""
-      } Quiero que los ingredientes principales sean ${primaryIngredient}. Debe de ser para ${personCount} personas.`;
+      } Quiero que los ingredientes principales sean ${primaryIngredient.join(
+        ", "
+      )}. Debe de ser para ${personCount} personas.`;
     case LanguagesEnum.en:
       return `Give me the title, list of ingredients and step by step process to prepare it, add the exact quantities of ingredients. Be specific on the details of the process, add the nutritional information at the en of the the following: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare. ${
         countMacros
@@ -55,7 +57,9 @@ const getPromt = (body: BodyGetOpenAiResult) => {
           : ""
       }. ${
         alergies !== "" ? `I am allergic to ${alergies}` : ""
-      } And I want the main ingredient to be ${primaryIngredient}. It must be for ${personCount} persons`;
+      } And I want the main ingredient to be ${primaryIngredient.join(
+        ", "
+      )}. It must be for ${personCount} persons`;
   }
 };
 //

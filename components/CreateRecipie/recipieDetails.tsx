@@ -1,21 +1,16 @@
-import { Typography, Box, TextField } from "@mui/material";
+import { Typography, Box, TextField, Slider } from "@mui/material";
 import { FormattedMessage } from "react-intl";
+import { MuiChipsInput } from "mui-chips-input";
 
 type Props = {
   setPrimaryIngredient: any;
-  primaryIngredient: string;
-  alergies: string;
-  setAlergies: any;
-  personCount: string;
+  primaryIngredient: string[];
   setPersonCount: any;
 };
 
 const RecipieDetails = ({
   setPrimaryIngredient,
   primaryIngredient,
-  alergies,
-  setAlergies,
-  personCount,
   setPersonCount,
 }: Props) => {
   return (
@@ -29,42 +24,30 @@ const RecipieDetails = ({
         p: 2,
       }}
     >
-      <Typography variant="h5" component="h3">
+      <Typography sx={{ fontWeight: 700 }} variant="h5" component="h3">
         <FormattedMessage id="recipieDetails" />
       </Typography>
-      <TextField
-        id="outlined-basic"
-        label={<FormattedMessage id="recipieDetailsIngredients" />}
-        onChange={(e) => setPrimaryIngredient(e.target.value)}
+
+      <Typography>
+        <FormattedMessage id="recipieDetailsIngredients" />
+      </Typography>
+
+      <MuiChipsInput
         value={primaryIngredient}
-        variant="outlined"
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
+        onChange={(e) => setPrimaryIngredient(e)}
       />
-      <TextField
-        id="outlined-basic"
-        label={<FormattedMessage id="recipieDetailsAlergies" />}
-        variant="outlined"
-        value={alergies}
-        onChange={(e) => setAlergies(e.target.value)}
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-      <TextField
-        id="outlined-basic"
-        label={<FormattedMessage id="personCount" />}
-        type="number"
-        variant="outlined"
-        value={personCount}
-        onChange={(e) => setPersonCount(e.target.value)}
-        fullWidth
-        InputLabelProps={{
-          shrink: true,
-        }}
+
+      <Typography>
+        <FormattedMessage id="personCount" />
+      </Typography>
+      <Slider
+        onChange={(e) => setPersonCount(e)}
+        defaultValue={1}
+        valueLabelDisplay="on"
+        step={1}
+        marks
+        min={1}
+        max={10}
       />
     </Box>
   );
