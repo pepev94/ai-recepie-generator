@@ -1,4 +1,11 @@
-import { FormControlLabel, FormGroup, Switch, TextField } from "@mui/material";
+import {
+  FormControlLabel,
+  FormGroup,
+  Slider,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { FormattedMessage } from "react-intl";
 
@@ -30,45 +37,63 @@ const CountMacros = ({
         p: 2,
       }}
     >
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={countMacros}
-              onChange={(e) => setCountMacros(e.target.checked)}
-            />
-          }
-          label={<FormattedMessage id="targetMacros" />}
+      <Typography variant="h5" sx={{ mt: 4, fontWeight: 700 }}>
+        <FormattedMessage id="targetMacros" />
+      </Typography>
+
+      <>
+        <Typography>
+          <FormattedMessage id="targetMacrosProtein" />
+        </Typography>
+        <Slider
+          onChange={(e) => setTargetProtein(e)}
+          defaultValue={30}
+          valueLabelDisplay="on"
+          step={10}
+          marks
+          min={10}
+          max={110}
         />
-      </FormGroup>
-      {countMacros && (
-        <>
-          <TextField
-            id="protein-textfield"
-            label={<FormattedMessage id="targetMacrosProtein" />}
-            variant="outlined"
-            fullWidth
-            type="number"
-            value={targetProtein}
-            onChange={(e) => setTargetProtein(e.target.value)}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id="carbs-textfield"
-            label={<FormattedMessage id="targetMacrosCarbs" />}
-            variant="outlined"
-            value={targetCarbs}
-            onChange={(e) => setTargetCarbs(e.target.value)}
-            fullWidth
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </>
-      )}
+
+        <Typography>
+          <FormattedMessage id="targetMacrosCarbs" />
+        </Typography>
+        <Slider
+          onChange={(e) => setTargetCarbs(e)}
+          defaultValue={300}
+          valueLabelDisplay="on"
+          step={100}
+          marks
+          min={100}
+          max={1500}
+        />
+
+        <Typography>
+          <FormattedMessage id="targetMacrosCarbs" />
+        </Typography>
+        <Slider
+          onChange={(e) => setTargetCarbs(e)}
+          defaultValue={30}
+          valueLabelDisplay="on"
+          step={10}
+          marks
+          min={10}
+          max={110}
+        />
+
+        <Typography>
+          <FormattedMessage id="targetMacrosCarbs" />
+        </Typography>
+        <Slider
+          onChange={(e) => setTargetCarbs(e)}
+          defaultValue={30}
+          valueLabelDisplay="on"
+          step={10}
+          marks
+          min={10}
+          max={110}
+        />
+      </>
     </Box>
   );
 };
