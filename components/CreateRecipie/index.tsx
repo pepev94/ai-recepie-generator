@@ -56,7 +56,9 @@ const CreateRecipie = () => {
   const [targetProtein, setTargetProtein] = useState("30");
   const [targetCarbs, setTargetCarbs] = useState("300");
   const [targetFats, setTargetFats] = useState("5");
-  const [primaryIngredient, setPrimaryIngredient] = useState([]);
+  const [primaryIngredient, setPrimaryIngredient] = useState(
+    shortLocale === "es" ? ["pollo"] : ["chicken"]
+  );
   const [personCount, setPersonCount] = useState("1");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
