@@ -33,6 +33,8 @@ const RecipieDetails = ({
       </Typography>
 
       <MuiChipsInput
+        addOnWhichKey={[" ", "Enter"]}
+        clearInputOnBlur
         value={primaryIngredient}
         onChange={(e) => setPrimaryIngredient(e)}
       />

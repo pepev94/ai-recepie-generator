@@ -1,4 +1,4 @@
-import { Dialog, TextField, Typography } from "@mui/material";
+import { Alert, Dialog, Snackbar, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
@@ -22,6 +22,7 @@ import {
   TypeOfCocktailButtonsEs,
 } from "@/utils/createCocktail";
 import { BodyGetOpenAiCocktailResult } from "@/pages/api/open-ai/cocktail";
+import { AlertColor } from "@mui/material/Alert";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -81,17 +82,40 @@ const CreateCocktail = () => {
   const [cocktailStyle, setCocktailStyle] = useState(
     StyleOfCocktailButtonsEn[0]?.value
   );
-  const [cocktailMainIngredients, setCocktailMainIngredients] = useState([
-    "Tequila",
-  ]);
+  const [cocktailMainIngredients, setCocktailMainIngredients] = useState([]);
   const [cocktailSecondaryIngredients, setCocktailSecondaryIngredients] =
-    useState(["Jamaica"]);
+    useState([]);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
+
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState(
+    "error" as AlertColor
+  );
+
+  const showError = (message: string) => {
+    setSnackbarSeverity("error" as AlertColor);
+    setSnackbarMessage(message);
+    setOpenSnackBar(true);
+  };
+
+  const validateInputs = (body: BodyGetOpenAiCocktailResult): boolean => {
+    if (body.cocktailMainIngredients.length === 0) {
+      showError("Select 1 liquor");
+      return false;
+    }
+
+    if (body.cocktailSecondaryIngredients.length === 0) {
+      showError("Select 1 secondary ingredient");
+      return false;
+    }
+    return true;
+  };
 
   const fetchImage = async (prompt: string) => {
     setImage("");
@@ -111,6 +135,7 @@ const CreateCocktail = () => {
       setOpenAuthModal(true);
       return;
     }
+    if (!validateInputs(body)) return;
     if (userData?.data[0].availableTokens === 0) {
       alert("Favro de comprar");
       return;
@@ -162,6 +187,19 @@ const CreateCocktail = () => {
     <Box
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
+      <Snackbar
+        open={openSnackBar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackBar(false)}
+      >
+        <Alert
+          onClose={() => setOpenSnackBar(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Box
         sx={{
           borderRadius: 4,
