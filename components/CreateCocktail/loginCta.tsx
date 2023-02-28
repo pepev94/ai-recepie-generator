@@ -1,8 +1,6 @@
 import { Button, Card, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { FormattedMessage } from "react-intl";
-import Image from "next/image";
-import logoWhite from "assets/logoBlanco.png";
 import { signIn } from "next-auth/react";
 
 const CardWithGradient = styled(Card)(({ theme }) => ({
@@ -12,7 +10,6 @@ const CardWithGradient = styled(Card)(({ theme }) => ({
 const LoginCta = () => {
   return (
     <CardWithGradient elevation={12} sx={{ p: 5, width: "100%" }}>
-      <Image src={logoWhite} alt="Logo" width={200} />
       <Typography color="white" sx={{ mt: 2 }} variant="h4" component="h1">
         <FormattedMessage id="title" defaultMessage="Recipies AI" />
       </Typography>

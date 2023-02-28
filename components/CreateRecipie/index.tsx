@@ -203,7 +203,7 @@ const CreateRecipie = () => {
           <TextField
             sx={{ width: "100%", mt: 2 }}
             id="standard-multiline-static"
-            label="Recipie"
+            label="Recipe"
             value={result}
             multiline
             rows={10}

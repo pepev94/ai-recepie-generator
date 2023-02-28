@@ -1,6 +1,6 @@
 {
-  "title": "Cambia las dietas aburridas sin tener que pensar",
-  "subtitle": "Crea tus propias recetas buscando tus objetivos con IA.",
+  "title": "Crea tus propias recetas con la ayuda de IA en 3 simples pasos",
+  "subtitle": "¿Qué quieres comer?",
   "signInCTA": "Inicia Sesión para usarlo",
   "signIn": "Iniciar Sesión",
   "signOut": "Cerrar Sesión",
@@ -32,5 +32,5 @@
   "cocktailSecondaryIngredientsHeader": "Ingredientes Secundarios",
   "generateCocktail": "Crear Cocktail!",
   "cocktailTitle": "Cocktail AI",
-  "cocktailSubtitle": "Agita tus papilas gustativas con un toque de innovación: la experiencia definitiva de cócteles con nuestro mixólogo de inteligencia artificial."
+  "cocktailSubtitle": "¿Qué quieres tomar?"
 }
