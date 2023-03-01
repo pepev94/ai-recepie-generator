@@ -1,25 +1,25 @@
 export const TypeOfFoodButtonsEn = [
-  { label: "🌮  Mexican", value: "Mexican" },
-  { label: "🥗  Vegan", value: "Vegan" },
-  { label: "🍝  Italian", value: "Italian" },
-  { label: "🍣  Sushi", value: "Sushi" },
-  { label: "🇬🇷  Greek", value: "Greek" },
-  { label: "🇪🇸  Spanish", value: "Spanish" },
-  { label: "🇩🇪  German", value: "German" },
-  { label: "🏮 Chinese", value: "Chinese" },
-  { label: "🥟 Korean", value: "Korean" },
+  { icon: "🌮", color: "#ffe4e1", label: "Mexican", value: "Mexican" },
+  { icon: "🥗", color: "#fcb7af", label: "Vegan", value: "Vegan" },
+  { icon: "🍝", color: "#ffda9e", label: "Italian", value: "Italian" },
+  { icon: "🍣", color: "#b0c2f2", label: "Sushi", value: "Sushi" },
+  { icon: "🇬🇷", color: "#b0c2f2", label: "Greek", value: "Greek" },
+  { icon: "🇪🇸", color: "#ff94a2", label: "Spanish", value: "Spanish" },
+  { icon: "🇩🇪", color: "#a3ffac", label: "German", value: "German" },
+  { icon: "🏮", color: "#ffda9e", label: "Chinese", value: "Chinese" },
+  { icon: "🥟", color: "#ffe180", label: "Korean", value: "Korean" },
 ];
 
 export const TypeOfFoodButtonsEs = [
-  { label: "🌮  Mexicana", value: "Mexicana" },
-  { label: "🥗  Vegan", value: "Vegana" },
-  { label: "🍝  Italian", value: "Italiana" },
-  { label: "🍣  Sushi", value: "Sushi" },
-  { label: "🇬🇷  Griega", value: "Griega" },
-  { label: "🇪🇸  Española", value: "Española" },
-  { label: "🇩🇪  Alemana", value: "Alemana" },
-  { label: "🏮 China", value: "China" },
-  { label: "🥟  Coreana", value: "Coreana" },
+  { icon: "🌮", color: "#ffe4e1", label: "Mexicana", value: "Mexicana" },
+  { icon: "🥗", color: "#fcb7af", label: "Vegan", value: "Vegana" },
+  { icon: "🍝", color: "#ffda9e", label: "Italian", value: "Italiana" },
+  { icon: "🍣", color: "#b0c2f2", label: "Sushi", value: "Sushi" },
+  { icon: "🇬🇷", color: "#b0c2f2", label: "Griega", value: "Griega" },
+  { icon: "🇪🇸", color: "#ff94a2", label: "Española", value: "Española" },
+  { icon: "🇩🇪", color: "#a3ffac", label: "Alemana", value: "Alemana" },
+  { icon: "🏮", color: "#ffda9e", label: "China", value: "China" },
+  { icon: "🥟", color: "#ffe180", label: "Coreana", value: "Coreana" },
 ];
 
 export enum LanguagesEnum {

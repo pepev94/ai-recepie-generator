@@ -1,5 +1,5 @@
 import { BodyGetOpenAiResult } from "@/pages/api/open-ai/food";
-import { Dialog, TextField, Typography } from "@mui/material";
+import { Alert, Dialog, Snackbar, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
@@ -11,7 +11,6 @@ import LoginCta from "./loginCta";
 import {
   TypeOfFoodButtonsEs,
   TypeOfFoodButtonsEn,
-  LanguagesEnum,
 } from "@/utils/createRecepie";
 import LoadingScreen from "./loadingScreen";
 import { updateUser } from "@/lib/api/user";
@@ -23,6 +22,7 @@ import PageHeader from "../shared/header";
 import { getLanguage } from "../CreateCocktail";
 import CountMacros from "./countMacros";
 import RecipieDetails from "./recipieDetails";
+import { AlertColor } from "@mui/material/Alert";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -55,16 +55,35 @@ const CreateRecipie = () => {
 
   const [foodType, setFoodType] = useState(foodTypeButtons[0].value);
   const [targetProtein, setTargetProtein] = useState("30");
-  const [countMacros, setCountMacros] = useState(false);
-  const [targetCarbs, setTargetCarbs] = useState("400");
-  const [primaryIngredient, setPrimaryIngredient] = useState("");
+  const [targetCarbs, setTargetCarbs] = useState("300");
+  const [targetFats, setTargetFats] = useState("5");
+  const [primaryIngredient, setPrimaryIngredient] = useState([]);
   const [personCount, setPersonCount] = useState("1");
-  const [alergies, setAlergies] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
 
+  const [openSnackBar, setOpenSnackBar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState(
+    "error" as AlertColor
+  );
+
   const [openAuthModal, setOpenAuthModal] = useState(false);
+
+  const showError = (message: string) => {
+    setSnackbarSeverity("error" as AlertColor);
+    setSnackbarMessage(message);
+    setOpenSnackBar(true);
+  };
+
+  const validateInputs = (body: BodyGetOpenAiResult): boolean => {
+    if (body.primaryIngredient.length === 0) {
+      showError("Select 1 ingredient");
+      return false;
+    }
+    return true;
+  };
 
   const fetchImage = async (prompt: string) => {
     setImage("");
@@ -84,6 +103,9 @@ const CreateRecipie = () => {
       setOpenAuthModal(true);
       return;
     }
+
+    if (!validateInputs(body)) return;
+
     setResult("");
     setImage("");
     if (userData?.data[0].availableTokens === 0) {
@@ -137,6 +159,19 @@ const CreateRecipie = () => {
     <Box
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
+      <Snackbar
+        open={openSnackBar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackBar(false)}
+      >
+        <Alert
+          onClose={() => setOpenSnackBar(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Box
         sx={{
           borderRadius: 4,
@@ -146,7 +181,7 @@ const CreateRecipie = () => {
           flexDirection: "column",
           alignItems: "center",
           textAlign: "center",
-          my: 4,
+          mb: 4,
           maxWidth: "900px",
         }}
       >
@@ -171,19 +206,13 @@ const CreateRecipie = () => {
           />
 
           <CountMacros
-            countMacros={countMacros}
-            setCountMacros={setCountMacros}
-            targetProtein={targetProtein}
+            setTargetFats={setTargetFats}
             setTargetProtein={setTargetProtein}
-            targetCarbs={targetCarbs}
             setTargetCarbs={setTargetCarbs}
           />
           <RecipieDetails
             setPrimaryIngredient={setPrimaryIngredient}
             primaryIngredient={primaryIngredient}
-            alergies={alergies}
-            setAlergies={setAlergies}
-            personCount={personCount}
             setPersonCount={setPersonCount}
           />
           <LoadingButton
@@ -194,9 +223,8 @@ const CreateRecipie = () => {
                 targetProtein,
                 targetCarbs,
                 primaryIngredient,
-                alergies,
+                targetFats,
                 selectedLanguage: getLanguage(shortLocale),
-                countMacros,
                 personCount,
               })
             }
@@ -212,7 +240,7 @@ const CreateRecipie = () => {
           <TextField
             sx={{ width: "100%", mt: 2 }}
             id="standard-multiline-static"
-            label="Recipie"
+            label="Recipe"
             value={result}
             multiline
             rows={10}

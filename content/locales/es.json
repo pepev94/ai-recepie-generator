@@ -1,16 +1,17 @@
 {
-  "title": "Cambia las dietas aburridas sin tener que pensar",
-  "subtitle": "Crea tus propias recetas buscando tus objetivos con IA.",
+  "title": "Crea tus propias recetas con la ayuda de IA en 3 simples pasos",
+  "subtitle": "¿Qué quieres comer?",
   "signInCTA": "Inicia Sesión para usarlo",
   "signIn": "Iniciar Sesión",
   "signOut": "Cerrar Sesión",
   "foodType": "Tipo de Comida",
-  "targetMacros": "Quieres contar Macros?",
+  "targetMacros": "Macros Objetivos 🎯",
   "targetMacrosProtein": "Gramos de Proteina",
   "buyTokensCTA": "Comprar más créditos",
   "availableTokens": "Créditos disponibles: ",
   "targetMacrosCarbs": "Gramos de Carbs",
-  "recipieDetails": "Detalles de la receta",
+  "targetMacrosFats": "Gramos de Grasas",
+  "recipieDetails": "Último Paso",
   "recipieDetailsIngredients": "Ingredientes Principales de la receta",
   "recipieDetailsAlergies": "Ingredientes a omitir",
   "generateReciepie": "¡Crear Receta!",
@@ -31,5 +32,5 @@
   "cocktailSecondaryIngredientsHeader": "Ingredientes Secundarios",
   "generateCocktail": "Crear Cocktail!",
   "cocktailTitle": "Cocktail AI",
-  "cocktailSubtitle": "Agita tus papilas gustativas con un toque de innovación: la experiencia definitiva de cócteles con nuestro mixólogo de inteligencia artificial."
+  "cocktailSubtitle": "¿Qué quieres tomar?"
 }
