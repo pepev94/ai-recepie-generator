@@ -46,6 +46,17 @@ const getPromt = (body: BodyGetOpenAiCocktailResult) => {
 };
 //
 
+const getSystemCommand = ({
+  selectedLanguage,
+}: BodyGetOpenAiCocktailResult) => {
+  switch (selectedLanguage) {
+    case LanguagesEnum.es:
+      return "Eres un mixologo, que es un experto haciendo recetas";
+    case LanguagesEnum.en:
+      return "You are a mixology, which is expert creating recipes";
+  }
+};
+
 const handler = async (req: Request): Promise<Response> => {
   const body = (await req.json()) as BodyGetOpenAiCocktailResult;
 
@@ -54,9 +65,15 @@ const handler = async (req: Request): Promise<Response> => {
   console.log(body, prompt);
 
   const payload = {
-    model: "text-davinci-003",
-    prompt,
-    temperature: body.selectedLanguage === LanguagesEnum.es ? 0.85 : 0.5,
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        role: "system",
+        content: getSystemCommand(body),
+      },
+      { role: "user", content: prompt },
+    ],
+    temperature: body.selectedLanguage === LanguagesEnum.es ? 0.85 : 0.3,
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
@@ -67,7 +84,7 @@ const handler = async (req: Request): Promise<Response> => {
 
   const stream = await OpenAIStream(
     payload,
-    "https://api.openai.com/v1/completions"
+    "https://api.openai.com/v1/chat/completions"
   );
   return new Response(stream);
 };

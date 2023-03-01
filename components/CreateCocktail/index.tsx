@@ -142,7 +142,7 @@ const CreateCocktail = () => {
     }
     if (userData?.data.length) {
       await updateUser({
-        availableTokens: (userData.data[0].availableTokens || 10) - 2,
+        availableTokens: (userData.data[0].availableTokens || 10) - 1,
       });
       refetch();
       // TODO: Refactor this
@@ -175,7 +175,7 @@ const CreateCocktail = () => {
         setResult((prev) => prev + chunkValue);
         prompt = prompt + chunkValue;
       }
-      fetchImage(prompt);
+      // fetchImage(prompt);
     }
     // fetchImage();
     setLoading(false);

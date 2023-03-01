@@ -30,8 +30,8 @@ export async function OpenAIStream(payload: any, url: string) {
           }
           try {
             const json = JSON.parse(data);
-            const text = json.choices[0].text;
-            if (counter < 2 && (text.match(/\n/) || []).length) {
+            const text = json.choices[0].delta.content;
+            if (counter < 2 && (text?.match(/\n/) || []).length) {
               return;
             }
             const queue = encoder.encode(text);
