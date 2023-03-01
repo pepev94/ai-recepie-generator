@@ -158,7 +158,7 @@ const CocktailDetails = ({
         <FormattedMessage id="cocktailMainIngredientsHeader" />
       </Typography>
       <MuiChipsInput
-        addOnWhichKey={[" ", "Enter"]}
+        addOnWhichKey={["Tab", "Enter"]}
         clearInputOnBlur
         value={cocktailMainIngredients}
         onChange={(e) => setCocktailMainIngredients(e)}
@@ -170,7 +170,7 @@ const CocktailDetails = ({
         <FormattedMessage id="cocktailSecondaryIngredientsHeader" />
       </Typography>
       <MuiChipsInput
-        addOnWhichKey={[" ", "Enter"]}
+        addOnWhichKey={["Tab", "Enter"]}
         clearInputOnBlur
         value={cocktailSecondaryIngredients}
         onChange={(e) => setCocktailSecondaryIngredients(e)}
