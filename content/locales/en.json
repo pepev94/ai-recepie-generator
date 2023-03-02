@@ -10,7 +10,7 @@
   "targetMacrosCarbs": "Carbs gms",
   "targetMacrosFats": "Fats gms",
   "recipieDetails": "Final Step",
-  "recipieDetailsIngredients": "Type here the main ingredients for your recipe (hit enter to separate theme)",
+  "recipieDetailsIngredients": "Type here the main ingredients for your recipe (hit enter to separate them)",
   "recipieDetailsAlergies": "ingredients to skip",
   "generateReciepie": "Create Recipe!",
   "erase": "Erase",
