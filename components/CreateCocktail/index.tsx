@@ -1,12 +1,11 @@
 import { Alert, Dialog, Snackbar, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "../../models/User";
-import LoginCta from "./loginCta";
 import { LanguagesEnum } from "@/utils/createRecepie";
 import LoadingScreen from "./loadingScreen";
 import { updateUser } from "@/lib/api/user";
@@ -23,6 +22,8 @@ import {
 } from "@/utils/createCocktail";
 import { BodyGetOpenAiCocktailResult } from "@/pages/api/open-ai/cocktail";
 import { AlertColor } from "@mui/material/Alert";
+import LoginCta from "../CreateRecipie/loginCta";
+import { useRouter } from "next/router";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -60,11 +61,45 @@ const fetchUser = (): Promise<{ data: User[] }> =>
   fetch("api/user").then((res) => res.json());
 
 const CreateCocktail = () => {
+  const router = useRouter();
+
   const { data: userData, refetch } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
     initialData: { data: [] },
   });
+
+  const {
+    cocktailType: cocktailTypeQuery,
+    cocktailStyle: cocktailStyleQuery,
+    cocktailMainIngredients: cocktailMainIngredientsQuery,
+    cocktailSecondaryIngredients: cocktailSecondaryIngredientsQuery,
+  } = router.query;
+
+  console.log(
+    cocktailTypeQuery,
+    cocktailStyleQuery,
+    cocktailMainIngredientsQuery,
+    cocktailSecondaryIngredientsQuery
+  );
+
+  useEffect(() => {
+    if (
+      cocktailTypeQuery &&
+      cocktailStyleQuery &&
+      cocktailMainIngredientsQuery &&
+      cocktailSecondaryIngredientsQuery
+    ) {
+      setCocktailType(cocktailTypeQuery as string);
+      setCocktailStyle(cocktailStyleQuery as string);
+      setCocktailMainIngredients([
+        ...(cocktailMainIngredientsQuery as string).split(","),
+      ] as string[]);
+      setCocktailSecondaryIngredients([
+        ...(cocktailSecondaryIngredientsQuery as string).split(","),
+      ] as string[]);
+    }
+  }, [router.query]);
 
   const session = useSession();
 
@@ -82,9 +117,11 @@ const CreateCocktail = () => {
   const [cocktailStyle, setCocktailStyle] = useState(
     StyleOfCocktailButtonsEn[0]?.value
   );
-  const [cocktailMainIngredients, setCocktailMainIngredients] = useState([]);
+  const [cocktailMainIngredients, setCocktailMainIngredients] = useState<
+    string[]
+  >([]);
   const [cocktailSecondaryIngredients, setCocktailSecondaryIngredients] =
-    useState([]);
+    useState<string[]>([]);
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
 
@@ -228,7 +265,9 @@ const CreateCocktail = () => {
           aria-labelledby="modal-sign-in"
           aria-describedby="modal-sign-in"
         >
-          <LoginCta />
+          <LoginCta
+            callbackUrl={`/cocktails?cocktailType=${cocktailType}&cocktailStyle=${cocktailStyle}&cocktailMainIngredients=${cocktailMainIngredients}&cocktailSecondaryIngredients=${cocktailSecondaryIngredients}`}
+          />
         </Dialog>
         <Box>
           <CocktailDetails

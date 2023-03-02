@@ -2,7 +2,7 @@ import { BodyGetOpenAiResult } from "@/pages/api/open-ai/food";
 import { Alert, Dialog, Snackbar, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
@@ -23,6 +23,7 @@ import { getLanguage } from "../CreateCocktail";
 import CountMacros from "./countMacros";
 import RecipieDetails from "./recipieDetails";
 import { AlertColor } from "@mui/material/Alert";
+import { useRouter } from "next/router";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -39,6 +40,8 @@ const fetchUser = (): Promise<{ data: User[] }> =>
   fetch("api/user").then((res) => res.json());
 
 const CreateRecipie = () => {
+  const router = useRouter();
+
   const { data: userData, refetch } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
@@ -47,18 +50,47 @@ const CreateRecipie = () => {
 
   const session = useSession();
 
+  const {
+    foodType: foodTypeQuery,
+    targetProtein: targetProteinQuery,
+    targetCarbs: targetCarbsQuery,
+    primaryIngredient: primaryIngredientQuery,
+    targetFats: targetFatsQuery,
+    personCount: personCountQuery,
+  } = router.query;
+
   const isAuthenticated = session.status === "authenticated";
+
+  useEffect(() => {
+    if (
+      foodTypeQuery &&
+      targetProteinQuery &&
+      targetCarbsQuery &&
+      primaryIngredientQuery &&
+      targetFatsQuery &&
+      personCountQuery
+    ) {
+      setTargetProtein(targetProteinQuery as string);
+      setTargetCarbs(targetCarbsQuery as string);
+      setTargetFats(targetFatsQuery as string);
+      setPrimaryIngredient([
+        ...(primaryIngredientQuery as string).split(","),
+      ] as string[]);
+      setPersonCount(personCountQuery as string);
+      setFoodType(foodTypeQuery as string);
+    }
+  }, [router.query]);
 
   const intl = useIntl();
   const shortLocale = intl.locale;
   const foodTypeButtons = getButtonsLanguage(shortLocale);
 
-  const [foodType, setFoodType] = useState(foodTypeButtons[0].value);
-  const [targetProtein, setTargetProtein] = useState("30");
-  const [targetCarbs, setTargetCarbs] = useState("300");
-  const [targetFats, setTargetFats] = useState("5");
-  const [primaryIngredient, setPrimaryIngredient] = useState([]);
-  const [personCount, setPersonCount] = useState("1");
+  const [foodType, setFoodType] = useState<string>(foodTypeButtons[0].value);
+  const [targetProtein, setTargetProtein] = useState<string>("30");
+  const [targetCarbs, setTargetCarbs] = useState<string>("300");
+  const [targetFats, setTargetFats] = useState<string>("5");
+  const [primaryIngredient, setPrimaryIngredient] = useState<string[]>([]);
+  const [personCount, setPersonCount] = useState<string>("1");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
@@ -196,7 +228,9 @@ const CreateRecipie = () => {
           aria-labelledby="modal-sign-in"
           aria-describedby="modal-sign-in"
         >
-          <LoginCta />
+          <LoginCta
+            callbackUrl={`/?foodType=${foodType}&targetProtein=${targetProtein}&targetCarbs=${targetCarbs}&primaryIngredient=${primaryIngredient}&targetFats=${targetFats}&personCount=${personCount}`}
+          />
         </Dialog>
         <Box>
           <FoodType
@@ -206,6 +240,9 @@ const CreateRecipie = () => {
           />
 
           <CountMacros
+            targetFats={targetFats}
+            targetProteins={targetProtein}
+            targetCarbs={targetCarbs}
             setTargetFats={setTargetFats}
             setTargetProtein={setTargetProtein}
             setTargetCarbs={setTargetCarbs}
@@ -214,6 +251,7 @@ const CreateRecipie = () => {
             setPrimaryIngredient={setPrimaryIngredient}
             primaryIngredient={primaryIngredient}
             setPersonCount={setPersonCount}
+            personCount={personCount}
           />
           <LoadingButton
             sx={{ mt: 5 }}

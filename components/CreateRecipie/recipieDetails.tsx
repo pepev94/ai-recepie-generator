@@ -6,12 +6,14 @@ type Props = {
   setPrimaryIngredient: any;
   primaryIngredient: string[];
   setPersonCount: any;
+  personCount: string;
 };
 
 const RecipieDetails = ({
   setPrimaryIngredient,
   primaryIngredient,
   setPersonCount,
+  personCount,
 }: Props) => {
   return (
     <Box
@@ -43,7 +45,9 @@ const RecipieDetails = ({
         <FormattedMessage id="personCount" />
       </Typography>
       <Slider
-        onChange={(e) => setPersonCount(e)}
+        value={parseFloat(personCount)}
+        //@ts-ignore
+        onChange={(e) => setPersonCount(e.target.value)}
         defaultValue={1}
         valueLabelDisplay="on"
         step={1}
