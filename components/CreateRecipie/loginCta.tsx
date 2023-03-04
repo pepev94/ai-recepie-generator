@@ -7,7 +7,11 @@ const CardWithGradient = styled(Card)(({ theme }) => ({
   background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
 }));
 
-const LoginCta = () => {
+type Props = {
+  callbackUrl: string;
+};
+
+const LoginCta = ({ callbackUrl }: Props) => {
   return (
     <CardWithGradient
       elevation={12}
@@ -37,7 +41,7 @@ const LoginCta = () => {
         fullWidth
         sx={{ mt: 2, color: "black", backgroundColor: "white" }}
         variant="contained"
-        onClick={() => signIn()}
+        onClick={() => signIn(undefined, { callbackUrl })}
       >
         <FormattedMessage id="signIn" />
       </Button>

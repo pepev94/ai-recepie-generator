@@ -3,12 +3,18 @@ import { Box } from "@mui/system";
 import { FormattedMessage } from "react-intl";
 
 type Props = {
+  targetCarbs: string;
+  targetProteins: string;
+  targetFats: string;
   setTargetProtein: any;
   setTargetCarbs: any;
   setTargetFats: any;
 };
 
 const CountMacros = ({
+  targetFats,
+  targetProteins,
+  targetCarbs,
   setTargetFats,
   setTargetProtein,
   setTargetCarbs,
@@ -32,7 +38,9 @@ const CountMacros = ({
           <FormattedMessage id="targetMacrosProtein" />
         </Typography>
         <Slider
-          onChange={(e) => setTargetProtein(e)}
+          value={parseFloat(targetProteins)}
+          //@ts-ignore
+          onChange={(e) => setTargetProtein(e.target.value)}
           defaultValue={30}
           valueLabelDisplay="on"
           step={10}
@@ -44,7 +52,9 @@ const CountMacros = ({
           <FormattedMessage id="targetMacrosCarbs" />
         </Typography>
         <Slider
-          onChange={(e) => setTargetCarbs(e)}
+          value={parseFloat(targetCarbs)}
+          //@ts-ignore
+          onChange={(e) => setTargetCarbs(e.target.value)}
           defaultValue={300}
           valueLabelDisplay="on"
           step={100}
@@ -56,7 +66,9 @@ const CountMacros = ({
           <FormattedMessage id="targetMacrosFats" />
         </Typography>
         <Slider
-          onChange={(e) => setTargetFats(e)}
+          value={parseFloat(targetFats)}
+          //@ts-ignore
+          onChange={(e) => setTargetFats(e.target.value)}
           defaultValue={10}
           valueLabelDisplay="on"
           step={1}

@@ -1,17 +1,18 @@
-import { Typography, Box, Slider } from "@mui/material";
+import { Typography, Box, Slider, TextField } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-import { MuiChipsInput } from "mui-chips-input";
 
 type Props = {
   setPrimaryIngredient: any;
-  primaryIngredient: string[];
+  primaryIngredient: string;
   setPersonCount: any;
+  personCount: string;
 };
 
 const RecipieDetails = ({
   setPrimaryIngredient,
   primaryIngredient,
   setPersonCount,
+  personCount,
 }: Props) => {
   return (
     <Box
@@ -32,18 +33,18 @@ const RecipieDetails = ({
         <FormattedMessage id="recipieDetailsIngredients" />
       </Typography>
 
-      <MuiChipsInput
-        addOnWhichKey={[" ", "Enter"]}
-        clearInputOnBlur
+      <TextField
         value={primaryIngredient}
-        onChange={(e) => setPrimaryIngredient(e)}
+        onChange={(e) => setPrimaryIngredient(e.target.value)}
       />
 
       <Typography>
         <FormattedMessage id="personCount" />
       </Typography>
       <Slider
-        onChange={(e) => setPersonCount(e)}
+        value={parseFloat(personCount)}
+        //@ts-ignore
+        onChange={(e) => setPersonCount(e.target.value)}
         defaultValue={1}
         valueLabelDisplay="on"
         step={1}

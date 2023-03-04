@@ -1,8 +1,17 @@
 import { BodyGetOpenAiResult } from "@/pages/api/open-ai/food";
-import { Alert, Dialog, Snackbar, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Dialog,
+  FormControlLabel,
+  FormGroup,
+  Snackbar,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
@@ -23,6 +32,7 @@ import { getLanguage } from "../CreateCocktail";
 import CountMacros from "./countMacros";
 import RecipieDetails from "./recipieDetails";
 import { AlertColor } from "@mui/material/Alert";
+import { useRouter } from "next/router";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -39,6 +49,8 @@ const fetchUser = (): Promise<{ data: User[] }> =>
   fetch("api/user").then((res) => res.json());
 
 const CreateRecipie = () => {
+  const router = useRouter();
+
   const { data: userData, refetch } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
@@ -47,18 +59,50 @@ const CreateRecipie = () => {
 
   const session = useSession();
 
+  const {
+    foodType: foodTypeQuery,
+    targetProtein: targetProteinQuery,
+    targetCarbs: targetCarbsQuery,
+    primaryIngredient: primaryIngredientQuery,
+    targetFats: targetFatsQuery,
+    personCount: personCountQuery,
+    countMacros: countMacrosQuery,
+  } = router.query;
+
   const isAuthenticated = session.status === "authenticated";
+
+  useEffect(() => {
+    if (
+      foodTypeQuery &&
+      targetProteinQuery &&
+      targetCarbsQuery &&
+      primaryIngredientQuery &&
+      targetFatsQuery &&
+      countMacrosQuery
+    ) {
+      setCountMacros(countMacrosQuery === "true" ? true : false);
+      setTargetProtein(targetProteinQuery as string);
+      setTargetCarbs(targetCarbsQuery as string);
+      setTargetFats(targetFatsQuery as string);
+      setPrimaryIngredient(primaryIngredientQuery as string);
+      setPersonCount(personCountQuery as string);
+      setFoodType(foodTypeQuery as string);
+    }
+  }, [router.query]);
 
   const intl = useIntl();
   const shortLocale = intl.locale;
   const foodTypeButtons = getButtonsLanguage(shortLocale);
 
-  const [foodType, setFoodType] = useState(foodTypeButtons[0].value);
-  const [targetProtein, setTargetProtein] = useState("30");
-  const [targetCarbs, setTargetCarbs] = useState("300");
-  const [targetFats, setTargetFats] = useState("5");
-  const [primaryIngredient, setPrimaryIngredient] = useState([]);
-  const [personCount, setPersonCount] = useState("1");
+  const myRef = useRef(null);
+
+  const [foodType, setFoodType] = useState<string>(foodTypeButtons[0].value);
+  const [countMacros, setCountMacros] = useState(false);
+  const [targetProtein, setTargetProtein] = useState<string>("30");
+  const [targetCarbs, setTargetCarbs] = useState<string>("300");
+  const [targetFats, setTargetFats] = useState<string>("5");
+  const [primaryIngredient, setPrimaryIngredient] = useState<string>("");
+  const [personCount, setPersonCount] = useState<string>("1");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
@@ -114,10 +158,12 @@ const CreateRecipie = () => {
     }
     if (userData?.data.length) {
       await updateUser({
-        availableTokens: (userData.data[0].availableTokens || 10) - 2,
+        availableTokens: (userData.data[0].availableTokens || 10) - 1,
       });
       refetch();
       // TODO: Refactor this
+      //@ts-ignore
+      myRef.current.scrollIntoView();
       const response = await fetch("/api/open-ai/food", {
         method: "POST",
         headers: {
@@ -147,7 +193,7 @@ const CreateRecipie = () => {
         setResult((prev) => prev + chunkValue);
         prompt = prompt + chunkValue;
       }
-      fetchImage(prompt);
+      // fetchImage(prompt);
     }
     // fetchImage();
     setLoading(false);
@@ -196,7 +242,9 @@ const CreateRecipie = () => {
           aria-labelledby="modal-sign-in"
           aria-describedby="modal-sign-in"
         >
-          <LoginCta />
+          <LoginCta
+            callbackUrl={`/?foodType=${foodType}&countMacros=${countMacros}&targetProtein=${targetProtein}&targetCarbs=${targetCarbs}&primaryIngredient=${primaryIngredient}&targetFats=${targetFats}&personCount=${personCount}`}
+          />
         </Dialog>
         <Box>
           <FoodType
@@ -205,15 +253,42 @@ const CreateRecipie = () => {
             foodTypeButtons={foodTypeButtons}
           />
 
-          <CountMacros
-            setTargetFats={setTargetFats}
-            setTargetProtein={setTargetProtein}
-            setTargetCarbs={setTargetCarbs}
-          />
+          <FormGroup sx={{ my: 7 }}>
+            <FormControlLabel
+              sx={{
+                display: "flex",
+                flexDirection: "column-reverse",
+              }}
+              control={
+                <Switch
+                  checked={countMacros}
+                  onChange={(e) => setCountMacros(e.target.checked)}
+                  defaultChecked
+                />
+              }
+              label={
+                <Typography variant="h5" sx={{ mt: 4, fontWeight: 700 }}>
+                  <FormattedMessage id="trackMacros" />
+                </Typography>
+              }
+            />
+          </FormGroup>
+          {countMacros && (
+            <CountMacros
+              targetFats={targetFats}
+              targetProteins={targetProtein}
+              targetCarbs={targetCarbs}
+              setTargetFats={setTargetFats}
+              setTargetProtein={setTargetProtein}
+              setTargetCarbs={setTargetCarbs}
+            />
+          )}
+
           <RecipieDetails
             setPrimaryIngredient={setPrimaryIngredient}
             primaryIngredient={primaryIngredient}
             setPersonCount={setPersonCount}
+            personCount={personCount}
           />
           <LoadingButton
             sx={{ mt: 5 }}
@@ -237,19 +312,18 @@ const CreateRecipie = () => {
             <FormattedMessage id="generateReciepie" />
           </LoadingButton>
           <ExtraActions result={result} setResult={setResult} />
-          <TextField
-            sx={{ width: "100%", mt: 2 }}
-            id="standard-multiline-static"
-            label="Recipe"
-            value={result}
-            multiline
-            rows={10}
-            defaultValue="Default Value"
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
+          <Typography
+            ref={myRef}
+            sx={{
+              whiteSpace: "pre-line",
+              textAlign: "left",
+              mt: 2,
+              maxWidth: "600px",
             }}
-          />
+          >
+            {result}
+          </Typography>
+
           {image !== "" && (
             <Box
               component="img"
