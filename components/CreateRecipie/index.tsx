@@ -312,20 +312,13 @@ const CreateRecipie = () => {
             <FormattedMessage id="generateReciepie" />
           </LoadingButton>
           <ExtraActions result={result} setResult={setResult} />
-          <TextField
-            sx={{ width: "100%", mt: 2 }}
-            id="standard-multiline-static"
+          <Typography
             ref={myRef}
-            label="Recipe"
-            value={result}
-            multiline
-            rows={10}
-            defaultValue="Default Value"
-            variant="outlined"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+            sx={{ whiteSpace: "pre-line", textAlign: "left", mt: 2 }}
+          >
+            {result}
+          </Typography>
+
           {image !== "" && (
             <Box
               component="img"
