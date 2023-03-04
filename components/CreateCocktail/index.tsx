@@ -309,7 +309,12 @@ const CreateCocktail = () => {
           <ExtraActions result={result} setResult={setResult} />
           <Typography
             ref={myRef}
-            sx={{ whiteSpace: "pre-line", textAlign: "left", mt: 2 }}
+            sx={{
+              whiteSpace: "pre-line",
+              textAlign: "left",
+              mt: 2,
+              maxWidth: "600px",
+            }}
           >
             {result}
           </Typography>
