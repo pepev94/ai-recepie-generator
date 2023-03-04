@@ -3,7 +3,7 @@ import { FormattedMessage } from "react-intl";
 
 type Props = {
   setPrimaryIngredient: any;
-  primaryIngredient: string[];
+  primaryIngredient: string;
   setPersonCount: any;
   personCount: string;
 };

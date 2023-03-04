@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
@@ -84,9 +84,7 @@ const CreateRecipie = () => {
       setTargetProtein(targetProteinQuery as string);
       setTargetCarbs(targetCarbsQuery as string);
       setTargetFats(targetFatsQuery as string);
-      setPrimaryIngredient([
-        ...(primaryIngredientQuery as string).split(","),
-      ] as string[]);
+      setPrimaryIngredient(primaryIngredientQuery as string);
       setPersonCount(personCountQuery as string);
       setFoodType(foodTypeQuery as string);
     }
@@ -96,12 +94,14 @@ const CreateRecipie = () => {
   const shortLocale = intl.locale;
   const foodTypeButtons = getButtonsLanguage(shortLocale);
 
+  const myRef = useRef(null);
+
   const [foodType, setFoodType] = useState<string>(foodTypeButtons[0].value);
   const [countMacros, setCountMacros] = useState(false);
   const [targetProtein, setTargetProtein] = useState<string>("30");
   const [targetCarbs, setTargetCarbs] = useState<string>("300");
   const [targetFats, setTargetFats] = useState<string>("5");
-  const [primaryIngredient, setPrimaryIngredient] = useState<string[]>([]);
+  const [primaryIngredient, setPrimaryIngredient] = useState<string>("");
   const [personCount, setPersonCount] = useState<string>("1");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
@@ -162,6 +162,8 @@ const CreateRecipie = () => {
       });
       refetch();
       // TODO: Refactor this
+      //@ts-ignore
+      myRef.current.scrollIntoView();
       const response = await fetch("/api/open-ai/food", {
         method: "POST",
         headers: {
@@ -313,6 +315,7 @@ const CreateRecipie = () => {
           <TextField
             sx={{ width: "100%", mt: 2 }}
             id="standard-multiline-static"
+            ref={myRef}
             label="Recipe"
             value={result}
             multiline

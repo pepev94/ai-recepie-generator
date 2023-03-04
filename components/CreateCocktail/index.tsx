@@ -1,7 +1,7 @@
 import { Alert, Dialog, Snackbar, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
@@ -92,12 +92,10 @@ const CreateCocktail = () => {
     ) {
       setCocktailType(cocktailTypeQuery as string);
       setCocktailStyle(cocktailStyleQuery as string);
-      setCocktailMainIngredients([
-        ...(cocktailMainIngredientsQuery as string).split(","),
-      ] as string[]);
-      setCocktailSecondaryIngredients([
-        ...(cocktailSecondaryIngredientsQuery as string).split(","),
-      ] as string[]);
+      setCocktailMainIngredients(cocktailMainIngredientsQuery as string);
+      setCocktailSecondaryIngredients(
+        cocktailSecondaryIngredientsQuery as string
+      );
     }
   }, [router.query]);
 
@@ -106,6 +104,8 @@ const CreateCocktail = () => {
   const isAuthenticated = session.status === "authenticated";
 
   const intl = useIntl();
+
+  const myRef = useRef(null);
 
   const shortLocale = intl.locale;
   const cocktailTypeButtons = getButtonsLanguage(shortLocale);
@@ -117,11 +117,10 @@ const CreateCocktail = () => {
   const [cocktailStyle, setCocktailStyle] = useState(
     StyleOfCocktailButtonsEn[0]?.value
   );
-  const [cocktailMainIngredients, setCocktailMainIngredients] = useState<
-    string[]
-  >([]);
+  const [cocktailMainIngredients, setCocktailMainIngredients] =
+    useState<string>("");
   const [cocktailSecondaryIngredients, setCocktailSecondaryIngredients] =
-    useState<string[]>([]);
+    useState<string>("");
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
 
@@ -183,6 +182,8 @@ const CreateCocktail = () => {
       });
       refetch();
       // TODO: Refactor this
+      //@ts-ignore
+      myRef.current.scrollIntoView();
       const response = await fetch("/api/open-ai/cocktail", {
         method: "POST",
         headers: {
@@ -311,6 +312,7 @@ const CreateCocktail = () => {
             sx={{ width: "100%", mt: 2 }}
             id="standard-multiline-static"
             label="Cocktail"
+            ref={myRef}
             value={result}
             multiline
             rows={10}

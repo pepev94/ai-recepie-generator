@@ -6,9 +6,9 @@ type Props = {
   setCocktailType: any;
   cocktailStyle: string;
   setCocktailStyle: any;
-  cocktailMainIngredients: string[];
+  cocktailMainIngredients: string;
   setCocktailMainIngredients: any;
-  cocktailSecondaryIngredients: string[];
+  cocktailSecondaryIngredients: string;
   setCocktailSecondaryIngredients: any;
   cocktailTypeButtons: {
     icon: string;
