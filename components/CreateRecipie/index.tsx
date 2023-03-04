@@ -1,5 +1,14 @@
 import { BodyGetOpenAiResult } from "@/pages/api/open-ai/food";
-import { Alert, Dialog, Snackbar, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Dialog,
+  FormControlLabel,
+  FormGroup,
+  Snackbar,
+  Switch,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useEffect, useState } from "react";
@@ -57,6 +66,7 @@ const CreateRecipie = () => {
     primaryIngredient: primaryIngredientQuery,
     targetFats: targetFatsQuery,
     personCount: personCountQuery,
+    countMacros: countMacrosQuery,
   } = router.query;
 
   const isAuthenticated = session.status === "authenticated";
@@ -68,8 +78,9 @@ const CreateRecipie = () => {
       targetCarbsQuery &&
       primaryIngredientQuery &&
       targetFatsQuery &&
-      personCountQuery
+      countMacrosQuery
     ) {
+      setCountMacros(countMacrosQuery === "true" ? true : false);
       setTargetProtein(targetProteinQuery as string);
       setTargetCarbs(targetCarbsQuery as string);
       setTargetFats(targetFatsQuery as string);
@@ -86,6 +97,7 @@ const CreateRecipie = () => {
   const foodTypeButtons = getButtonsLanguage(shortLocale);
 
   const [foodType, setFoodType] = useState<string>(foodTypeButtons[0].value);
+  const [countMacros, setCountMacros] = useState(false);
   const [targetProtein, setTargetProtein] = useState<string>("30");
   const [targetCarbs, setTargetCarbs] = useState<string>("300");
   const [targetFats, setTargetFats] = useState<string>("5");
@@ -229,7 +241,7 @@ const CreateRecipie = () => {
           aria-describedby="modal-sign-in"
         >
           <LoginCta
-            callbackUrl={`/?foodType=${foodType}&targetProtein=${targetProtein}&targetCarbs=${targetCarbs}&primaryIngredient=${primaryIngredient}&targetFats=${targetFats}&personCount=${personCount}`}
+            callbackUrl={`/?foodType=${foodType}&countMacros=${countMacros}&targetProtein=${targetProtein}&targetCarbs=${targetCarbs}&primaryIngredient=${primaryIngredient}&targetFats=${targetFats}&personCount=${personCount}`}
           />
         </Dialog>
         <Box>
@@ -239,14 +251,37 @@ const CreateRecipie = () => {
             foodTypeButtons={foodTypeButtons}
           />
 
-          <CountMacros
-            targetFats={targetFats}
-            targetProteins={targetProtein}
-            targetCarbs={targetCarbs}
-            setTargetFats={setTargetFats}
-            setTargetProtein={setTargetProtein}
-            setTargetCarbs={setTargetCarbs}
-          />
+          <FormGroup sx={{ my: 7 }}>
+            <FormControlLabel
+              sx={{
+                display: "flex",
+                flexDirection: "column-reverse",
+              }}
+              control={
+                <Switch
+                  checked={countMacros}
+                  onChange={(e) => setCountMacros(e.target.checked)}
+                  defaultChecked
+                />
+              }
+              label={
+                <Typography variant="h5" sx={{ mt: 4, fontWeight: 700 }}>
+                  <FormattedMessage id="trackMacros" />
+                </Typography>
+              }
+            />
+          </FormGroup>
+          {countMacros && (
+            <CountMacros
+              targetFats={targetFats}
+              targetProteins={targetProtein}
+              targetCarbs={targetCarbs}
+              setTargetFats={setTargetFats}
+              setTargetProtein={setTargetProtein}
+              setTargetCarbs={setTargetCarbs}
+            />
+          )}
+
           <RecipieDetails
             setPrimaryIngredient={setPrimaryIngredient}
             primaryIngredient={primaryIngredient}
