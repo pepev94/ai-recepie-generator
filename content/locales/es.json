@@ -13,11 +13,11 @@
   "targetMacrosCarbs": "Gramos de Carbs",
   "targetMacrosFats": "Gramos de Grasas",
   "recipieDetails": "Último Paso",
-  "recipieDetailsIngredients": "Ingredientes Principales de la receta",
+  "recipieDetailsIngredients": "Ingredientes principales de la receta",
   "recipieDetailsAlergies": "Ingredientes a omitir",
-  "generateReciepie": "¡Crear Receta!",
+  "generateReciepie": "¡Crear Receta! 👨‍🍳",
   "erase": "Borrar",
-  "personCount": "Numero de personas",
+  "personCount": "Número de personas",
   "backToHome": "Ir a inicio",
   "addedCredits": "Créditos Agregados",
   "shareCTA": "\n\n ¿Quieres crear tus propias recetas con AI? \n  https://aifoodie.co",
@@ -31,7 +31,7 @@
   "cocktailStyleHeader": "Estilo de Cocktail",
   "cocktailMainIngredientsHeader": "Ingrediente principal (Licor)",
   "cocktailSecondaryIngredientsHeader": "Ingredientes Secundarios",
-  "generateCocktail": "Crear Cocktail!",
+  "generateCocktail": "Crear Cocktail! 👨‍🍳",
   "cocktailTitle": "Cocktail AI",
   "cocktailSubtitle": "¿Qué quieres tomar?"
 }

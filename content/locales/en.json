@@ -13,7 +13,7 @@
   "recipieDetails": "Final Step",
   "recipieDetailsIngredients": "Type here the main ingredients for your recipe (hit enter to separate them)",
   "recipieDetailsAlergies": "ingredients to skip",
-  "generateReciepie": "Create Recipe!",
+  "generateReciepie": "Create Recipe! 👨‍🍳",
   "erase": "Erase",
   "personCount": "Number of servings",
   "buyTokensCTA": "Buy more Credits",
@@ -31,7 +31,7 @@
   "cocktailStyleHeader": "Cocktail Style",
   "cocktailMainIngredientsHeader": "Main Ingredients (Liquor)",
   "cocktailSecondaryIngredientsHeader": "Secondary Ingredientes",
-  "generateCocktail": "Create Cocktail!",
+  "generateCocktail": "Create Cocktail! 👨‍🍳",
   "cocktailTitle": "Create Your own cocktails powered by AI in 3 simple steps",
   "cocktailSubtitle": "What do you want to drink?"
 }
