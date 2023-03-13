@@ -33,5 +33,6 @@
   "cocktailSecondaryIngredientsHeader": "Ingredientes Secundarios",
   "generateCocktail": "Crear Cocktail! 👨‍🍳",
   "cocktailTitle": "Cocktail AI",
-  "cocktailSubtitle": "¿Qué quieres tomar?"
+  "cocktailSubtitle": "¿Qué quieres tomar?",
+  "ranOutOfCredits": "Ups, ya no tienes más creditos"
 }

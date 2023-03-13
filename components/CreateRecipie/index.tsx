@@ -33,6 +33,7 @@ import CountMacros from "./countMacros";
 import RecipieDetails from "./recipieDetails";
 import { AlertColor } from "@mui/material/Alert";
 import { useRouter } from "next/router";
+import BuyMoreTokensModal from "../shared/BuyTokensModal";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -107,6 +108,8 @@ const CreateRecipie = () => {
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
 
+  const [showBuyMoreCta, setShowBuyMoreCta] = useState(false);
+
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState(
@@ -132,7 +135,7 @@ const CreateRecipie = () => {
   const fetchImage = async (prompt: string) => {
     setImage("");
     if (userData?.data[0].availableTokens === 0) {
-      alert("Favor de comprar");
+      setShowBuyMoreCta(true);
       return;
     }
     if (userData?.data.length) {
@@ -153,7 +156,7 @@ const CreateRecipie = () => {
     setResult("");
     setImage("");
     if (userData?.data[0].availableTokens === 0) {
-      alert("Favro de comprar");
+      setShowBuyMoreCta(true);
       return;
     }
     if (userData?.data.length) {
@@ -235,6 +238,15 @@ const CreateRecipie = () => {
           title={<FormattedMessage id="title" defaultMessage="Recipies AI" />}
           subTitle={<FormattedMessage id="subtitle" defaultMessage=" AI" />}
         />
+
+        <Dialog
+          open={showBuyMoreCta}
+          onClose={() => setShowBuyMoreCta(false)}
+          aria-labelledby="modal-buy-credits"
+          aria-describedby="modal-bur-credits"
+        >
+          <BuyMoreTokensModal />
+        </Dialog>
 
         <Dialog
           open={openAuthModal}

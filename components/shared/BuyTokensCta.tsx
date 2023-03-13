@@ -2,7 +2,7 @@ import getStripe from "@/utils/get-stripe";
 import { Button } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
-const redirectToStripe = async () => {
+export const redirectToStripe = async () => {
   const response = await fetch("/api/stripe/checkout_sessions");
   if (response.status !== 200) {
     console.error(response.status);
