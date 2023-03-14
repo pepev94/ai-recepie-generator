@@ -4,11 +4,13 @@ import {
   Dialog,
   FormControlLabel,
   FormGroup,
+  IconButton,
   Snackbar,
   Switch,
-  TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useEffect, useRef, useState } from "react";
@@ -266,6 +268,15 @@ const CreateRecipie = () => {
           />
 
           <FormGroup sx={{ my: 7 }}>
+            <Typography variant="h5" sx={{ mt: 4, fontWeight: 700 }}>
+              <FormattedMessage id="trackMacros" />
+              <Tooltip title={<FormattedMessage id="targetMacrosTooltip" />}>
+                <IconButton>
+                  <HelpOutlineIcon />
+                </IconButton>
+              </Tooltip>
+            </Typography>
+
             <FormControlLabel
               sx={{
                 display: "flex",
@@ -278,11 +289,7 @@ const CreateRecipie = () => {
                   defaultChecked
                 />
               }
-              label={
-                <Typography variant="h5" sx={{ mt: 4, fontWeight: 700 }}>
-                  <FormattedMessage id="trackMacros" />
-                </Typography>
-              }
+              label=""
             />
           </FormGroup>
           {countMacros && (
