@@ -24,6 +24,7 @@ import { BodyGetOpenAiCocktailResult } from "@/pages/api/open-ai/cocktail";
 import { AlertColor } from "@mui/material/Alert";
 import LoginCta from "../CreateRecipie/loginCta";
 import { useRouter } from "next/router";
+import BuyMoreTokensModal from "../shared/BuyTokensModal";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -123,6 +124,7 @@ const CreateCocktail = () => {
     useState<string>("");
 
   const [openAuthModal, setOpenAuthModal] = useState(false);
+  const [showBuyMoreCta, setShowBuyMoreCta] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
@@ -156,7 +158,7 @@ const CreateCocktail = () => {
   const fetchImage = async (prompt: string) => {
     setImage("");
     if (userData?.data[0].availableTokens === 0) {
-      alert("Favor de comprar");
+      setShowBuyMoreCta(true);
       return;
     }
     if (userData?.data.length) {
@@ -173,7 +175,7 @@ const CreateCocktail = () => {
     }
     if (!validateInputs(body)) return;
     if (userData?.data[0].availableTokens === 0) {
-      alert("Favro de comprar");
+      setShowBuyMoreCta(true);
       return;
     }
     if (userData?.data.length) {
@@ -259,6 +261,15 @@ const CreateCocktail = () => {
             <FormattedMessage id="cocktailSubtitle" defaultMessage="d AI" />
           }
         />
+
+        <Dialog
+          open={showBuyMoreCta}
+          onClose={() => setShowBuyMoreCta(false)}
+          aria-labelledby="modal-buy-credits"
+          aria-describedby="modal-bur-credits"
+        >
+          <BuyMoreTokensModal />
+        </Dialog>
 
         <Dialog
           open={openAuthModal}

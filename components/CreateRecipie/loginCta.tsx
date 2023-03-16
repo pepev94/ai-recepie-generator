@@ -1,11 +1,7 @@
-import { Button, Card, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Button, Typography } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import { signIn } from "next-auth/react";
-
-const CardWithGradient = styled(Card)(({ theme }) => ({
-  background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-}));
+import InfoModalCard from "../shared/InfoModalCard";
 
 type Props = {
   callbackUrl: string;
@@ -13,18 +9,7 @@ type Props = {
 
 const LoginCta = ({ callbackUrl }: Props) => {
   return (
-    <CardWithGradient
-      elevation={12}
-      sx={{
-        py: 7,
-        px: 5,
-        width: "100%",
-        alignItems: "center",
-        display: "flex",
-        flexDirection: "column",
-        textAlign: "center",
-      }}
-    >
+    <InfoModalCard>
       <Typography color="white" sx={{ mt: 2 }} variant="h4" component="h1">
         <FormattedMessage id="title" defaultMessage="Recipies AI" />
       </Typography>
@@ -45,7 +30,7 @@ const LoginCta = ({ callbackUrl }: Props) => {
       >
         <FormattedMessage id="signIn" />
       </Button>
-    </CardWithGradient>
+    </InfoModalCard>
   );
 };
 

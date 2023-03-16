@@ -4,11 +4,13 @@ import {
   Dialog,
   FormControlLabel,
   FormGroup,
+  IconButton,
   Snackbar,
   Switch,
-  TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useEffect, useRef, useState } from "react";
@@ -33,6 +35,7 @@ import CountMacros from "./countMacros";
 import RecipieDetails from "./recipieDetails";
 import { AlertColor } from "@mui/material/Alert";
 import { useRouter } from "next/router";
+import BuyMoreTokensModal from "../shared/BuyTokensModal";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -107,6 +110,8 @@ const CreateRecipie = () => {
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
 
+  const [showBuyMoreCta, setShowBuyMoreCta] = useState(false);
+
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState(
@@ -132,7 +137,7 @@ const CreateRecipie = () => {
   const fetchImage = async (prompt: string) => {
     setImage("");
     if (userData?.data[0].availableTokens === 0) {
-      alert("Favor de comprar");
+      setShowBuyMoreCta(true);
       return;
     }
     if (userData?.data.length) {
@@ -153,7 +158,7 @@ const CreateRecipie = () => {
     setResult("");
     setImage("");
     if (userData?.data[0].availableTokens === 0) {
-      alert("Favro de comprar");
+      setShowBuyMoreCta(true);
       return;
     }
     if (userData?.data.length) {
@@ -237,6 +242,15 @@ const CreateRecipie = () => {
         />
 
         <Dialog
+          open={showBuyMoreCta}
+          onClose={() => setShowBuyMoreCta(false)}
+          aria-labelledby="modal-buy-credits"
+          aria-describedby="modal-bur-credits"
+        >
+          <BuyMoreTokensModal />
+        </Dialog>
+
+        <Dialog
           open={openAuthModal}
           onClose={() => setOpenAuthModal(false)}
           aria-labelledby="modal-sign-in"
@@ -254,6 +268,15 @@ const CreateRecipie = () => {
           />
 
           <FormGroup sx={{ my: 7 }}>
+            <Typography variant="h5" sx={{ mt: 4, fontWeight: 700 }}>
+              <FormattedMessage id="trackMacros" />
+              <Tooltip title={<FormattedMessage id="targetMacrosTooltip" />}>
+                <IconButton>
+                  <HelpOutlineIcon />
+                </IconButton>
+              </Tooltip>
+            </Typography>
+
             <FormControlLabel
               sx={{
                 display: "flex",
@@ -266,11 +289,7 @@ const CreateRecipie = () => {
                   defaultChecked
                 />
               }
-              label={
-                <Typography variant="h5" sx={{ mt: 4, fontWeight: 700 }}>
-                  <FormattedMessage id="trackMacros" />
-                </Typography>
-              }
+              label=""
             />
           </FormGroup>
           {countMacros && (
