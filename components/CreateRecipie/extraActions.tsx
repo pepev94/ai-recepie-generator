@@ -7,9 +7,10 @@ import ShareIcon from "@mui/icons-material/Share";
 type Props = {
   result: string;
   setResult: any;
+  showMessage: any;
 };
 
-const ExtraActions = ({ result, setResult }: Props) => {
+const ExtraActions = ({ result, setResult, showMessage }: Props) => {
   return (
     <Box sx={{ display: "flex", my: 2, width: "100%", gap: 2 }}>
       <Button
@@ -24,15 +25,16 @@ const ExtraActions = ({ result, setResult }: Props) => {
       <Button
         fullWidth
         color="secondary"
-        onClick={() =>
+        onClick={() => {
+          showMessage();
           navigator.clipboard.writeText(
             `${result} ${(<FormattedMessage id="shareCTA" />)}`
-          )
-        }
+          );
+        }}
         variant="outlined"
         startIcon={<ShareIcon />}
       >
-        Share
+        <FormattedMessage id="share" />
       </Button>
     </Box>
   );
