@@ -1,4 +1,7 @@
-import { BodyGetOpenAiResult } from "@/pages/api/open-ai/food";
+import {
+  BodyGetOpenAiResult,
+  SEPARATION_CHARACTERS,
+} from "@/pages/api/open-ai/food";
 import {
   Alert,
   Dialog,
@@ -36,6 +39,7 @@ import RecipieDetails from "./recipieDetails";
 import { AlertColor } from "@mui/material/Alert";
 import { useRouter } from "next/router";
 import BuyMoreTokensModal from "../shared/BuyTokensModal";
+import { createRecepie } from "@/lib/api/recipe";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -45,6 +49,19 @@ const getButtonsLanguage = (shortLocale: string) => {
       return TypeOfFoodButtonsEn;
     default:
       return TypeOfFoodButtonsEs;
+  }
+};
+
+const saveRecepie = (result: string, shortLocale: string) => {
+  const separatedRecepie = result.split(SEPARATION_CHARACTERS);
+  if (separatedRecepie[0] && separatedRecepie[1] && separatedRecepie[2]) {
+    createRecepie({
+      title: separatedRecepie[0],
+      ingredients: separatedRecepie[1],
+      steps: separatedRecepie[2],
+      type: "food",
+      language: shortLocale === "es" ? "es" : "en",
+    });
   }
 };
 
@@ -126,6 +143,12 @@ const CreateRecipie = () => {
     setOpenSnackBar(true);
   };
 
+  const showMessage = (message: string) => {
+    setSnackbarSeverity("info" as AlertColor);
+    setSnackbarMessage(message);
+    setOpenSnackBar(true);
+  };
+
   const validateInputs = (body: BodyGetOpenAiResult): boolean => {
     if (body.primaryIngredient.length === 0) {
       showError("Select 1 ingredient");
@@ -199,10 +222,16 @@ const CreateRecipie = () => {
         prompt = prompt + chunkValue;
       }
       // fetchImage(prompt);
+      saveRecepie(prompt, shortLocale);
     }
     // fetchImage();
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (!loading && result !== "") {
+    }
+  }, [loading]);
 
   if (session.status === "loading") return <LoadingScreen />;
 
@@ -330,7 +359,11 @@ const CreateRecipie = () => {
           >
             <FormattedMessage id="generateReciepie" />
           </LoadingButton>
-          <ExtraActions result={result} setResult={setResult} />
+          <ExtraActions
+            showMessage={() => showMessage("Copied")}
+            result={result}
+            setResult={setResult}
+          />
           <Typography
             ref={myRef}
             sx={{

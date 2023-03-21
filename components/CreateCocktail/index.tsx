@@ -25,6 +25,8 @@ import { AlertColor } from "@mui/material/Alert";
 import LoginCta from "../CreateRecipie/loginCta";
 import { useRouter } from "next/router";
 import BuyMoreTokensModal from "../shared/BuyTokensModal";
+import { SEPARATION_CHARACTERS } from "@/pages/api/open-ai/food";
+import { createRecepie } from "@/lib/api/recipe";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -58,6 +60,20 @@ export const getLanguage = (shortLocale: string) => {
       return LanguagesEnum.es;
   }
 };
+
+const saveCocktail = (result: string, shortLocale: string) => {
+  const separatedRecepie = result.split(SEPARATION_CHARACTERS);
+  if (separatedRecepie[0] && separatedRecepie[1] && separatedRecepie[2]) {
+    createRecepie({
+      title: separatedRecepie[0],
+      ingredients: separatedRecepie[1],
+      steps: separatedRecepie[2],
+      type: "cocktail",
+      language: shortLocale === "es" ? "es" : "en",
+    });
+  }
+};
+
 const fetchUser = (): Promise<{ data: User[] }> =>
   fetch("api/user").then((res) => res.json());
 
@@ -215,6 +231,7 @@ const CreateCocktail = () => {
         setResult((prev) => prev + chunkValue);
         prompt = prompt + chunkValue;
       }
+      saveCocktail(prompt, shortLocale);
       // fetchImage(prompt);
     }
     // fetchImage();
