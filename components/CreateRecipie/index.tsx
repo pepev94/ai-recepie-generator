@@ -123,6 +123,7 @@ const CreateRecipie = () => {
   const [targetFats, setTargetFats] = useState<string>("5");
   const [primaryIngredient, setPrimaryIngredient] = useState<string>("");
   const [personCount, setPersonCount] = useState<string>("1");
+
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
@@ -349,6 +350,7 @@ const CreateRecipie = () => {
                 targetFats,
                 selectedLanguage: getLanguage(shortLocale),
                 personCount,
+                countMacros,
               })
             }
             disabled={loading}

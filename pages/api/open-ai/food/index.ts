@@ -15,6 +15,7 @@ export type BodyGetOpenAiResult = {
   targetFats: string;
   selectedLanguage: LanguagesEnum;
   personCount: string;
+  countMacros: boolean;
 };
 
 export const config = {
@@ -38,12 +39,19 @@ const getPromt = (body: BodyGetOpenAiResult) => {
     targetFats,
     selectedLanguage,
     personCount,
+    countMacros,
   } = body;
   switch (selectedLanguage) {
     case LanguagesEnum.es:
-      return `Damé un receta de cocina. Agrega los gramos o cantidades exactas de cada ingrediente. Dame el titulo, agrega "${SEPARATION_CHARACTERS}" para separar, la lista de ingredientes agrega "${SEPARATION_CHARACTERS}" para separar, el paso a paso para preparar. Se especifico en los detalles de la preparación, agrega la información nutrional al final de lo siguiente: Una comida casera tipo ${foodType} ,fácil de hacer, que tarde menos de 30 min en hacer. Que tenga menos de ${targetCarbs} carbohidratos por porción,  ${targetProtein} gramos de proteina y ${targetFats} de grasas por porción. Quiero que los ingredientes principales sean ${primaryIngredient}. Debe de ser para ${personCount} personas.`;
+      return `Damé un receta de cocina. Agrega los gramos o cantidades exactas de cada ingrediente. Dame el titulo, agrega "${SEPARATION_CHARACTERS}" para separar, la lista de ingredientes agrega "${SEPARATION_CHARACTERS}" para separar, el paso a paso para preparar. Se especifico en los detalles de la preparación${
+        countMacros &&
+        ", agrega la información nutrional al final de lo siguiente"
+      } : Una comida casera tipo ${foodType} ,fácil de hacer, que tarde menos de 30 min en hacer. Que tenga menos de ${targetCarbs} carbohidratos por porción,  ${targetProtein} gramos de proteina y ${targetFats} de grasas por porción. Quiero que los ingredientes principales sean ${primaryIngredient}. Debe de ser para ${personCount} personas.`;
     case LanguagesEnum.en:
-      return `Give me the title, add "${SEPARATION_CHARACTERS}"  , then the list of ingredients , then add "${SEPARATION_CHARACTERS}" and then give me the  step by step process to prepare it, add the exact quantities of ingredients. Be specific on the details of the process, add the nutritional information at the en of the the following: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare. It must have less ${targetCarbs} calories per serve, with a target protein of ${targetProtein} gms, and ${targetFats} gms of fats per serve. And I want the main ingredient to be ${primaryIngredient}. It must be for ${personCount} persons`;
+      return `Give me the title, add "${SEPARATION_CHARACTERS}"  , then the list of ingredients , then add "${SEPARATION_CHARACTERS}" and then give me the  step by step process to prepare it, add the exact quantities of ingredients. Be specific on the details of the process${
+        countMacros &&
+        ", add the nutritional information at the en of the the following"
+      }: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare. It must have less ${targetCarbs} calories per serve, with a target protein of ${targetProtein} gms, and ${targetFats} gms of fats per serve. And I want the main ingredient to be ${primaryIngredient}. It must be for ${personCount} persons`;
   }
 };
 //
