@@ -40,7 +40,7 @@ const ResultPage: NextPage = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        stripeToken: router.query.session_id,
+        stripeToken: data.subscriptionId,
       }),
     });
     if (response.status === 201) {
@@ -50,7 +50,7 @@ const ResultPage: NextPage = () => {
   };
 
   useEffect(() => {
-    if (data?.payment_intent?.status === "succeeded") {
+    if (data) {
       validateAndSaveTokens();
     }
   }, [data]);

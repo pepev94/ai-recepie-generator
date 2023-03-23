@@ -5,10 +5,10 @@
   "signInCTA": "Sign in to use it",
   "signIn": "Sign In",
   "signOut": "Sign Out",
+  "cancelSubscription": "Cancel Subscription",
   "copyToClipboardMessage": "Copy to Clipboard",
   "trackMacros": "Track Macros",
-  "share": "Compartir",
-
+  "share": "Share",
   "targetMacros": "Target Macros 🎯",
   "targetMacrosTooltip": "“macro” is short for macronutrient. What's a macronutrient? They're the three categories of nutrients you eat the most and provide you with most of your energy: protein, carbohydrates and fats. So when you're counting your macros, you're counting the grams of proteins, carbs or fat that you're consuming.",
   "targetMacrosProtein": "Protein gms",
@@ -20,7 +20,7 @@
   "generateReciepie": "Create Recipe! 👨‍🍳",
   "erase": "Erase",
   "personCount": "Number of servings",
-  "buyTokensCTA": "Buy more Credits",
+  "buyTokensCTA": "Want to see your old recipes?",
   "availableTokens": "Available Credits: ",
   "backToHome": "Back to Home",
   "addedCredits": "Credits Added",
@@ -38,5 +38,5 @@
   "generateCocktail": "Create Cocktail! 👨‍🍳",
   "cocktailTitle": "Create Your own cocktails powered by AI in 3 simple steps",
   "cocktailSubtitle": "What do you want to drink?",
-  "ranOutOfCredits": "Woops you ran out of credits"
+  "ranOutOfCredits": "Buy the monthly subscription to see all your created recipes"
 }
