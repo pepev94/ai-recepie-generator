@@ -16,11 +16,9 @@ export default async function handler(
       throw Error("Incorrect CheckoutSession ID.");
     }
     const checkout_session: Stripe.Checkout.Session =
-      await stripe.checkout.sessions.retrieve(id, {
-        expand: ["payment_intent"],
-      });
-
-    res.status(200).json(checkout_session);
+      await stripe.checkout.sessions.retrieve(id);
+    console.log(checkout_session.subscription);
+    res.status(200).json({ subscriptionId: checkout_session.subscription });
   } catch (err) {
     const errorMessage =
       err instanceof Error ? err.message : "Internal server error";

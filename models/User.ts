@@ -7,8 +7,8 @@ export class User {
   @prop()
   public email?: string;
 
-  @prop({ default: 10 })
-  public availableTokens?: number;
+  @prop({ default: null })
+  public subscriptionId?: string | null;
 }
 
 const UserModel = getModelForClass(User);

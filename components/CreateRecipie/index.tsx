@@ -27,8 +27,6 @@ import {
   TypeOfFoodButtonsEn,
 } from "@/utils/createRecepie";
 import LoadingScreen from "./loadingScreen";
-import { updateUser } from "@/lib/api/user";
-import { getDalle2Image } from "@/lib/api/open-ai/dalle-2";
 import FoodType from "./foodType";
 import ExtraActions from "./extraActions";
 import BuyTokensCta from "../shared/BuyTokensCta";
@@ -38,7 +36,6 @@ import CountMacros from "./countMacros";
 import RecipieDetails from "./recipieDetails";
 import { AlertColor } from "@mui/material/Alert";
 import { useRouter } from "next/router";
-import BuyMoreTokensModal from "../shared/BuyTokensModal";
 import { createRecepie } from "@/lib/api/recipe";
 
 const getButtonsLanguage = (shortLocale: string) => {
@@ -158,18 +155,18 @@ const CreateRecipie = () => {
     return true;
   };
 
-  const fetchImage = async (prompt: string) => {
-    setImage("");
-    if (userData?.data[0].availableTokens === 0) {
-      setShowBuyMoreCta(true);
-      return;
-    }
-    if (userData?.data.length) {
-      const response = await getDalle2Image(prompt);
-      setImage(response);
-    }
-    setLoading(false);
-  };
+  // const fetchImage = async (prompt: string) => {
+  //   setImage("");
+  //   if (userData?.data[0].availableTokens === 0) {
+  //     setShowBuyMoreCta(true);
+  //     return;
+  //   }
+  //   if (userData?.data.length) {
+  //     const response = await getDalle2Image(prompt);
+  //     setImage(response);
+  //   }
+  //   setLoading(false);
+  // };
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
     if (!isAuthenticated) {
@@ -181,14 +178,11 @@ const CreateRecipie = () => {
 
     setResult("");
     setImage("");
-    if (userData?.data[0].availableTokens === 0) {
+    if (!userData?.data[0]?.subscriptionId) {
       setShowBuyMoreCta(true);
       return;
     }
     if (userData?.data.length) {
-      await updateUser({
-        availableTokens: (userData.data[0].availableTokens || 10) - 1,
-      });
       refetch();
       // TODO: Refactor this
       //@ts-ignore
@@ -270,16 +264,6 @@ const CreateRecipie = () => {
           title={<FormattedMessage id="title" defaultMessage="Recipies AI" />}
           subTitle={<FormattedMessage id="subtitle" defaultMessage=" AI" />}
         />
-
-        <Dialog
-          open={showBuyMoreCta}
-          onClose={() => setShowBuyMoreCta(false)}
-          aria-labelledby="modal-buy-credits"
-          aria-describedby="modal-bur-credits"
-        >
-          <BuyMoreTokensModal />
-        </Dialog>
-
         <Dialog
           open={openAuthModal}
           onClose={() => setOpenAuthModal(false)}
@@ -389,17 +373,7 @@ const CreateRecipie = () => {
               src={image}
             />
           )}
-          {isAuthenticated && (
-            <>
-              {userData?.data?.length && (
-                <Typography sx={{ mt: 2 }}>
-                  {<FormattedMessage id="availableTokens" />}{" "}
-                  {userData.data[0].availableTokens}
-                </Typography>
-              )}
-              <BuyTokensCta />
-            </>
-          )}
+          {!userData?.data[0]?.subscriptionId && <BuyTokensCta />}
         </Box>
       </Box>
     </Box>
