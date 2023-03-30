@@ -17,7 +17,6 @@ export default async function handler(
     }
     const checkout_session: Stripe.Checkout.Session =
       await stripe.checkout.sessions.retrieve(id);
-    console.log(checkout_session.subscription);
     res.status(200).json({ subscriptionId: checkout_session.subscription });
   } catch (err) {
     const errorMessage =

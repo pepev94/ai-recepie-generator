@@ -89,13 +89,6 @@ const CreateCocktail = () => {
     cocktailSecondaryIngredients: cocktailSecondaryIngredientsQuery,
   } = router.query;
 
-  console.log(
-    cocktailTypeQuery,
-    cocktailStyleQuery,
-    cocktailMainIngredientsQuery,
-    cocktailSecondaryIngredientsQuery
-  );
-
   useEffect(() => {
     if (
       cocktailTypeQuery &&

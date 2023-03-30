@@ -23,9 +23,7 @@ export default async function handler(
         try {
           let { filter, skip, limit, projection, population } = aqp(req.query);
           filter.email = session.user.email;
-          console.log(filter);
           const recepies = await Recepie.find(filter);
-
           res.status(200).json({ data: recepies });
         } catch (error) {
           res.status(400).json({ success: false });

@@ -32,13 +32,6 @@ export default function NavBar({}) {
     refetch();
   };
 
-  console.log(
-    "userData",
-    userData,
-    session.status === "authenticated" &&
-      userData.data[0]?.subscriptionId !== null
-  );
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBarWithTheme position="static">
