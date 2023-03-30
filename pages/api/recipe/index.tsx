@@ -30,10 +30,10 @@ export default async function handler(
       case "POST":
         try {
           const parsedDto = createRecepieDtoSchema.parse(req.body);
-
           const recepie = await Recepie.create({
             ...parsedDto,
             email: session.user.email,
+            createdAt: new Date(),
             _id: new ObjectId(),
           });
           res.status(201).json({ data: recepie });

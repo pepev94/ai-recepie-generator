@@ -39,9 +39,16 @@ export default function NavBar({}) {
                 </Button>
               </Link>
               {session.status === "authenticated" && (
-                <Button onClick={() => signOut()} color="inherit">
-                  <FormattedMessage id="signOut" />
-                </Button>
+                <>
+                  <Button onClick={() => signOut()} color="inherit">
+                    <FormattedMessage id="signOut" />
+                  </Button>
+                  <Link style={{ textDecoration: "none" }} href="/recipes">
+                    <Button sx={{ color: "white" }} color="inherit">
+                      <FormattedMessage id="yourRecepiesPage" />
+                    </Button>
+                  </Link>
+                </>
               )}
             </Box>
             <Box sx={{ display: "flex" }}>

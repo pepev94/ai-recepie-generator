@@ -11,6 +11,9 @@ export class Recepie {
   public email?: string;
 
   @prop()
+  public createdAt?: Date;
+
+  @prop()
   public ingredients?: string;
 
   @prop()
