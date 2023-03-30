@@ -43,7 +43,11 @@ const AllRecepies = () => {
             alignItems="flex-start"
           >
             {data.data.map((recipe) => (
-              <Grid sx={{ width: { md: 285, xs: "100%" } }} item>
+              <Grid
+                key={recipe._id}
+                sx={{ width: { md: 285, xs: "100%" } }}
+                item
+              >
                 <SmallCardRecepie recipe={recipe} />
               </Grid>
             ))}
