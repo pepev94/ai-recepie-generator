@@ -43,7 +43,7 @@ export default function NavBar({}) {
                   <Button onClick={() => signOut()} color="inherit">
                     <FormattedMessage id="signOut" />
                   </Button>
-                  <Link style={{ textDecoration: "none" }} href="/recipes">
+                  <Link style={{ textDecoration: "none" }} href="/recepies">
                     <Button sx={{ color: "white" }} color="inherit">
                       <FormattedMessage id="yourRecepiesPage" />
                     </Button>

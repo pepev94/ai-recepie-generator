@@ -1,6 +1,8 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
 
 export class Recepie {
+  public _id?: string;
+
   @prop()
   public title?: string;
 

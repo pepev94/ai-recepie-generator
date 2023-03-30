@@ -6,7 +6,7 @@ import { FormattedMessage } from "react-intl";
 import SmallCardRecepie from "../SmallCardRecepie";
 
 const fetchRecepies = (): Promise<{ data: Recepie[] }> =>
-  fetch(`api/recipe`).then((res) => res.json());
+  fetch(`/api/recipe`).then((res) => res.json());
 
 const AllRecepies = () => {
   const { data, refetch, isLoading } = useQuery({
