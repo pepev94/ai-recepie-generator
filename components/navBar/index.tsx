@@ -9,6 +9,8 @@ import { styled } from "@mui/material/styles";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "assets/logo2Blanco.png";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUser } from "@/utils/fetchers";
 
 const AppBarWithTheme = styled(AppBar)(({ theme }) => ({
   background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
@@ -16,6 +18,27 @@ const AppBarWithTheme = styled(AppBar)(({ theme }) => ({
 
 export default function NavBar({}) {
   const session = useSession();
+  const { data: userData, refetch } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUser,
+    initialData: { data: [] },
+  });
+
+  const cancelSubscription = async () => {
+    const response = await fetch("/api/stripe/checkout_sessions", {
+      method: "DELETE",
+    });
+    alert("Canceled");
+    refetch();
+  };
+
+  console.log(
+    "userData",
+    userData,
+    session.status === "authenticated" &&
+      userData.data[0]?.subscriptionId !== null
+  );
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBarWithTheme position="static">
@@ -50,6 +73,12 @@ export default function NavBar({}) {
                   </Link>
                 </>
               )}
+              {session.status === "authenticated" &&
+                userData.data[0]?.subscriptionId !== null && (
+                  <Button onClick={() => cancelSubscription()} color="inherit">
+                    <FormattedMessage id="cancelSubscription" />
+                  </Button>
+                )}
             </Box>
             <Box sx={{ display: "flex" }}>
               <Image src={logo} alt="Logo" width={30} />
