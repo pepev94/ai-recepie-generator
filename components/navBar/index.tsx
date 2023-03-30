@@ -54,7 +54,7 @@ export default function NavBar({}) {
                   <FormattedMessage id="Cocktails" />
                 </Button>
               </Link>
-              {session.status === "authenticated" && (
+              {session?.status === "authenticated" && (
                 <>
                   <Button onClick={() => signOut()} color="inherit">
                     <FormattedMessage id="signOut" />
@@ -66,7 +66,7 @@ export default function NavBar({}) {
                   </Link>
                 </>
               )}
-              {session.status === "authenticated" &&
+              {session?.status === "authenticated" &&
                 userData.data[0]?.subscriptionId !== null && (
                   <Button onClick={() => cancelSubscription()} color="inherit">
                     <FormattedMessage id="cancelSubscription" />

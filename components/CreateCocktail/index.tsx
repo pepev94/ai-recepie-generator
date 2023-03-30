@@ -107,7 +107,7 @@ const CreateCocktail = () => {
 
   const session = useSession();
 
-  const isAuthenticated = session.status === "authenticated";
+  const isAuthenticated = session?.status === "authenticated";
 
   const intl = useIntl();
 
@@ -224,7 +224,7 @@ const CreateCocktail = () => {
     setLoading(false);
   };
 
-  if (session.status === "loading") return <LoadingScreen />;
+  if (session?.status === "loading") return <LoadingScreen />;
 
   return (
     <Box
@@ -343,7 +343,9 @@ const CreateCocktail = () => {
               src={image}
             />
           )}
-          {!userData?.data[0]?.subscriptionId && <BuyTokensCta />}
+          {userData?.data && !userData?.data[0]?.subscriptionId && (
+            <BuyTokensCta />
+          )}
         </Box>
       </Box>
     </Box>

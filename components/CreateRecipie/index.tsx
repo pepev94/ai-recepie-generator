@@ -86,7 +86,7 @@ const CreateRecipie = () => {
     countMacros: countMacrosQuery,
   } = router.query;
 
-  const isAuthenticated = session.status === "authenticated";
+  const isAuthenticated = session?.status === "authenticated";
 
   useEffect(() => {
     if (
@@ -228,7 +228,7 @@ const CreateRecipie = () => {
     }
   }, [loading]);
 
-  if (session.status === "loading") return <LoadingScreen />;
+  if (session?.status === "loading") return <LoadingScreen />;
 
   return (
     <Box
@@ -373,7 +373,9 @@ const CreateRecipie = () => {
               src={image}
             />
           )}
-          {!userData?.data[0]?.subscriptionId && <BuyTokensCta />}
+          {userData?.data && !userData?.data[0]?.subscriptionId && (
+            <BuyTokensCta />
+          )}
         </Box>
       </Box>
     </Box>
