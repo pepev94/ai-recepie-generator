@@ -3,6 +3,7 @@ import { Card, Divider, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useQuery } from "@tanstack/react-query";
 import LoadingScreen from "../CreateCocktail/loadingScreen";
+import { TypographyWithGradient } from "../shared/header";
 
 const fetchRecepies = (id: string): Promise<{ data: Recepie[] }> =>
   fetch(`/api/recipe/${id}`).then((res) => res.json());
@@ -14,6 +15,8 @@ const RecipiePage = ({ id }: { id: string }) => {
     initialData: { data: [] },
   });
 
+  console.log(id);
+
   if (data.data.length === 0 || isLoading) return <LoadingScreen />;
   const recepie = data.data[0];
   return (
@@ -22,10 +25,9 @@ const RecipiePage = ({ id }: { id: string }) => {
         <Typography sx={{ mb: 1 }} variant="body1" color="text.secondary">
           {recepie.type}
         </Typography>
-        <Typography component="h1" variant="h3">
+        <TypographyWithGradient variant="h3">
           {recepie.title}
-        </Typography>
-
+        </TypographyWithGradient>
         <Divider sx={{ mt: 4 }} />
         <Typography variant="h5" sx={{ whiteSpace: "pre-line" }}>
           {recepie.ingredients}

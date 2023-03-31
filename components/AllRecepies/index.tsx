@@ -3,6 +3,7 @@ import { Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useQuery } from "@tanstack/react-query";
 import { FormattedMessage } from "react-intl";
+import { TypographyWithGradient } from "../shared/header";
 import SmallCardRecepie from "../SmallCardRecepie";
 
 const fetchRecepies = (): Promise<{ data: Recepie[] }> =>
@@ -19,9 +20,9 @@ const AllRecepies = () => {
 
   return (
     <Box sx={{ my: 6 }}>
-      <Typography align="center" variant="h3" component="h1">
+      <TypographyWithGradient align="center" variant="h3">
         <FormattedMessage id="yourRecepiesPage" />
-      </Typography>
+      </TypographyWithGradient>
       <Box
         sx={{
           display: "flex",
