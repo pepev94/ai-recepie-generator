@@ -12,25 +12,20 @@ export default async function handler(
   const { method } = req;
 
   await mongooseConnect();
-  const session = await getServerSession(req, res, authOptions);
 
-  if (session) {
-    switch (method) {
-      case "GET":
-        try {
-          const { id } = req.query;
-          const recepies = await Recepie.find({ _id: id });
-          res.status(200).json({ data: recepies });
-        } catch (error) {
-          res.status(400).json({ success: false });
-        }
-        break;
-
-      default:
+  switch (method) {
+    case "GET":
+      try {
+        const { id } = req.query;
+        const recepies = await Recepie.find({ _id: id });
+        res.status(200).json({ data: recepies });
+      } catch (error) {
         res.status(400).json({ success: false });
-        break;
-    }
-  } else {
-    res.status(400).json({ success: false });
+      }
+      break;
+
+    default:
+      res.status(400).json({ success: false });
+      break;
   }
 }
