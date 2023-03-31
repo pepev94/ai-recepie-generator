@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingScreen from "../CreateCocktail/loadingScreen";
 
 const fetchRecepies = (id: string): Promise<{ data: Recepie[] }> =>
-  fetch(`/api/recipe?id=${id}`).then((res) => res.json());
+  fetch(`/api/recipe/${id}`).then((res) => res.json());
 
 const RecipiePage = ({ id }: { id: string }) => {
   const { data, isLoading } = useQuery({

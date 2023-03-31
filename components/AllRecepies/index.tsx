@@ -15,6 +15,8 @@ const AllRecepies = () => {
     initialData: { data: [] },
   });
 
+  if (!data.data) return null;
+
   return (
     <Box sx={{ my: 6 }}>
       <Typography align="center" variant="h3" component="h1">
