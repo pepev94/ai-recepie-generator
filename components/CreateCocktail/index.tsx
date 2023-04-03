@@ -8,8 +8,6 @@ import { useQuery } from "@tanstack/react-query";
 import { User } from "../../models/User";
 import { LanguagesEnum } from "@/utils/createRecepie";
 import LoadingScreen from "./loadingScreen";
-import { updateUser } from "@/lib/api/user";
-import { getDalle2Image } from "@/lib/api/open-ai/dalle-2";
 import ExtraActions from "./extraActions";
 import BuyTokensCta from "../shared/BuyTokensCta";
 import PageHeader from "../shared/header";
@@ -27,6 +25,7 @@ import { useRouter } from "next/router";
 import BuyMoreTokensModal from "../shared/BuyTokensModal";
 import { SEPARATION_CHARACTERS } from "@/pages/api/open-ai/food";
 import { createRecepie } from "@/lib/api/recipe";
+import { fetchUser } from "@/utils/fetchers";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -74,9 +73,6 @@ const saveCocktail = (result: string, shortLocale: string) => {
   }
 };
 
-const fetchUser = (): Promise<{ data: User[] }> =>
-  fetch("api/user").then((res) => res.json());
-
 const CreateCocktail = () => {
   const router = useRouter();
 
@@ -92,13 +88,6 @@ const CreateCocktail = () => {
     cocktailMainIngredients: cocktailMainIngredientsQuery,
     cocktailSecondaryIngredients: cocktailSecondaryIngredientsQuery,
   } = router.query;
-
-  console.log(
-    cocktailTypeQuery,
-    cocktailStyleQuery,
-    cocktailMainIngredientsQuery,
-    cocktailSecondaryIngredientsQuery
-  );
 
   useEffect(() => {
     if (
@@ -118,7 +107,7 @@ const CreateCocktail = () => {
 
   const session = useSession();
 
-  const isAuthenticated = session.status === "authenticated";
+  const isAuthenticated = session?.status === "authenticated";
 
   const intl = useIntl();
 
@@ -171,18 +160,18 @@ const CreateCocktail = () => {
     return true;
   };
 
-  const fetchImage = async (prompt: string) => {
-    setImage("");
-    if (userData?.data[0].availableTokens === 0) {
-      setShowBuyMoreCta(true);
-      return;
-    }
-    if (userData?.data.length) {
-      const response = await getDalle2Image(prompt);
-      setImage(response);
-    }
-    setLoading(false);
-  };
+  // const fetchImage = async (prompt: string) => {
+  //   setImage("");
+  //   if (userData?.data[0].availableTokens === 0) {
+  //     setShowBuyMoreCta(true);
+  //     return;
+  //   }
+  //   if (userData?.data.length) {
+  //     const response = await getDalle2Image(prompt);
+  //     setImage(response);
+  //   }
+  //   setLoading(false);
+  // };
 
   const fetchData = async (body: BodyGetOpenAiCocktailResult) => {
     if (!isAuthenticated) {
@@ -190,14 +179,11 @@ const CreateCocktail = () => {
       return;
     }
     if (!validateInputs(body)) return;
-    if (userData?.data[0].availableTokens === 0) {
+    if (!userData?.data[0]?.subscriptionId) {
       setShowBuyMoreCta(true);
       return;
     }
     if (userData?.data.length) {
-      await updateUser({
-        availableTokens: (userData.data[0].availableTokens || 10) - 1,
-      });
       refetch();
       // TODO: Refactor this
       //@ts-ignore
@@ -238,7 +224,7 @@ const CreateCocktail = () => {
     setLoading(false);
   };
 
-  if (session.status === "loading") return <LoadingScreen />;
+  if (session?.status === "loading") return <LoadingScreen />;
 
   return (
     <Box
@@ -357,16 +343,8 @@ const CreateCocktail = () => {
               src={image}
             />
           )}
-          {isAuthenticated && (
-            <>
-              {userData?.data?.length && (
-                <Typography sx={{ mt: 2 }}>
-                  {<FormattedMessage id="availableTokens" />}{" "}
-                  {userData.data[0].availableTokens}
-                </Typography>
-              )}
-              <BuyTokensCta />
-            </>
+          {userData?.data && !userData?.data[0]?.subscriptionId && (
+            <BuyTokensCta />
           )}
         </Box>
       </Box>

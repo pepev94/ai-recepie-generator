@@ -6,10 +6,12 @@
   "signOut": "Cerrar Sesión",
   "foodType": "Tipo de Comida",
   "copyToClipboardMessage": "Copied",
+  "cancelSubscription": "Cancel Subscription",
   "targetMacros": "Macros Objetivos 🎯",
   "targetMacrosProtein": "Gramos de Proteina",
-  "share": "Share",
-  "buyTokensCTA": "Comprar más créditos",
+  "yourRecepiesPage": "Tus Recetas",
+  "share": "Compartir",
+  "buyTokensCTA": "¿Quiéres ver tus recetas antiguas?",
   "availableTokens": "Créditos disponibles: ",
   "trackMacros": "¿Quiéres contar macros?",
   "targetMacrosCarbs": "Gramos de Carbs",
@@ -37,5 +39,5 @@
   "generateCocktail": "Crear Cocktail! 👨‍🍳",
   "cocktailTitle": "Cocktail AI",
   "cocktailSubtitle": "¿Qué quieres tomar?",
-  "ranOutOfCredits": "Ups, ya no tienes más creditos"
+  "ranOutOfCredits": "Compra la subscripción mensual para poder ver todas tus recetas creadas"
 }

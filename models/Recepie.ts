@@ -1,6 +1,8 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
 
 export class Recepie {
+  public _id?: string;
+
   @prop()
   public title?: string;
 
@@ -9,6 +11,9 @@ export class Recepie {
 
   @prop()
   public email?: string;
+
+  @prop()
+  public createdAt?: Date;
 
   @prop()
   public ingredients?: string;

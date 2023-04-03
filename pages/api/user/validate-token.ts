@@ -36,10 +36,11 @@ export default async function handler(
           });
           const updatedUser = await User.updateOne(
             { email: session.user.email },
-            { availableTokens: (user?.availableTokens || 0) + 30 }
+            { subscriptionId: stripeToken }
           );
           res.status(201).json({ data: updatedUser });
         } catch (error) {
+          console.log(error);
           res.status(400).json({ success: false });
         }
         break;

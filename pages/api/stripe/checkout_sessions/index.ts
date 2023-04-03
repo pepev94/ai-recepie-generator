@@ -1,10 +1,8 @@
-import mongooseConnect from "@/lib/mongooseConnect";
-import User from "@/models/User";
-import getStripe from "@/utils/get-stripe";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import Stripe from "stripe";
 import { authOptions } from "../../auth/[...nextauth]";
+import User from "@/models/User";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   // https://github.com/stripe/stripe-node#configuration
@@ -25,7 +23,7 @@ export default async function handler(
         try {
           const params: Stripe.Checkout.SessionCreateParams = {
             // submit_type: "pay",
-            mode: "payment",
+            mode: "subscription",
             payment_method_types: ["card"],
             line_items: [
               {
@@ -43,6 +41,20 @@ export default async function handler(
           console.log(error);
           res.status(400).json({ success: false });
         }
+        break;
+      case "DELETE":
+        const query = { email: session.user.email };
+        const user = await User.findOne(query);
+        if (user?.subscriptionId) {
+          await stripe.subscriptions.del(user.subscriptionId);
+          res.status(200).json({ data: "subscription deleted" });
+          await User.updateOne(query, { subscriptionId: null });
+        } else {
+          throw new Error(
+            "Subscription Id not founded from user email: " + session.user.email
+          );
+        }
+
         break;
       default:
         res.status(400).json({ success: false });

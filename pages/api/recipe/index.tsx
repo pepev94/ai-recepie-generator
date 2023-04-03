@@ -6,6 +6,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { createRecepieDtoSchema } from "./dto/createRecepie.dto";
+import aqp from "api-query-params";
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,8 +21,9 @@ export default async function handler(
     switch (method) {
       case "GET":
         try {
-          const query = { email: session.user.email };
-          const recepies = await Recepie.find(query);
+          let { filter, skip, limit, projection, population } = aqp(req.query);
+          filter.email = session.user.email;
+          const recepies = await Recepie.find(filter);
           res.status(200).json({ data: recepies });
         } catch (error) {
           res.status(400).json({ success: false });
@@ -30,10 +32,10 @@ export default async function handler(
       case "POST":
         try {
           const parsedDto = createRecepieDtoSchema.parse(req.body);
-
           const recepie = await Recepie.create({
             ...parsedDto,
             email: session.user.email,
+            createdAt: new Date(),
             _id: new ObjectId(),
           });
           res.status(201).json({ data: recepie });

@@ -13,6 +13,7 @@ import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LanguageMenu from "@/components/LanguageMenu";
+import Contact from "@/components/Contact";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { locale } = useRouter();
@@ -89,6 +90,7 @@ const App = ({ Component, pageProps }: AppProps) => {
               <NavBar />
               <LanguageMenu setSelectedLanguage={setSelectedLanguage} />
               <Component {...pageProps} />
+              <Contact />
             </ThemeProvider>
           </IntlProvider>
         </SessionProvider>

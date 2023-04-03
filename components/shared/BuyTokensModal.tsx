@@ -1,7 +1,21 @@
 import { Button, Typography } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import InfoModalCard from "../shared/InfoModalCard";
-import { redirectToStripe } from "./BuyTokensCta";
+import getStripe from "@/utils/get-stripe";
+
+export const redirectToStripe = async () => {
+  const response = await fetch("/api/stripe/checkout_sessions");
+  if (response.status !== 200) {
+    console.error(response.status);
+    return;
+  }
+  const data = await response.json();
+
+  const stripe = await getStripe();
+  const { error } = await stripe!.redirectToCheckout({
+    sessionId: data.data.id,
+  });
+};
 
 const BuyMoreTokensModal = () => {
   return (
