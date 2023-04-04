@@ -169,11 +169,6 @@ const CreateRecipie = () => {
   // };
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
-    console.log(
-      isAuthenticated,
-      !validateInputs(body),
-      !userData?.data[0]?.subscriptionId
-    );
     if (!isAuthenticated) {
       setOpenAuthModal(true);
       return;
