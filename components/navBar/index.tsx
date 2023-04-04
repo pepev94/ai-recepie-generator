@@ -12,12 +12,17 @@ import logo from "assets/logo2Blanco.png";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUser } from "@/utils/fetchers";
 import { Menu, MenuItem } from "@mui/material";
+import LanguageMenu from "../LanguageMenu";
 
 const AppBarWithTheme = styled(AppBar)(({ theme }) => ({
   background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
 }));
 
-export default function NavBar({}) {
+export default function NavBar({
+  setSelectedLanguage,
+}: {
+  setSelectedLanguage: any;
+}) {
   const session = useSession();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -127,6 +132,7 @@ export default function NavBar({}) {
                   )}
               </Menu>
             </Box>
+            <LanguageMenu setSelectedLanguage={setSelectedLanguage} />
           </Box>
         </Toolbar>
       </AppBarWithTheme>

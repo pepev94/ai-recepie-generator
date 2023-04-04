@@ -14,6 +14,7 @@ import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LanguageMenu from "@/components/LanguageMenu";
 import Contact from "@/components/Contact";
+import ButtonsRecepieCocktailNavigation from "@/components/ButtonsRecepieCocktailNaviation";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { locale } = useRouter();
@@ -87,8 +88,9 @@ const App = ({ Component, pageProps }: AppProps) => {
           >
             <ThemeProvider theme={MuiTheme}>
               <CssBaseline />
-              <NavBar />
-              <LanguageMenu setSelectedLanguage={setSelectedLanguage} />
+              <NavBar setSelectedLanguage={setSelectedLanguage} />
+              <ButtonsRecepieCocktailNavigation />
+
               <Component {...pageProps} />
               <Contact />
             </ThemeProvider>

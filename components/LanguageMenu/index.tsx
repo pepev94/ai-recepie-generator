@@ -7,17 +7,24 @@ const LanguageMenu = ({ setSelectedLanguage }: Props) => {
   return (
     <Box
       sx={{
-        width: "100%",
         display: "flex",
         justifyContent: "center",
-        mt: 4,
         gap: 2,
+        color: "white",
       }}
     >
-      <Button onClick={() => setSelectedLanguage("en")} variant="outlined">
+      <Button
+        sx={{ color: "white", border: "1px solid white" }}
+        onClick={() => setSelectedLanguage("en")}
+        variant="outlined"
+      >
         🇺🇸 English
       </Button>
-      <Button onClick={() => setSelectedLanguage("es")} variant="outlined">
+      <Button
+        sx={{ color: "white", border: "1px solid white" }}
+        onClick={() => setSelectedLanguage("es")}
+        variant="outlined"
+      >
         🇪🇸 Español
       </Button>
     </Box>
