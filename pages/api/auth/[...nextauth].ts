@@ -31,6 +31,13 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
+  callbacks: {
+    //@ts-ignore
+    async session({ session, user, token }) {
+      session.user = user;
+      return session;
+    },
+  },
 };
 
 export default NextAuth(authOptions);

@@ -10,7 +10,7 @@ const fetchRecepies = (): Promise<{ data: Recepie[] }> =>
   fetch(`/api/recipe`).then((res) => res.json());
 
 const AllRecepies = () => {
-  const { data, refetch, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["recipe"],
     queryFn: () => fetchRecepies(),
     initialData: { data: [] },
