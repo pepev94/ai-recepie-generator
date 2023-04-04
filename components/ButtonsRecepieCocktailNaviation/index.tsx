@@ -6,6 +6,7 @@ import { TypographyWithGradient } from "../shared/header";
 
 const ButtonsRecepieCocktailNavigation = () => {
   const router = useRouter();
+  const { asPath } = router;
   return (
     <Box
       sx={{
@@ -23,10 +24,16 @@ const ButtonsRecepieCocktailNavigation = () => {
         <FormattedMessage id="create" />
       </TypographyWithGradient>
 
-      <Button onClick={() => router.push("/")} variant="outlined">
+      <Button
+        onClick={() => router.push("/")}
+        variant={asPath === "/" ? "contained" : "outlined"}
+      >
         <FormattedMessage id="food" />
       </Button>
-      <Button onClick={() => router.push("/cocktails")} variant="outlined">
+      <Button
+        onClick={() => router.push("/cocktails")}
+        variant={asPath === "/cocktails" ? "contained" : "outlined"}
+      >
         <FormattedMessage id="cocktails" />
       </Button>
     </Box>
