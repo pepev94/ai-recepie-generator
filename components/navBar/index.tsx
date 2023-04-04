@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,6 +11,7 @@ import Image from "next/image";
 import logo from "assets/logo2Blanco.png";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUser } from "@/utils/fetchers";
+import { Menu, MenuItem } from "@mui/material";
 
 const AppBarWithTheme = styled(AppBar)(({ theme }) => ({
   background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
@@ -18,6 +19,9 @@ const AppBarWithTheme = styled(AppBar)(({ theme }) => ({
 
 export default function NavBar({}) {
   const session = useSession();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
   const { data: userData, refetch } = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
@@ -32,6 +36,14 @@ export default function NavBar({}) {
     refetch();
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBarWithTheme position="static">
@@ -43,38 +55,75 @@ export default function NavBar({}) {
               width: "100%",
             }}
           >
-            <Box>
-              <Link style={{ textDecoration: "none" }} href="/">
-                <Button sx={{ color: "white" }} color="inherit">
-                  <FormattedMessage id="Home" />
-                </Button>
-              </Link>
-              <Link style={{ textDecoration: "none" }} href="/cocktails">
-                <Button sx={{ color: "white" }} color="inherit">
-                  <FormattedMessage id="Cocktails" />
-                </Button>
-              </Link>
-              {session?.status === "authenticated" && (
-                <>
-                  <Button onClick={() => signOut()} color="inherit">
-                    <FormattedMessage id="signOut" />
-                  </Button>
-                  <Link style={{ textDecoration: "none" }} href="/recepies">
-                    <Button sx={{ color: "white" }} color="inherit">
-                      <FormattedMessage id="yourRecepiesPage" />
-                    </Button>
-                  </Link>
-                </>
-              )}
-              {session?.status === "authenticated" &&
-                userData.data[0]?.subscriptionId !== null && (
-                  <Button onClick={() => cancelSubscription()} color="inherit">
-                    <FormattedMessage id="cancelSubscription" />
-                  </Button>
-                )}
-            </Box>
-            <Box sx={{ display: "flex" }}>
+            <Box
+              onClick={(e) =>
+                handleClick(e as unknown as React.MouseEvent<HTMLButtonElement>)
+              }
+            >
               <Image src={logo} alt="Logo" width={30} />
+            </Box>
+            <Box>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={handleClose}>
+                  <Link
+                    style={{ textDecoration: "none", color: "black" }}
+                    href="/"
+                  >
+                    <FormattedMessage id="Home" />
+                  </Link>
+                </MenuItem>
+
+                <MenuItem onClick={handleClose}>
+                  <Link
+                    style={{ textDecoration: "none", color: "black" }}
+                    href="/cocktails"
+                  >
+                    <FormattedMessage id="Cocktails" />
+                  </Link>
+                </MenuItem>
+
+                {session?.status === "authenticated" && (
+                  <>
+                    <MenuItem
+                      onClick={() => {
+                        signOut();
+                        handleClose();
+                      }}
+                    >
+                      <FormattedMessage id="signOut" />
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                      <Link
+                        style={{ textDecoration: "none", color: "black" }}
+                        href="/recepies"
+                      >
+                        <FormattedMessage id="yourRecepiesPage" />
+                      </Link>
+                    </MenuItem>
+                  </>
+                )}
+
+                {session?.status === "authenticated" &&
+                  userData.data[0]?.subscriptionId !== null && (
+                    <MenuItem
+                      onClick={() => {
+                        cancelSubscription();
+                        handleClose();
+                      }}
+                      sx={{ color: "black" }}
+                    >
+                      <FormattedMessage id="cancelSubscription" />
+                    </MenuItem>
+                  )}
+              </Menu>
             </Box>
           </Box>
         </Toolbar>
