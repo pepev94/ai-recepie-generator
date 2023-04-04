@@ -179,10 +179,10 @@ const CreateCocktail = () => {
       return;
     }
     if (!validateInputs(body)) return;
-    if (!userData?.data[0]?.subscriptionId) {
-      setShowBuyMoreCta(true);
-      return;
-    }
+    // if (!userData?.data[0]?.subscriptionId) {
+    //   setShowBuyMoreCta(true);
+    //   return;
+    // }
     if (userData?.data.length) {
       refetch();
       // TODO: Refactor this

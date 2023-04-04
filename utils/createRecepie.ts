@@ -1,5 +1,6 @@
 export const TypeOfFoodButtonsEn = [
   { icon: "🌮", color: "#ffe4e1", label: "Mexican", value: "Mexican" },
+  { icon: "🍛", color: "#bbb8ff", label: "Indian", value: "Indian" },
   { icon: "🥗", color: "#fcb7af", label: "Vegan", value: "Vegan" },
   { icon: "🍝", color: "#ffda9e", label: "Italian", value: "Italian" },
   { icon: "🍣", color: "#b0c2f2", label: "Japanese", value: "Japanese" },
@@ -12,6 +13,7 @@ export const TypeOfFoodButtonsEn = [
 
 export const TypeOfFoodButtonsEs = [
   { icon: "🌮", color: "#ffe4e1", label: "Mexicana", value: "Mexicana" },
+  { icon: "🍛", color: "#bbb8ff", label: "India", value: "India" },
   { icon: "🥗", color: "#fcb7af", label: "Vegan", value: "Vegana" },
   { icon: "🍝", color: "#ffda9e", label: "Italian", value: "Italiana" },
   { icon: "🍣", color: "#b0c2f2", label: "Japonés", value: "Japonés" },

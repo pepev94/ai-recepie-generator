@@ -169,6 +169,11 @@ const CreateRecipie = () => {
   // };
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
+    console.log(
+      isAuthenticated,
+      !validateInputs(body),
+      !userData?.data[0]?.subscriptionId
+    );
     if (!isAuthenticated) {
       setOpenAuthModal(true);
       return;
@@ -178,10 +183,10 @@ const CreateRecipie = () => {
 
     setResult("");
     setImage("");
-    if (!userData?.data[0]?.subscriptionId) {
-      setShowBuyMoreCta(true);
-      return;
-    }
+    // if (!userData?.data[0]?.subscriptionId) {
+    //   setShowBuyMoreCta(true);
+    //   return;
+    // }
     if (userData?.data.length) {
       refetch();
       // TODO: Refactor this
