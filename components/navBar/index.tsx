@@ -100,28 +100,30 @@ export default function NavBar({}) {
                     >
                       <FormattedMessage id="signOut" />
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                      <Link
-                        style={{ textDecoration: "none", color: "black" }}
-                        href="/recepies"
-                      >
-                        <FormattedMessage id="yourRecepiesPage" />
-                      </Link>
-                    </MenuItem>
                   </>
                 )}
 
                 {session?.status === "authenticated" &&
                   userData.data[0]?.subscriptionId !== null && (
-                    <MenuItem
-                      onClick={() => {
-                        cancelSubscription();
-                        handleClose();
-                      }}
-                      sx={{ color: "black" }}
-                    >
-                      <FormattedMessage id="cancelSubscription" />
-                    </MenuItem>
+                    <>
+                      <MenuItem onClick={handleClose}>
+                        <Link
+                          style={{ textDecoration: "none", color: "black" }}
+                          href="/recepies"
+                        >
+                          <FormattedMessage id="yourRecepiesPage" />
+                        </Link>
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          cancelSubscription();
+                          handleClose();
+                        }}
+                        sx={{ color: "black" }}
+                      >
+                        <FormattedMessage id="cancelSubscription" />
+                      </MenuItem>
+                    </>
                   )}
               </Menu>
             </Box>

@@ -21,7 +21,9 @@ export default async function handler(
     switch (method) {
       case "GET":
         try {
-          let { filter, skip, limit, projection, population } = aqp(req.query);
+          let { filter } = aqp(req.query);
+          const hasSubscriptionId = session.user.subscriptionId;
+          if (!hasSubscriptionId) throw new Error();
           filter.email = session.user.email;
           const recepies = await Recepie.find(filter);
           res.status(200).json({ data: recepies });
