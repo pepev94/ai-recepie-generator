@@ -37,6 +37,7 @@ import RecipieDetails from "./recipieDetails";
 import { AlertColor } from "@mui/material/Alert";
 import { useRouter } from "next/router";
 import { createRecepie } from "@/lib/api/recipe";
+import SpecialRecipe, { SpecialRecepieObj } from "./specialRecepie";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -120,12 +121,11 @@ const CreateRecipie = () => {
   const [targetFats, setTargetFats] = useState<string>("5");
   const [primaryIngredient, setPrimaryIngredient] = useState<string>("");
   const [personCount, setPersonCount] = useState<string>("1");
+  const [specialRecipe, setSpecialRecipe] = useState(SpecialRecepieObj.none);
 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
-
-  const [showBuyMoreCta, setShowBuyMoreCta] = useState(false);
 
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -323,6 +323,8 @@ const CreateRecipie = () => {
             setPersonCount={setPersonCount}
             personCount={personCount}
           />
+          <SpecialRecipe setSpecialRecipe={setSpecialRecipe} />
+
           <LoadingButton
             sx={{ mt: 5 }}
             onClick={() =>
@@ -335,6 +337,7 @@ const CreateRecipie = () => {
                 selectedLanguage: getLanguage(shortLocale),
                 personCount,
                 countMacros,
+                specialRecipe,
               })
             }
             disabled={loading}

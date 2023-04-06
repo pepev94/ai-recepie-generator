@@ -18,7 +18,9 @@
   "targetMacrosProtein": "Protein gms",
   "targetMacrosCarbs": "Carbs gms",
   "targetMacrosFats": "Fats gms",
-  "recipieDetails": "Final Step",
+  "recipieDetails": "Recipe Ingredients",
+  "recipieFinalStep": "Final Step",
+
   "recipieDetailsIngredients": "Type here the main ingredients for your recipe (salmon, grapes, and bread)",
   "recipieDetailsAlergies": "ingredients to skip",
   "generateReciepie": "Create Recipe! 👨‍🍳",

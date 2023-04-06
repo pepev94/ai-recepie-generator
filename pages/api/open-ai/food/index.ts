@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { SpecialRecepieObj } from "@/components/CreateRecipie/specialRecepie";
 import { OpenAIStream } from "@/utils/OpenAIStream";
 import type { NextApiRequest } from "next";
 
@@ -15,6 +16,7 @@ export type BodyGetOpenAiResult = {
   targetFats: string;
   selectedLanguage: LanguagesEnum;
   personCount: string;
+  specialRecipe: string;
   countMacros: boolean;
 };
 
@@ -40,6 +42,7 @@ const getPromt = (body: BodyGetOpenAiResult) => {
     selectedLanguage,
     personCount,
     countMacros,
+    specialRecipe,
   } = body;
   switch (selectedLanguage) {
     case LanguagesEnum.es:
@@ -51,7 +54,10 @@ const getPromt = (body: BodyGetOpenAiResult) => {
       return `Give me the title, add "${SEPARATION_CHARACTERS}"  , then the list of ingredients , then add "${SEPARATION_CHARACTERS}" and then give me the  step by step process to prepare it, add the exact quantities of ingredients. Be specific on the details of the process${
         countMacros &&
         ", add the nutritional information at the en of the the following"
-      }: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare. It must have less ${targetCarbs} calories per serve, with a target protein of ${targetProtein} gms, and ${targetFats} gms of fats per serve. And I want the main ingredient to be ${primaryIngredient}. It must be for ${personCount} persons`;
+      }: A ${foodType} homemade cuisine, easy to do, takes less than 30 minutes to prepare. It must have less ${targetCarbs} calories per serve, with a target protein of ${targetProtein} gms, and ${targetFats} gms of fats per serve. And I want the main ingredient to be ${primaryIngredient}. It must be for ${personCount} persons. ${
+        specialRecipe !== SpecialRecepieObj.none &&
+        `And make it ${specialRecipe}`
+      } `;
   }
 };
 //

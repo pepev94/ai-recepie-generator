@@ -90,7 +90,6 @@ const App = ({ Component, pageProps }: AppProps) => {
               <CssBaseline />
               <NavBar setSelectedLanguage={setSelectedLanguage} />
               <ButtonsRecepieCocktailNavigation />
-
               <Component {...pageProps} />
               <Contact />
             </ThemeProvider>

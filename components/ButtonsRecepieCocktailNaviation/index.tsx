@@ -11,6 +11,7 @@ const ButtonsRecepieCocktailNavigation = () => {
     <Box
       sx={{
         display: "flex",
+        flexDirection: { xs: "column", md: "row" },
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
