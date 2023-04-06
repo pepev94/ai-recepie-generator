@@ -53,6 +53,7 @@ const SpecialRecipe = ({ setSpecialRecipe }: Props) => {
           onChange={(e) => setSpecialRecipe(e.target.value)}
         >
           {Object.keys(SpecialRecepieObj).map((key) => (
+            //@ts-ignore
             <MenuItem value={key}>{SpecialRecepieObj[key]}</MenuItem>
           ))}
         </Select>
