@@ -1,5 +1,4 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { SpecialRecepieObj } from "@/components/CreateRecipie/specialRecepie";
 import { OpenAIStream } from "@/utils/OpenAIStream";
 import type { NextApiRequest } from "next";
 
@@ -7,6 +6,16 @@ export enum LanguagesEnum {
   es = "es",
   en = "en",
 }
+
+export const SpecialRecepieObj = {
+  none: "none",
+  keto: "keto",
+  lowCarb: "low carb",
+  glutenFree: "gluten free",
+  dairyFree: "dairy free",
+  paleo: "paleo",
+  sugarFree: "sugar free",
+};
 
 export type BodyGetOpenAiResult = {
   foodType: string;

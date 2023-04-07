@@ -1,6 +1,7 @@
 import {
   BodyGetOpenAiResult,
   SEPARATION_CHARACTERS,
+  SpecialRecepieObj,
 } from "@/pages/api/open-ai/food";
 import {
   Alert,
@@ -37,7 +38,7 @@ import RecipieDetails from "./recipieDetails";
 import { AlertColor } from "@mui/material/Alert";
 import { useRouter } from "next/router";
 import { createRecepie } from "@/lib/api/recipe";
-import SpecialRecipe, { SpecialRecepieObj } from "./specialRecepie";
+import SpecialRecipe from "./specialRecepie";
 import { useDispatch } from "react-redux";
 import { showBuyMore } from "@/redux/features/common";
 

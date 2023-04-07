@@ -1,3 +1,4 @@
+import { SpecialRecepieObj } from "@/pages/api/open-ai/food";
 import { showBuyMore } from "@/redux/features/common";
 import { useAppDispatch } from "@/redux/hooks";
 import {
@@ -14,16 +15,6 @@ type Props = {
   hasProFeatures: boolean;
   setSpecialRecipe: any;
   value: string;
-};
-
-export const SpecialRecepieObj = {
-  none: "none",
-  keto: "keto",
-  lowCarb: "low carb",
-  glutenFree: "gluten free",
-  dairyFree: "dairy free",
-  paleo: "paleo",
-  sugarFree: "sugar free",
 };
 
 const SpecialRecipe = ({ setSpecialRecipe, hasProFeatures, value }: Props) => {
