@@ -64,8 +64,10 @@ const SpecialRecipe = ({ setSpecialRecipe, hasProFeatures, value }: Props) => {
           onChange={(e) => handleSelectedSpecialRecipe(e.target.value)}
         >
           {Object.keys(SpecialRecepieObj).map((key) => (
-            //@ts-ignore
-            <MenuItem value={key}>{SpecialRecepieObj[key]}</MenuItem>
+            <MenuItem key={key} value={key}>
+              {/* @ts-ignore */}
+              {SpecialRecepieObj[key]}
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
