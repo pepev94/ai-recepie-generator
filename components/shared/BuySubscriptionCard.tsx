@@ -1,7 +1,9 @@
 import { Button, Typography } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-import InfoModalCard from "../shared/InfoModalCard";
+import InfoModalCard from "./InfoModalCard";
 import getStripe from "@/utils/get-stripe";
+import { useSession } from "next-auth/react";
+import LoginCta from "../CreateRecipie/loginCta";
 
 export const redirectToStripe = async () => {
   const response = await fetch("/api/stripe/checkout_sessions");
@@ -17,15 +19,26 @@ export const redirectToStripe = async () => {
   });
 };
 
-const BuyMoreTokensModal = () => {
+const BuySubscriptionCard = () => {
+  const session = useSession();
+
+  if (session.status === "loading") return null;
+
+  if (session.status === "unauthenticated") return <LoginCta />;
+
   return (
     <InfoModalCard>
-      <Typography color="white" sx={{ mt: 2 }} variant="h4" component="h1">
+      <Typography
+        color="white"
+        sx={{ mt: 2, whiteSpace: "pre-line", textAlign: "left" }}
+        variant="h4"
+        component="h1"
+      >
         <FormattedMessage id="ranOutOfCredits" defaultMessage="Recipies AI" />
       </Typography>
       <Button
         fullWidth
-        sx={{ mt: 2, color: "black", backgroundColor: "white" }}
+        sx={{ mt: 6, color: "black", backgroundColor: "white" }}
         variant="contained"
         onClick={() => redirectToStripe()}
       >
@@ -35,4 +48,4 @@ const BuyMoreTokensModal = () => {
   );
 };
 
-export default BuyMoreTokensModal;
+export default BuySubscriptionCard;

@@ -26,7 +26,9 @@
   "generateReciepie": "Create Recipe! 👨‍🍳",
   "erase": "Erase",
   "personCount": "Number of servings",
-  "buyTokensCTA": "Want to see your old recipes?",
+  "buyTokensCTA": "GO PRO",
+  "seeAllRecipes": "Want to see your old recipes?",
+
   "availableTokens": "Available Credits: ",
   "backToHome": "Back to Home",
   "addedCredits": "Credits Added",
@@ -44,5 +46,5 @@
   "generateCocktail": "Create Cocktail! 👨‍🍳",
   "cocktailTitle": "Create Your own cocktails powered by AI in 3 simple steps",
   "cocktailSubtitle": "What do you want to drink?",
-  "ranOutOfCredits": "Buy the monthly subscription to see all your created recipes"
+  "ranOutOfCredits": "¿Want to use this feature? \n  Go PRO! For only 3.99 USD \n \n  - All food styles \n - See your all your created recipes \n - Select special diet creation (keto, gluten free, etc)"
 }

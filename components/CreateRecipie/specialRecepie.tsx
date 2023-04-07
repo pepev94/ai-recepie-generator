@@ -1,8 +1,8 @@
+import { showBuyMore } from "@/redux/features/common";
+import { useAppDispatch } from "@/redux/hooks";
 import {
   Typography,
   Box,
-  Slider,
-  TextField,
   FormControl,
   InputLabel,
   Select,
@@ -11,7 +11,9 @@ import {
 import { FormattedMessage } from "react-intl";
 
 type Props = {
+  hasProFeatures: boolean;
   setSpecialRecipe: any;
+  value: string;
 };
 
 export const SpecialRecepieObj = {
@@ -24,7 +26,16 @@ export const SpecialRecepieObj = {
   sugarFree: "sugar free",
 };
 
-const SpecialRecipe = ({ setSpecialRecipe }: Props) => {
+const SpecialRecipe = ({ setSpecialRecipe, hasProFeatures, value }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const handleSelectedSpecialRecipe = (value: string) => {
+    if (!hasProFeatures) {
+      dispatch(showBuyMore());
+      return;
+    }
+    setSpecialRecipe(value);
+  };
   return (
     <Box
       sx={{
@@ -47,10 +58,10 @@ const SpecialRecipe = ({ setSpecialRecipe }: Props) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          // value={age}
+          value={value}
           defaultValue={SpecialRecepieObj.none}
           label="Special Diet"
-          onChange={(e) => setSpecialRecipe(e.target.value)}
+          onChange={(e) => handleSelectedSpecialRecipe(e.target.value)}
         >
           {Object.keys(SpecialRecepieObj).map((key) => (
             //@ts-ignore

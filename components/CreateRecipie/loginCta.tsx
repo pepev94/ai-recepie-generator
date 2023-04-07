@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import InfoModalCard from "../shared/InfoModalCard";
 
 type Props = {
-  callbackUrl: string;
+  callbackUrl?: string;
 };
 
 const LoginCta = ({ callbackUrl }: Props) => {
@@ -26,7 +26,9 @@ const LoginCta = ({ callbackUrl }: Props) => {
         fullWidth
         sx={{ mt: 2, color: "black", backgroundColor: "white" }}
         variant="contained"
-        onClick={() => signIn(undefined, { callbackUrl })}
+        onClick={() =>
+          signIn(undefined, { callbackUrl: callbackUrl ? callbackUrl : "/" })
+        }
       >
         <FormattedMessage id="signIn" />
       </Button>

@@ -12,9 +12,11 @@ import { CssBaseline } from "@mui/material";
 import Script from "next/script";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import LanguageMenu from "@/components/LanguageMenu";
+import { Provider } from "react-redux";
 import Contact from "@/components/Contact";
 import ButtonsRecepieCocktailNavigation from "@/components/ButtonsRecepieCocktailNaviation";
+import store from "@/redux/store";
+import BuySubscription from "@/components/shared/BuyTokensCta";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const { locale } = useRouter();
@@ -79,23 +81,26 @@ const App = ({ Component, pageProps }: AppProps) => {
           })();
         `}
       </Script>
-      <QueryClientProvider client={queryClient}>
-        <SessionProvider session={pageProps.session}>
-          <IntlProvider
-            locale={selectedLanguage !== "" ? selectedLanguage : shortLocale}
-            messages={messages}
-            onError={() => null}
-          >
-            <ThemeProvider theme={MuiTheme}>
-              <CssBaseline />
-              <NavBar setSelectedLanguage={setSelectedLanguage} />
-              <ButtonsRecepieCocktailNavigation />
-              <Component {...pageProps} />
-              <Contact />
-            </ThemeProvider>
-          </IntlProvider>
-        </SessionProvider>
-      </QueryClientProvider>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <SessionProvider session={pageProps.session}>
+            <IntlProvider
+              locale={selectedLanguage !== "" ? selectedLanguage : shortLocale}
+              messages={messages}
+              onError={() => null}
+            >
+              <ThemeProvider theme={MuiTheme}>
+                <CssBaseline />
+                <BuySubscription />
+                <NavBar setSelectedLanguage={setSelectedLanguage} />
+                <ButtonsRecepieCocktailNavigation />
+                <Component {...pageProps} />
+                <Contact />
+              </ThemeProvider>
+            </IntlProvider>
+          </SessionProvider>
+        </QueryClientProvider>
+      </Provider>
     </>
   );
 };

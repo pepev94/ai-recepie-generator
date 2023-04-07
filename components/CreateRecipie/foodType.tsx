@@ -1,18 +1,35 @@
-import { Typography, Grid, Box, Button } from "@mui/material";
-import { FormattedMessage } from "react-intl";
+import { showBuyMore } from "@/redux/features/common";
+import { useAppDispatch } from "@/redux/hooks";
+import { Typography, Grid, Box } from "@mui/material";
 
 type Props = {
   foodType: string;
+  hasProFeatures: boolean;
   setFoodType: any;
   foodTypeButtons: {
     icon: string;
     label: string;
     value: string;
     color: string;
+    isProFeature?: boolean;
   }[];
 };
 
-const FoodType = ({ foodType, setFoodType, foodTypeButtons }: Props) => {
+const FoodType = ({
+  foodType,
+  setFoodType,
+  foodTypeButtons,
+  hasProFeatures,
+}: Props) => {
+  const dispatch = useAppDispatch();
+
+  const handleSelectedFood = (value: string, isProFeature?: boolean) => {
+    if (isProFeature && !hasProFeatures) {
+      dispatch(showBuyMore());
+      return;
+    }
+    setFoodType(value);
+  };
   return (
     <Box
       sx={{
@@ -35,7 +52,14 @@ const FoodType = ({ foodType, setFoodType, foodTypeButtons }: Props) => {
         {foodTypeButtons.map((button) => {
           return (
             <Grid key={button.value} item>
-              <Box onClick={() => setFoodType(button.value)}>
+              <Box
+                sx={{
+                  opacity: !hasProFeatures && button.isProFeature ? "0.4" : 1,
+                }}
+                onClick={() =>
+                  handleSelectedFood(button.value, button.isProFeature)
+                }
+              >
                 <Box
                   sx={{
                     display: "flex",

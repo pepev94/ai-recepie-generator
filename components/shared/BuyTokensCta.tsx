@@ -1,31 +1,28 @@
-import { Button, Box, Dialog } from "@mui/material";
-import { useState } from "react";
-import BuyMoreTokensModal from "../shared/BuyTokensModal";
-import { FormattedMessage } from "react-intl";
+import { Box, Dialog } from "@mui/material";
+import BuySubscriptionCard from "./BuySubscriptionCard";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { hideBuyMore } from "@/redux/features/common";
 
-const BuyTokensCta = () => {
-  const [openModal, setOpenModal] = useState(false);
+const BuySubscription = () => {
+  const openModal = useAppSelector((state) => state.common.showBuyMore);
+  const dispatch = useAppDispatch();
+
+  const handleCloseModal = () => {
+    dispatch(hideBuyMore());
+  };
+
   return (
     <Box>
       <Dialog
         open={openModal}
-        onClose={() => setOpenModal(false)}
+        onClose={() => handleCloseModal()}
         aria-labelledby="modal-buy-credits"
         aria-describedby="modal-bur-credits"
       >
-        <BuyMoreTokensModal />
+        <BuySubscriptionCard />
       </Dialog>
-      <Button
-        color="secondary"
-        sx={{ my: 2 }}
-        variant="contained"
-        fullWidth
-        onClick={() => setOpenModal(true)}
-      >
-        <FormattedMessage id="buyTokensCTA" />
-      </Button>
     </Box>
   );
 };
 
-export default BuyTokensCta;
+export default BuySubscription;
