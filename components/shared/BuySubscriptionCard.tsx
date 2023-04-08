@@ -30,22 +30,22 @@ export const redirectToStripe = async () => {
 };
 
 const proFeatures = [
-  <FormattedMessage id="proFeature1" defaultMessage="Recipies AI" />,
-  <FormattedMessage id="proFeature2" defaultMessage="Recipies AI" />,
-  <FormattedMessage id="proFeature3" defaultMessage="Recipies AI" />,
-  <FormattedMessage id="proFeature5" defaultMessage="Recipies AI" />,
-  <FormattedMessage id="proFeature4" defaultMessage="Recipies AI" />,
+  <FormattedMessage key={1} id="proFeature1" defaultMessage="Recipies AI" />,
+  <FormattedMessage key={2} id="proFeature2" defaultMessage="Recipies AI" />,
+  <FormattedMessage key={3} id="proFeature3" defaultMessage="Recipies AI" />,
+  <FormattedMessage key={4} id="proFeature5" defaultMessage="Recipies AI" />,
+  <FormattedMessage key={5} id="proFeature4" defaultMessage="Recipies AI" />,
 ];
 
 const freeFeatures = [
-  <FormattedMessage id="freeFeature" defaultMessage="Recipies AI" />,
+  <FormattedMessage key={1} id="freeFeature" defaultMessage="Recipies AI" />,
 ];
 const FeaturesList = ({ list }: { list: JSX.Element[] }) => {
   return (
     <Box sx={{ p: 2, mt: 4 }}>
       <Box>
-        {list.map((feature) => (
-          <Box sx={{ display: "flex" }}>
+        {list.map((feature, i) => (
+          <Box key={i} sx={{ display: "flex" }}>
             <CheckIcon sx={{ mr: 2, color: "#80ed9d" }} />
             <Typography variant="h6" sx={{ color: "white" }} textAlign="left">
               {feature}
