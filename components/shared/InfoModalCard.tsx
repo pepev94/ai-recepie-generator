@@ -15,7 +15,7 @@ const InfoModalCard = ({ children }: Props) => {
     <CardWithGradient
       elevation={12}
       sx={{
-        py: 7,
+        py: 5,
         px: 5,
         width: "100%",
         alignItems: "center",

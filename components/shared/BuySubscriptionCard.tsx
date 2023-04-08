@@ -1,10 +1,20 @@
-import { Button, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import InfoModalCard from "./InfoModalCard";
 import getStripe from "@/utils/get-stripe";
 import { useSession } from "next-auth/react";
 import LoginCta from "../CreateRecipie/loginCta";
-
+import { useState } from "react";
+import { Box } from "@mui/system";
+import CheckIcon from "@mui/icons-material/Check";
+import { useDispatch } from "react-redux";
+import { hideBuyMore } from "@/redux/features/common";
 export const redirectToStripe = async () => {
   const response = await fetch("/api/stripe/checkout_sessions");
   if (response.status !== 200) {
@@ -19,31 +29,106 @@ export const redirectToStripe = async () => {
   });
 };
 
+const proFeatures = [
+  <FormattedMessage id="proFeature1" defaultMessage="Recipies AI" />,
+  <FormattedMessage id="proFeature2" defaultMessage="Recipies AI" />,
+  <FormattedMessage id="proFeature3" defaultMessage="Recipies AI" />,
+  <FormattedMessage id="proFeature5" defaultMessage="Recipies AI" />,
+  <FormattedMessage id="proFeature4" defaultMessage="Recipies AI" />,
+];
+
+const freeFeatures = [
+  <FormattedMessage id="freeFeature" defaultMessage="Recipies AI" />,
+];
+const FeaturesList = ({ list }: { list: JSX.Element[] }) => {
+  return (
+    <Box sx={{ p: 2, mt: 4 }}>
+      <Box>
+        {list.map((feature) => (
+          <Box sx={{ display: "flex" }}>
+            <CheckIcon sx={{ mr: 2, color: "#80ed9d" }} />
+            <Typography variant="h6" sx={{ color: "white" }} textAlign="left">
+              {feature}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
+};
+
 const BuySubscriptionCard = () => {
   const session = useSession();
+  const [alignment, setAlignment] = useState<string | null>("pro");
+  const dispatch = useDispatch();
+
+  const handleAlignment = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string | null
+  ) => {
+    setAlignment(newAlignment);
+  };
 
   if (session.status === "loading") return null;
 
   if (session.status === "unauthenticated") return <LoginCta />;
 
+  const handleCloseModal = () => {
+    dispatch(hideBuyMore());
+  };
+
   return (
     <InfoModalCard>
       <Typography
         color="white"
-        sx={{ mt: 2, whiteSpace: "pre-line", textAlign: "left" }}
-        variant="h4"
+        sx={{
+          mt: 2,
+          whiteSpace: "pre-line",
+          textAlign: "left",
+          fontWeight: 700,
+        }}
+        variant="h5"
         component="h1"
       >
         <FormattedMessage id="ranOutOfCredits" defaultMessage="Recipies AI" />
       </Typography>
-      <Button
-        fullWidth
-        sx={{ mt: 6, color: "black", backgroundColor: "white" }}
-        variant="contained"
-        onClick={() => redirectToStripe()}
+      <ToggleButtonGroup
+        sx={{ mt: 4, backgroundColor: "white" }}
+        value={alignment}
+        color="standard"
+        exclusive
+        onChange={handleAlignment}
+        aria-label="text alignment"
       >
-        <FormattedMessage id="buyTokensCTA" />
-      </Button>
+        <ToggleButton value="free" aria-label="centered">
+          Free
+        </ToggleButton>
+        <ToggleButton value="pro" aria-label="centered">
+          Pro
+        </ToggleButton>
+      </ToggleButtonGroup>
+
+      <FeaturesList list={alignment === "pro" ? proFeatures : freeFeatures} />
+
+      {alignment === "pro" ? (
+        <Button
+          fullWidth
+          sx={{ mt: 6, color: "black", backgroundColor: "white" }}
+          variant="contained"
+          onClick={() => redirectToStripe()}
+        >
+          <FormattedMessage id="buyTokensCTA" />
+        </Button>
+      ) : (
+        <Button
+          fullWidth
+          sx={{ mt: 6, color: "black", backgroundColor: "white" }}
+          variant="contained"
+          onClick={() => handleCloseModal()}
+        >
+          <FormattedMessage id="stayInFree" />
+        </Button>
+      )}
     </InfoModalCard>
   );
 };

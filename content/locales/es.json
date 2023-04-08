@@ -45,5 +45,12 @@
   "generateCocktail": "Crear Cocktail! 👨‍🍳",
   "cocktailTitle": "Cocktail AI",
   "cocktailSubtitle": "¿Qué quieres tomar?",
-  "ranOutOfCredits": "¿Quieres usar esta  feature? \n  Compra la subscripción solo por $75 MXN \n \n  - Todos los estilos \n - Ve todas tus recetas \n - Crea recetas especiales (keto, sin glutten, etc)"
+  "ranOutOfCredits": "¿Quieres usar esta  feature? \n  Compra la subscripción solo por $75 MXN \n \n  - Todos los estilos \n - Ve todas tus recetas \n - Crea recetas especiales (keto, sin glutten, etc)",
+  "proFeature1": "Recetas ilimitadas",
+  "proFeature2": "Ve todas tus recetras pasadas",
+  "proFeature3": "Todos los estilos de recetas disponibles",
+  "proFeature4": "Recetas especiales disponibles (keto, paleo, glutten free, etc)",
+  "proFeature5": "Sin ads.",
+  "freeFeature": "Recetas ilimitadas (Estilos limitados, sin dietas especiales)",
+  "stayInFree": "Quedarse en la versión gratis."
 }

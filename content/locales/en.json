@@ -46,5 +46,12 @@
   "generateCocktail": "Create Cocktail! 👨‍🍳",
   "cocktailTitle": "Create Your own cocktails powered by AI in 3 simple steps",
   "cocktailSubtitle": "What do you want to drink?",
-  "ranOutOfCredits": "¿Want to use this feature? \n  Go PRO! For only 3.99 USD \n \n  - All food styles \n - See your all your created recipes \n - Select special diet creation (keto, gluten free, etc)"
+  "ranOutOfCredits": "¿Want to use this feature? Go PRO!",
+  "proFeature1": "Unlimited recipe generation",
+  "proFeature2": "See all your created recipes",
+  "proFeature3": "All recipes styles available",
+  "proFeature5": "No ads. Ever",
+  "proFeature4": "Select special diet creation (keto, paleo, sugar free, etc..)",
+  "freeFeature": "Unlimited recipes creation (limited food styles and special recipes)",
+  "stayInFree": "Stay in free version"
 }
