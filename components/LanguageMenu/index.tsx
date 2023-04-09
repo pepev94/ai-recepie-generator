@@ -18,14 +18,14 @@ const LanguageMenu = ({ setSelectedLanguage }: Props) => {
         onClick={() => setSelectedLanguage("en")}
         variant="outlined"
       >
-        🇺🇸 English
+        🇺🇸 ENG
       </Button>
       <Button
         sx={{ color: "white", border: "1px solid white" }}
         onClick={() => setSelectedLanguage("es")}
         variant="outlined"
       >
-        🇪🇸 Español
+        🇪🇸 ESP
       </Button>
     </Box>
   );

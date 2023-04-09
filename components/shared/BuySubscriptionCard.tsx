@@ -84,7 +84,7 @@ const BuySubscriptionCard = () => {
         sx={{
           mt: 2,
           whiteSpace: "pre-line",
-          textAlign: "left",
+          textAlign: "center",
           fontWeight: 700,
         }}
         variant="h5"
