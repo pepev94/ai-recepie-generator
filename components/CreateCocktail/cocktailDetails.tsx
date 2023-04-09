@@ -1,3 +1,5 @@
+import { showBuyMore } from "@/redux/features/common";
+import { useAppDispatch } from "@/redux/hooks";
 import { Typography, Grid, Box, TextField } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
@@ -15,13 +17,16 @@ type Props = {
     label: string;
     value: string;
     color: string;
+    isProFeature?: boolean;
   }[];
   cocktailStyleButtons: {
     icon: string;
     label: string;
     value: string;
     color: string;
+    isProFeature?: boolean;
   }[];
+  hasProFeatures: boolean;
 };
 
 const CocktailDetails = ({
@@ -35,7 +40,31 @@ const CocktailDetails = ({
   setCocktailMainIngredients,
   cocktailSecondaryIngredients,
   setCocktailSecondaryIngredients,
+  hasProFeatures,
 }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const handleSelectedCocktailType = (
+    value: string,
+    isProFeature?: boolean
+  ) => {
+    if (isProFeature && !hasProFeatures) {
+      dispatch(showBuyMore());
+      return;
+    }
+    setCocktailType(value);
+  };
+
+  const handleSelectedCocktailStyle = (
+    value: string,
+    isProFeature?: boolean
+  ) => {
+    if (isProFeature && !hasProFeatures) {
+      dispatch(showBuyMore());
+      return;
+    }
+    setCocktailStyle(value);
+  };
   return (
     <Box
       sx={{
@@ -58,7 +87,14 @@ const CocktailDetails = ({
         {cocktailTypeButtons.map((button) => {
           return (
             <Grid key={button.value} item>
-              <Box onClick={() => setCocktailType(button.value)}>
+              <Box
+                sx={{
+                  opacity: !hasProFeatures && button.isProFeature ? "0.4" : 1,
+                }}
+                onClick={() =>
+                  handleSelectedCocktailType(button.value, button.isProFeature)
+                }
+              >
                 <Box
                   sx={{
                     display: "flex",
@@ -112,7 +148,14 @@ const CocktailDetails = ({
         {cocktailStyleButtons.map((button) => {
           return (
             <Grid key={button.value} item>
-              <Box onClick={() => setCocktailStyle(button.value)}>
+              <Box
+                sx={{
+                  opacity: !hasProFeatures && button.isProFeature ? "0.4" : 1,
+                }}
+                onClick={() =>
+                  handleSelectedCocktailStyle(button.value, button.isProFeature)
+                }
+              >
                 <Box
                   sx={{
                     display: "flex",

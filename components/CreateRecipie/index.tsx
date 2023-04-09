@@ -1,9 +1,11 @@
 import {
   BodyGetOpenAiResult,
   SEPARATION_CHARACTERS,
+  SpecialRecepieObj,
 } from "@/pages/api/open-ai/food";
 import {
   Alert,
+  Button,
   Dialog,
   FormControlLabel,
   FormGroup,
@@ -29,7 +31,6 @@ import {
 import LoadingScreen from "./loadingScreen";
 import FoodType from "./foodType";
 import ExtraActions from "./extraActions";
-import BuyTokensCta from "../shared/BuyTokensCta";
 import PageHeader from "../shared/header";
 import { getLanguage } from "../CreateCocktail";
 import CountMacros from "./countMacros";
@@ -37,6 +38,9 @@ import RecipieDetails from "./recipieDetails";
 import { AlertColor } from "@mui/material/Alert";
 import { useRouter } from "next/router";
 import { createRecepie } from "@/lib/api/recipe";
+import SpecialRecipe from "./specialRecepie";
+import { useDispatch } from "react-redux";
+import { showBuyMore } from "@/redux/features/common";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -87,6 +91,9 @@ const CreateRecipie = () => {
   } = router.query;
 
   const isAuthenticated = session?.status === "authenticated";
+  const hasProFeatures = Boolean(
+    isAuthenticated && userData?.data[0]?.subscriptionId
+  );
 
   useEffect(() => {
     if (
@@ -113,6 +120,8 @@ const CreateRecipie = () => {
 
   const myRef = useRef(null);
 
+  const dispatch = useDispatch();
+
   const [foodType, setFoodType] = useState<string>(foodTypeButtons[0].value);
   const [countMacros, setCountMacros] = useState(false);
   const [targetProtein, setTargetProtein] = useState<string>("30");
@@ -120,12 +129,11 @@ const CreateRecipie = () => {
   const [targetFats, setTargetFats] = useState<string>("5");
   const [primaryIngredient, setPrimaryIngredient] = useState<string>("");
   const [personCount, setPersonCount] = useState<string>("1");
+  const [specialRecipe, setSpecialRecipe] = useState(SpecialRecepieObj.none);
 
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [result, setResult] = useState("");
-
-  const [showBuyMoreCta, setShowBuyMoreCta] = useState(false);
 
   const [openSnackBar, setOpenSnackBar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -276,6 +284,7 @@ const CreateRecipie = () => {
         </Dialog>
         <Box>
           <FoodType
+            hasProFeatures={hasProFeatures}
             foodType={foodType}
             setFoodType={setFoodType}
             foodTypeButtons={foodTypeButtons}
@@ -323,6 +332,12 @@ const CreateRecipie = () => {
             setPersonCount={setPersonCount}
             personCount={personCount}
           />
+          <SpecialRecipe
+            value={specialRecipe}
+            hasProFeatures={hasProFeatures}
+            setSpecialRecipe={setSpecialRecipe}
+          />
+
           <LoadingButton
             sx={{ mt: 5 }}
             onClick={() =>
@@ -335,6 +350,7 @@ const CreateRecipie = () => {
                 selectedLanguage: getLanguage(shortLocale),
                 personCount,
                 countMacros,
+                specialRecipe,
               })
             }
             disabled={loading}
@@ -362,6 +378,22 @@ const CreateRecipie = () => {
             {result}
           </Typography>
 
+          <Button
+            color="secondary"
+            sx={{ my: 2 }}
+            variant="contained"
+            fullWidth
+            onClick={() => {
+              if (!hasProFeatures) {
+                dispatch(showBuyMore());
+                return;
+              }
+              router.push("/recepies");
+            }}
+          >
+            <FormattedMessage id="seeAllRecipes" />
+          </Button>
+
           {image !== "" && (
             <Box
               component="img"
@@ -372,9 +404,6 @@ const CreateRecipie = () => {
               alt="The house from the offer."
               src={image}
             />
-          )}
-          {userData?.data && !userData?.data[0]?.subscriptionId && (
-            <BuyTokensCta />
           )}
         </Box>
       </Box>

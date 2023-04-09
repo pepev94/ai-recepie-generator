@@ -1,4 +1,11 @@
-import { Alert, Dialog, Snackbar, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Dialog,
+  Snackbar,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useEffect, useRef, useState } from "react";
@@ -22,10 +29,11 @@ import { BodyGetOpenAiCocktailResult } from "@/pages/api/open-ai/cocktail";
 import { AlertColor } from "@mui/material/Alert";
 import LoginCta from "../CreateRecipie/loginCta";
 import { useRouter } from "next/router";
-import BuyMoreTokensModal from "../shared/BuyTokensModal";
 import { SEPARATION_CHARACTERS } from "@/pages/api/open-ai/food";
 import { createRecepie } from "@/lib/api/recipe";
 import { fetchUser } from "@/utils/fetchers";
+import { showBuyMore } from "@/redux/features/common";
+import { useDispatch } from "react-redux";
 
 const getButtonsLanguage = (shortLocale: string) => {
   switch (shortLocale) {
@@ -106,6 +114,12 @@ const CreateCocktail = () => {
   }, [router.query]);
 
   const session = useSession();
+
+  const dispatch = useDispatch();
+
+  const hasProFeatures = Boolean(
+    session?.status === "authenticated" && userData?.data[0]?.subscriptionId
+  );
 
   const isAuthenticated = session?.status === "authenticated";
 
@@ -266,15 +280,6 @@ const CreateCocktail = () => {
         />
 
         <Dialog
-          open={showBuyMoreCta}
-          onClose={() => setShowBuyMoreCta(false)}
-          aria-labelledby="modal-buy-credits"
-          aria-describedby="modal-bur-credits"
-        >
-          <BuyMoreTokensModal />
-        </Dialog>
-
-        <Dialog
           open={openAuthModal}
           onClose={() => setOpenAuthModal(false)}
           aria-labelledby="modal-sign-in"
@@ -286,6 +291,7 @@ const CreateCocktail = () => {
         </Dialog>
         <Box>
           <CocktailDetails
+            hasProFeatures={hasProFeatures}
             cocktailType={cocktailType}
             setCocktailType={setCocktailType}
             cocktailStyle={cocktailStyle}
@@ -332,6 +338,22 @@ const CreateCocktail = () => {
           >
             {result}
           </Typography>
+
+          <Button
+            color="secondary"
+            sx={{ my: 2 }}
+            variant="contained"
+            fullWidth
+            onClick={() => {
+              if (!hasProFeatures) {
+                dispatch(showBuyMore());
+                return;
+              }
+              router.push("/recepies");
+            }}
+          >
+            <FormattedMessage id="seeAllRecipes" />
+          </Button>
           {image !== "" && (
             <Box
               component="img"
