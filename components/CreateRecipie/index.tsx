@@ -270,7 +270,7 @@ const CreateRecipie = () => {
       >
         <PageHeader
           title={<FormattedMessage id="title" defaultMessage="Recipies AI" />}
-          subTitle={<FormattedMessage id="subtitle" defaultMessage=" AI" />}
+          subTitle={""}
         />
         <Dialog
           open={openAuthModal}
@@ -283,6 +283,12 @@ const CreateRecipie = () => {
           />
         </Dialog>
         <Box>
+          <RecipieDetails
+            setPrimaryIngredient={setPrimaryIngredient}
+            primaryIngredient={primaryIngredient}
+            setPersonCount={setPersonCount}
+            personCount={personCount}
+          />
           <FoodType
             hasProFeatures={hasProFeatures}
             foodType={foodType}
@@ -326,12 +332,6 @@ const CreateRecipie = () => {
             />
           )}
 
-          <RecipieDetails
-            setPrimaryIngredient={setPrimaryIngredient}
-            primaryIngredient={primaryIngredient}
-            setPersonCount={setPersonCount}
-            personCount={personCount}
-          />
           <SpecialRecipe
             value={specialRecipe}
             hasProFeatures={hasProFeatures}

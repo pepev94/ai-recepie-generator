@@ -18,7 +18,7 @@
   "targetMacrosProtein": "Protein gms",
   "targetMacrosCarbs": "Carbs gms",
   "targetMacrosFats": "Fats gms",
-  "recipieDetails": "Recipe Ingredients",
+  "recipieDetails": "What do you have in your fridge?",
   "recipieFinalStep": "Final Step",
 
   "recipieDetailsIngredients": "Type here the main ingredients for your recipe (salmon, grapes, and bread)",
