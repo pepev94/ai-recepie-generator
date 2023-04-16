@@ -20,7 +20,7 @@ const RecipiePage = ({ slug }: { slug: string }) => {
   const recepie = data.data[0];
   return (
     <>
-      <Seo title={recepie.title} description={recepie.ingredients} />
+      <Seo isRecepie title={recepie.title} description={recepie.ingredients} />
       <Box sx={{ my: 6, mx: 3, display: "flex", justifyContent: "center" }}>
         <Card elevation={10} sx={{ maxWidth: "900px", p: 5, borderRadius: 4 }}>
           <Typography sx={{ mb: 1 }} variant="body1" color="text.secondary">

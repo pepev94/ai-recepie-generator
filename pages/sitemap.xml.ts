@@ -46,7 +46,7 @@ export async function getServerSideProps({ res }) {
   const sitemap = generateSiteMap(
     postSlugs,
     //@ts-ignore
-    allSlugs.map((obj) => obj.slug)
+    allSlugs.map((obj) => obj.slug).filter((slug) => slug !== undefined)
   );
 
   res.setHeader("Content-Type", "text/xml");

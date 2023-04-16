@@ -11,8 +11,53 @@ export default function Seo({
   canonical = DOMAIN,
   ogImage = DEFAULT_OG_IMAGE,
   ogType = "website",
+  isRecepie = false,
   //   twitterHandle = "@d__raptis",
 }) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    headline: title,
+    description: description,
+    cookTime: "PT30M",
+    keywords: title,
+    recipeIngredient: [
+      "1 cup all-purpose flour",
+      "2 tablespoons sugar",
+      "2 teaspoons baking powder",
+      "1/2 teaspoon salt",
+      "1 cup milk",
+      "1 egg",
+      "2 tablespoons vegetable oil",
+    ],
+    recipeInstructions: [
+      {
+        "@type": "HowToStep",
+        text: "In a mixing bowl, combine the flour, sugar, baking powder, and salt.",
+      },
+      {
+        "@type": "HowToStep",
+        text: "In a separate bowl, whisk together the milk, egg, and vegetable oil.",
+      },
+      {
+        "@type": "HowToStep",
+        text: "Add the wet ingredients to the dry ingredients and stir until just combined.",
+      },
+      {
+        "@type": "HowToStep",
+        text: "Heat a non-stick pan over medium heat. Pour 1/4 cup of batter onto the pan for each pancake.",
+      },
+      {
+        "@type": "HowToStep",
+        text: "Cook until bubbles form on the surface, then flip and cook until the other side is golden brown.",
+      },
+      {
+        "@type": "HowToStep",
+        text: "Serve with your favorite toppings, such as butter and syrup.",
+      },
+    ],
+  };
+
   return (
     <Head>
       <title key="title">{`${title} – ${siteName}`}</title>
@@ -68,6 +113,14 @@ export default function Seo({
       <link rel="canonical" href={canonical ?? DOMAIN} />
 
       <link rel="shortcut icon" href="/favicon.ico" />
+
+      {isRecepie && (
+        <script
+          key="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      )}
     </Head>
   );
 }
