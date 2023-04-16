@@ -236,8 +236,6 @@ const CreateRecipie = () => {
     }
   }, [loading]);
 
-  if (session?.status === "loading") return <LoadingScreen />;
-
   return (
     <Box
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
@@ -337,30 +335,34 @@ const CreateRecipie = () => {
             hasProFeatures={hasProFeatures}
             setSpecialRecipe={setSpecialRecipe}
           />
+          {session?.status === "loading" ? (
+            <LoadingScreen />
+          ) : (
+            <LoadingButton
+              sx={{ mt: 5 }}
+              onClick={() =>
+                fetchData({
+                  foodType,
+                  targetProtein,
+                  targetCarbs,
+                  primaryIngredient,
+                  targetFats,
+                  selectedLanguage: getLanguage(shortLocale),
+                  personCount,
+                  countMacros,
+                  specialRecipe,
+                })
+              }
+              disabled={loading}
+              loading={loading}
+              size="large"
+              fullWidth
+              variant="contained"
+            >
+              <FormattedMessage id="generateReciepie" />
+            </LoadingButton>
+          )}
 
-          <LoadingButton
-            sx={{ mt: 5 }}
-            onClick={() =>
-              fetchData({
-                foodType,
-                targetProtein,
-                targetCarbs,
-                primaryIngredient,
-                targetFats,
-                selectedLanguage: getLanguage(shortLocale),
-                personCount,
-                countMacros,
-                specialRecipe,
-              })
-            }
-            disabled={loading}
-            loading={loading}
-            size="large"
-            fullWidth
-            variant="contained"
-          >
-            <FormattedMessage id="generateReciepie" />
-          </LoadingButton>
           <ExtraActions
             showMessage={() => showMessage("Copied")}
             result={result}

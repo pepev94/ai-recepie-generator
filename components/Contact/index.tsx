@@ -12,9 +12,9 @@ const Contact = () => {
         alignItems: "center",
       }}
     >
-      <Box>
+      {/* <Box>
         Contact: <Link href="mailto:inaki@aifoodie.co">inaki@aifoodie.co</Link>
-      </Box>
+      </Box> */}
     </Box>
   );
 };

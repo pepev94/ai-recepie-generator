@@ -45,6 +45,13 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Script
+        id="Adsense-id"
+        data-ad-client="ca-pub-4371440587772222"
+        async
+        strategy="beforeInteractive"
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+      />
+      <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-9RQ9TBFXW6"
         strategy="afterInteractive"
       />

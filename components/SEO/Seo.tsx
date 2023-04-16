@@ -5,8 +5,8 @@ const DEFAULT_OG_IMAGE =
   "https://aifoodie.co/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FlogoRojo.6071538e.png&w=100&q=75";
 
 export default function Seo({
-  title = "Create Recipies powered by AI",
-  description = "Create any recipie powered by AI",
+  title = "AI Foodie | AI-generated Recipes for Food and Drinks | AIFoodie.co",
+  description = "Get delicious AI-generated recipes for food and drinks at AI Foodie. Our artificial intelligence algorithms create unique and creative recipes that are sure to satisfy your taste buds. Visit AIFoodie.co now and explore our wide range of AI-generated recipes.",
   siteName = "AI Chef",
   canonical = DOMAIN,
   ogImage = DEFAULT_OG_IMAGE,

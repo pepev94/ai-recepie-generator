@@ -238,8 +238,6 @@ const CreateCocktail = () => {
     setLoading(false);
   };
 
-  if (session?.status === "loading") return <LoadingScreen />;
-
   return (
     <Box
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
@@ -303,28 +301,31 @@ const CreateCocktail = () => {
             cocktailTypeButtons={cocktailTypeButtons}
             cocktailStyleButtons={cocktailStyleButtons}
           />
-
-          <LoadingButton
-            sx={{ mt: 5 }}
-            onClick={() => {
-              setResult("");
-              setImage("");
-              fetchData({
-                cocktailType,
-                cocktailStyle,
-                cocktailMainIngredients,
-                cocktailSecondaryIngredients,
-                selectedLanguage: getLanguage(shortLocale),
-              });
-            }}
-            disabled={loading}
-            loading={loading}
-            size="large"
-            fullWidth
-            variant="contained"
-          >
-            <FormattedMessage id="generateCocktail" />
-          </LoadingButton>
+          {session?.status === "loading" ? (
+            <LoadingScreen />
+          ) : (
+            <LoadingButton
+              sx={{ mt: 5 }}
+              onClick={() => {
+                setResult("");
+                setImage("");
+                fetchData({
+                  cocktailType,
+                  cocktailStyle,
+                  cocktailMainIngredients,
+                  cocktailSecondaryIngredients,
+                  selectedLanguage: getLanguage(shortLocale),
+                });
+              }}
+              disabled={loading}
+              loading={loading}
+              size="large"
+              fullWidth
+              variant="contained"
+            >
+              <FormattedMessage id="generateCocktail" />
+            </LoadingButton>
+          )}
 
           <ExtraActions result={result} setResult={setResult} />
           <Typography
