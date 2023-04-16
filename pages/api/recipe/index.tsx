@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { createRecepieDtoSchema } from "./dto/createRecepie.dto";
 import aqp from "api-query-params";
+import slug from "slug";
 
 export default async function handler(
   req: NextApiRequest,
@@ -37,6 +38,7 @@ export default async function handler(
           const recepie = await Recepie.create({
             ...parsedDto,
             email: session.user.email,
+            slug: slug(parsedDto.title),
             createdAt: new Date(),
             _id: new ObjectId(),
           });

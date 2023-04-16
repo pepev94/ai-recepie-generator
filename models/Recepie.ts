@@ -10,6 +10,9 @@ export class Recepie {
   public language?: string;
 
   @prop()
+  public slug?: string;
+
+  @prop()
   public email?: string;
 
   @prop()
