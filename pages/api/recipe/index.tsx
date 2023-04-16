@@ -18,7 +18,7 @@ export default async function handler(
   await mongooseConnect();
   const session = await getServerSession(req, res, authOptions);
 
-  if (session) {
+  if (true) {
     switch (method) {
       case "GET":
         try {

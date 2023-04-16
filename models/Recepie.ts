@@ -21,6 +21,9 @@ export class Recepie {
   @prop()
   public ingredients?: string;
 
+  @prop({ default: 0 })
+  public views?: number;
+
   @prop()
   public steps?: string;
 

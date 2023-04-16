@@ -6,13 +6,13 @@ import LoadingScreen from "../CreateCocktail/loadingScreen";
 import Seo from "../SEO/Seo";
 import { TypographyWithGradient } from "../shared/header";
 
-const fetchRecepies = (id: string): Promise<{ data: Recepie[] }> =>
-  fetch(`/api/recipe/${id}`).then((res) => res.json());
+const fetchRecepies = (slug: string): Promise<{ data: Recepie[] }> =>
+  fetch(`/api/recipe/${slug}`).then((res) => res.json());
 
-const RecipiePage = ({ id }: { id: string }) => {
+const RecipiePage = ({ slug }: { slug: string }) => {
   const { data, isLoading } = useQuery({
-    queryKey: ["recipe", id],
-    queryFn: () => fetchRecepies(id),
+    queryKey: ["recipe", slug],
+    queryFn: () => fetchRecepies(slug),
     initialData: { data: [] },
   });
 

@@ -1,12 +1,5 @@
 import { Recepie } from "@/models/Recepie";
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 
 const SmallCardRecepie = ({ recipe }: { recipe: Recepie }) => {
@@ -24,7 +17,7 @@ const SmallCardRecepie = ({ recipe }: { recipe: Recepie }) => {
       }}
     >
       <CardActionArea
-        onClick={() => router.push(`/recipe/${recipe._id}`)}
+        onClick={() => router.push(`/recipe/${recipe.slug}`)}
         sx={{ minHeight: 150 }}
       >
         <CardContent>
