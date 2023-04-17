@@ -17,7 +17,8 @@ export default async function handler(
         const allSlugs = await Recepie.find({}).select("slug");
         res.status(200).json({ data: allSlugs.map((obj) => obj.slug) });
       } catch (error) {
-        console.log("error on api:", error);
+        //@ts-ignore
+        console.log("error on api:", error.message);
         res.status(400).json({ success: false });
       }
       break;

@@ -4,7 +4,7 @@ import { getAllSlugs, getRecepieBySlug } from "@/lib/api/recipe";
 import Recepie, { Recepie as RecepieModel } from "@/models/Recepie";
 
 export default function Recipe({ recepie }: { recepie: RecepieModel }) {
-  if (!recepie) return null;
+  if (!recepie) return <></>;
   return (
     <>
       <Seo isRecepie title={recepie.title} description={recepie.ingredients} />
@@ -37,6 +37,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }: { params: { slug: string } }) {
   const recepie = await getRecepieBySlug(params.slug);
+  console.log("recepie", recepie);
 
   return {
     props: {

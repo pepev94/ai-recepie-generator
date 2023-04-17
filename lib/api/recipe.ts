@@ -1,5 +1,5 @@
 import { createRecepieDto } from "@/pages/api/recipe/dto/createRecepie.dto";
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL; // Set your base URL in .env file
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL_EXTERNAL; // Set your base URL in .env file
 
 export const createRecepie = (dto: createRecepieDto) => {
   return fetch("/api/recipe", {
