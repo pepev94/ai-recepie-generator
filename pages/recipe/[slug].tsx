@@ -14,10 +14,12 @@ export default function Recipe({ recepie }: { recepie: RecepieModel }) {
 }
 
 export async function getStaticPaths() {
-  const response = await getAllSlugs();
-  const allSlugs = await response.json();
-  console.log("allSlugs", allSlugs.data.length);
-  const cleanedSlugs = allSlugs.data.filter(Boolean);
+  const allSlugs = await getAllSlugs();
+  console.log("allSlugsdebugx", allSlugs);
+  const cleanedSlugs = allSlugs.filter(Boolean);
+  // .filter((slug: string) => slug.length < 50);
+
+  console.log("allSlugs", cleanedSlugs.length);
 
   const paths = {
     paths: cleanedSlugs.map((slug: any) => {

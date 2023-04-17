@@ -14,12 +14,21 @@ export const createRecepie = (dto: createRecepieDto) => {
 };
 
 export const getAllSlugs = async () => {
-  return fetch(`${baseUrl}/api/recipe/extra/all-slugs`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  try {
+    const response = await fetch(`${baseUrl}/api/recipe/extra/all-slugs`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response);
+    const json = await response.json();
+    //@ts-ignore
+    return json?.data;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 };
 
 export const getRecepieBySlug = async (slug: string) => {
