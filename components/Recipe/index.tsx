@@ -3,24 +3,11 @@ import { Card, Divider, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useQuery } from "@tanstack/react-query";
 import LoadingScreen from "../CreateCocktail/loadingScreen";
-import Seo from "../SEO/Seo";
 import { TypographyWithGradient } from "../shared/header";
 
-const fetchRecepies = (slug: string): Promise<{ data: Recepie[] }> =>
-  fetch(`/api/recipe/${slug}`).then((res) => res.json());
-
-const RecipiePage = ({ slug }: { slug: string }) => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["recipe", slug],
-    queryFn: () => fetchRecepies(slug),
-    initialData: { data: [] },
-  });
-
-  if (data.data.length === 0 || isLoading) return <LoadingScreen />;
-  const recepie = data.data[0];
+const RecipiePage = ({ recepie }: { recepie: Recepie }) => {
   return (
     <>
-      <Seo isRecepie title={recepie.title} description={recepie.ingredients} />
       <Box sx={{ my: 6, mx: 3, display: "flex", justifyContent: "center" }}>
         <Card elevation={10} sx={{ maxWidth: "900px", p: 5, borderRadius: 4 }}>
           <Typography sx={{ mb: 1 }} variant="body1" color="text.secondary">
