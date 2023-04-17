@@ -31,8 +31,8 @@ const getStructuredData = (recepie: Recepie) => {
   };
 };
 export default function Seo({
-  title = "AI Foodie | AI-generated Recipes for Food and Drinks | AIFoodie.co",
-  description = "Get delicious AI-generated recipes for food and drinks at AI Foodie. Our artificial intelligence algorithms create unique and creative recipes that are sure to satisfy your taste buds. Visit AIFoodie.co now and explore our wide range of AI-generated recipes.",
+  title = "AI-generated Recipes for Food and Drinks | AIFoodie.co",
+  description = "Get delicious AI-generated recipes for food and drinks at AI Foodie.",
   siteName = "AI Foodie",
   canonical = DOMAIN,
   ogImage = DEFAULT_OG_IMAGE,
