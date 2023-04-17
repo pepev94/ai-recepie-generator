@@ -61,6 +61,10 @@ export default function Seo({
   return (
     <Head>
       <title key="title">{`${title} – ${siteName}`}</title>
+      <meta
+        name="google-site-verification"
+        content="8EmZtuC_mW3OhKAjc1b6eLrOCLWpx-FqNWFg_D4EupM"
+      />
       <meta name="description" content={description} />
       <meta key="og_type" property="og:type" content={ogType} />
       <meta key="og_title" property="og:title" content={title} />
