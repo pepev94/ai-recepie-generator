@@ -7,7 +7,11 @@ export default function Recipe({ recepie }: { recepie: RecepieModel }) {
   if (!recepie) return <></>;
   return (
     <>
-      <Seo isRecepie title={recepie.title} description={recepie.ingredients} />
+      <Seo
+        recepie={recepie}
+        title={recepie.title}
+        description={recepie.ingredients}
+      />
       <RecipiePage recepie={recepie} />
     </>
   );
