@@ -12,6 +12,7 @@ export default function Seo({
   ogImage = DEFAULT_OG_IMAGE,
   ogType = "website",
   isRecepie = false,
+  image = null,
   //   twitterHandle = "@d__raptis",
 }) {
   const structuredData = {
@@ -118,7 +119,7 @@ export default function Seo({
 
       <link rel="shortcut icon" href="/favicon.ico" />
 
-      {isRecepie && (
+      {isRecepie && image && (
         <script
           key="structured-data"
           type="application/ld+json"
