@@ -1,14 +1,18 @@
+import { cleanIngredients, cleanSteps } from "@/components/SEO/Seo";
 import { createRecepieDto } from "@/pages/api/recipe/dto/createRecepie.dto";
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL_EXTERNAL; // Set your base URL in .env file
 
 export const createRecepie = (dto: createRecepieDto) => {
+  const { steps, ingredients, ...rest } = dto;
   return fetch("/api/recipe", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      ...dto,
+      ...rest,
+      steps: cleanSteps(steps),
+      ingredients: cleanIngredients(ingredients),
     }),
   });
 };

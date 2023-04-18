@@ -5,16 +5,18 @@ const DOMAIN = "http://aifoodie.co/";
 const DEFAULT_OG_IMAGE =
   "https://aifoodie.co/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FlogoRojo.6071538e.png&w=100&q=75";
 
-const getStructuredData = (recepie: Recepie) => {
-  const cleanedSteps = (recepie?.steps || "")
+export const cleanSteps = (text: string) => {
+  return text
     .replace(/^(Instructions|Pasos):/i, "")
     .trim()
     .replace(/#+/g, "")
     .trim();
-  const cleanedIngredients = (recepie?.ingredients || "")
-    .replace(/^(Ingredients|Ingredientes):/i, "")
-    .trim();
+};
 
+export const cleanIngredients = (text: string) =>
+  text.replace(/^(Ingredients|Ingredientes):/i, "").trim();
+
+const getStructuredData = (recepie: Recepie) => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Recipe",
@@ -22,10 +24,10 @@ const getStructuredData = (recepie: Recepie) => {
     description: recepie.ingredients,
     cookTime: "PT30M",
     keywords: recepie.title,
-    recipeIngredient: cleanedIngredients
+    recipeIngredient: cleanIngredients(recepie?.ingredients || "")
       .split("\n")
       .map((ingredient) => ingredient.trim()),
-    recipeInstructions: cleanedSteps
+    recipeInstructions: cleanSteps(recepie?.steps || "")
       .split("\n")
       .map((step) => ({ "@type": "HowToStep", text: step.trim() })),
   };
