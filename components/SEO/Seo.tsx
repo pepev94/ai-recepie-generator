@@ -13,6 +13,14 @@ export const cleanSteps = (text: string) => {
     .trim();
 };
 
+export const cleanTitle = (text: string) => {
+  return text
+    .replace(/^(Title|Título|Titulo):/i, "")
+    .trim()
+    .replace(/#+/g, "")
+    .trim();
+};
+
 export const cleanIngredients = (text: string) =>
   text.replace(/^(Ingredients|Ingredientes):/i, "").trim();
 
@@ -20,7 +28,7 @@ const getStructuredData = (recepie: Recepie) => {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Recipe",
-    headline: recepie.title,
+    headline: cleanTitle(recepie.title || ""),
     description: recepie.ingredients,
     cookTime: "PT30M",
     keywords: recepie.title,
