@@ -19,8 +19,9 @@ export default function Recipe({ recepie }: { recepie: RecepieModel }) {
 
 export async function getStaticPaths() {
   const allSlugs = await getAllSlugs();
-  const cleanedSlugs = allSlugs.filter(Boolean);
-  // .filter((slug: string) => slug.length < 50);
+  const cleanedSlugs = allSlugs
+    .filter(Boolean)
+    .filter((slug: string) => slug.length < 50);
 
   const paths = {
     paths: cleanedSlugs.map((slug: any) => {
