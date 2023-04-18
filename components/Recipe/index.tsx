@@ -13,11 +13,19 @@ const RecipiePage = ({ recepie }: { recepie: Recepie }) => {
           <Typography sx={{ mb: 1 }} variant="body1" color="text.secondary">
             {recepie.type}
           </Typography>
-          <TypographyWithGradient variant="h3">
+          <TypographyWithGradient
+            variant="h3"
+            //@ts-ignore
+            component="h1"
+          >
             {recepie.title}
           </TypographyWithGradient>
           <Divider sx={{ mt: 4 }} />
-          <Typography variant="h5" sx={{ whiteSpace: "pre-line" }}>
+          <Typography
+            variant="h5"
+            component="h2"
+            sx={{ whiteSpace: "pre-line" }}
+          >
             {recepie.ingredients}
           </Typography>
 
