@@ -109,7 +109,8 @@ export default function NavBar({
                 )}
 
                 {session?.status === "authenticated" &&
-                  userData.data[0]?.subscriptionId !== null && (
+                  // userData.data[0]?.subscriptionId !== null && (
+                  true && (
                     <>
                       <MenuItem onClick={handleClose}>
                         <Link
@@ -119,7 +120,7 @@ export default function NavBar({
                           <FormattedMessage id="yourRecepiesPage" />
                         </Link>
                       </MenuItem>
-                      <MenuItem
+                      {/* <MenuItem
                         onClick={() => {
                           cancelSubscription();
                           handleClose();
@@ -127,7 +128,7 @@ export default function NavBar({
                         sx={{ color: "black" }}
                       >
                         <FormattedMessage id="cancelSubscription" />
-                      </MenuItem>
+                      </MenuItem> */}
                     </>
                   )}
               </Menu>

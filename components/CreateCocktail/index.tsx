@@ -118,7 +118,8 @@ const CreateCocktail = () => {
   const dispatch = useDispatch();
 
   const hasProFeatures = Boolean(
-    session?.status === "authenticated" && userData?.data[0]?.subscriptionId
+    // session?.status === "authenticated" && userData?.data[0]?.subscriptionId
+    true
   );
 
   const isAuthenticated = session?.status === "authenticated";
@@ -366,9 +367,9 @@ const CreateCocktail = () => {
               src={image}
             />
           )}
-          {userData?.data && !userData?.data[0]?.subscriptionId && (
+          {/* {userData?.data && !userData?.data[0]?.subscriptionId && (
             <BuyTokensCta />
-          )}
+          )} */}
         </Box>
       </Box>
     </Box>
