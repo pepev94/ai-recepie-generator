@@ -92,7 +92,8 @@ const CreateRecipie = () => {
 
   const isAuthenticated = session?.status === "authenticated";
   const hasProFeatures = Boolean(
-    isAuthenticated && userData?.data[0]?.subscriptionId
+    // isAuthenticated && userData?.data[0]?.subscriptionId
+    true
   );
 
   useEffect(() => {

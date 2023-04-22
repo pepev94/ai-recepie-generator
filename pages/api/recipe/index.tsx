@@ -23,8 +23,8 @@ export default async function handler(
       case "GET":
         try {
           let { filter } = aqp(req.query);
-          const hasSubscriptionId = session.user.subscriptionId;
-          if (!hasSubscriptionId) throw new Error();
+          // const hasSubscriptionId = session.user.subscriptionId;
+          // if (!hasSubscriptionId) throw new Error();
           filter.email = session.user.email;
           const recepies = await Recepie.find(filter);
           res.status(200).json({ data: recepies });
