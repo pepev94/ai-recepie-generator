@@ -51,6 +51,10 @@ const App = ({ Component, pageProps }: AppProps) => {
         strategy="beforeInteractive"
         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
       />
+      <meta
+        name="google-site-verification"
+        content="8EmZtuC_mW3OhKAjc1b6eLrOCLWpx-FqNWFg_D4EupM"
+      />
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-9RQ9TBFXW6"
         strategy="afterInteractive"

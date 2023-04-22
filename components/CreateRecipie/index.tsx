@@ -314,7 +314,6 @@ const CreateRecipie = () => {
                 <Switch
                   checked={countMacros}
                   onChange={(e) => setCountMacros(e.target.checked)}
-                  defaultChecked
                 />
               }
               label=""
