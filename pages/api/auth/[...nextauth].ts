@@ -5,6 +5,7 @@ import EmailProvider from "next-auth/providers/email";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions = {
+  debug: true,
   adapter: MongoDBAdapter(clientPromise),
   jwt: {
     // The maximum age of the NextAuth.js issued JWT in seconds.
@@ -27,8 +28,12 @@ export const authOptions = {
       from: process.env.EMAIL_FROM,
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+      clientId:
+        process.env.GOOGLE_CLIENT_ID ||
+        "56918078583-9qndhlbcn4hg9i6i2b9gd3cue66cscvt.apps.googleusercontent.com",
+      clientSecret:
+        process.env.GOOGLE_CLIENT_SECRET ||
+        "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",
     }),
   ],
   callbacks: {
