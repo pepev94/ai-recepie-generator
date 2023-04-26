@@ -19,9 +19,7 @@ const LoginCta = ({ callbackUrl }: Props) => {
           defaultMessage="Create you own recipies powered by AI"
         />
       </Typography> */}
-      <Typography sx={{ mt: 3 }} color="white" variant="h5" component="h2">
-        <FormattedMessage id="signInCTA" />
-      </Typography>
+
       <Button
         fullWidth
         sx={{ mt: 2, color: "black", backgroundColor: "white" }}
