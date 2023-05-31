@@ -7,7 +7,7 @@ const getBimboSKU = () => {
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const numOfItems = Math.floor(Math.random() * 5) + 1;
+  const numOfItems = Math.floor(Math.random() * 5) + 4;
   const arrayOfItems = [];
   for (let i = 0; i < numOfItems; i++) {
     arrayOfItems.push(getBimboSKU());
