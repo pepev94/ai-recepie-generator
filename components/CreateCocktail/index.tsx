@@ -10,7 +10,6 @@ import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useEffect, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "../../models/User";
 import { LanguagesEnum } from "@/utils/createRecepie";
@@ -113,16 +112,12 @@ const CreateCocktail = () => {
     }
   }, [router.query]);
 
-  const session = useSession();
-
   const dispatch = useDispatch();
 
   const hasProFeatures = Boolean(
     // session?.status === "authenticated" && userData?.data[0]?.subscriptionId
     true
   );
-
-  const isAuthenticated = session?.status === "authenticated";
 
   const intl = useIntl();
 
@@ -189,52 +184,47 @@ const CreateCocktail = () => {
   // };
 
   const fetchData = async (body: BodyGetOpenAiCocktailResult) => {
-    if (!isAuthenticated) {
-      setOpenAuthModal(true);
-      return;
-    }
     if (!validateInputs(body)) return;
     // if (!userData?.data[0]?.subscriptionId) {
     //   setShowBuyMoreCta(true);
     //   return;
     // }
-    if (userData?.data.length) {
-      refetch();
-      // TODO: Refactor this
-      //@ts-ignore
-      myRef.current.scrollIntoView();
-      const response = await fetch("/api/open-ai/cocktail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...body }),
-      });
+    refetch();
+    // TODO: Refactor this
+    //@ts-ignore
+    myRef.current.scrollIntoView();
+    const response = await fetch("/api/open-ai/cocktail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...body }),
+    });
 
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data = response.body;
-      if (!data) {
-        return;
-      }
-      const reader = data.getReader();
-      const decoder = new TextDecoder();
-      let done = false;
-
-      let prompt = "";
-
-      while (!done) {
-        const { value, done: doneReading } = await reader.read();
-        done = doneReading;
-        const chunkValue = decoder.decode(value);
-        setResult((prev) => prev + chunkValue);
-        prompt = prompt + chunkValue;
-      }
-      saveCocktail(prompt, shortLocale);
-      // fetchImage(prompt);
+    if (!response.ok) {
+      throw new Error(response.statusText);
     }
+
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    let prompt = "";
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      setResult((prev) => prev + chunkValue);
+      prompt = prompt + chunkValue;
+    }
+    saveCocktail(prompt, shortLocale);
+    // fetchImage(prompt);
+
     // fetchImage();
     setLoading(false);
   };
@@ -302,31 +292,27 @@ const CreateCocktail = () => {
             cocktailTypeButtons={cocktailTypeButtons}
             cocktailStyleButtons={cocktailStyleButtons}
           />
-          {session?.status === "loading" ? (
-            <LoadingScreen />
-          ) : (
-            <LoadingButton
-              sx={{ mt: 5 }}
-              onClick={() => {
-                setResult("");
-                setImage("");
-                fetchData({
-                  cocktailType,
-                  cocktailStyle,
-                  cocktailMainIngredients,
-                  cocktailSecondaryIngredients,
-                  selectedLanguage: getLanguage(shortLocale),
-                });
-              }}
-              disabled={loading}
-              loading={loading}
-              size="large"
-              fullWidth
-              variant="contained"
-            >
-              <FormattedMessage id="generateCocktail" />
-            </LoadingButton>
-          )}
+          <LoadingButton
+            sx={{ mt: 5 }}
+            onClick={() => {
+              setResult("");
+              setImage("");
+              fetchData({
+                cocktailType,
+                cocktailStyle,
+                cocktailMainIngredients,
+                cocktailSecondaryIngredients,
+                selectedLanguage: getLanguage(shortLocale),
+              });
+            }}
+            disabled={loading}
+            loading={loading}
+            size="large"
+            fullWidth
+            variant="contained"
+          >
+            <FormattedMessage id="generateCocktail" />
+          </LoadingButton>
 
           <ExtraActions result={result} setResult={setResult} />
           <Typography
@@ -341,7 +327,7 @@ const CreateCocktail = () => {
             {result}
           </Typography>
 
-          <Button
+          {/* <Button
             color="secondary"
             sx={{ my: 2 }}
             variant="contained"
@@ -355,7 +341,7 @@ const CreateCocktail = () => {
             }}
           >
             <FormattedMessage id="seeAllRecipes" />
-          </Button>
+          </Button> */}
           {image !== "" && (
             <Box
               component="img"

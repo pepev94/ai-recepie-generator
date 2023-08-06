@@ -20,7 +20,7 @@ import { Box } from "@mui/system";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useEffect, useRef, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "../../models/User";
 import LoginCta from "./loginCta";
@@ -78,8 +78,6 @@ const CreateRecipie = () => {
     initialData: { data: [] },
   });
 
-  const session = useSession();
-
   const {
     foodType: foodTypeQuery,
     targetProtein: targetProteinQuery,
@@ -90,7 +88,6 @@ const CreateRecipie = () => {
     countMacros: countMacrosQuery,
   } = router.query;
 
-  const isAuthenticated = session?.status === "authenticated";
   const hasProFeatures = Boolean(
     // isAuthenticated && userData?.data[0]?.subscriptionId
     true
@@ -178,10 +175,10 @@ const CreateRecipie = () => {
   // };
 
   const fetchData = async (body: BodyGetOpenAiResult) => {
-    if (!isAuthenticated) {
-      setOpenAuthModal(true);
-      return;
-    }
+    // if (!isAuthenticated) {
+    //   setOpenAuthModal(true);
+    //   return;
+    // }
 
     if (!validateInputs(body)) return;
 
@@ -191,43 +188,42 @@ const CreateRecipie = () => {
     //   setShowBuyMoreCta(true);
     //   return;
     // }
-    if (userData?.data.length) {
-      refetch();
-      // TODO: Refactor this
-      //@ts-ignore
-      myRef.current.scrollIntoView();
-      const response = await fetch("/api/open-ai/food", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...body }),
-      });
+    refetch();
+    // TODO: Refactor this
+    //@ts-ignore
+    myRef.current.scrollIntoView();
+    const response = await fetch("/api/open-ai/food", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...body }),
+    });
 
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      const data = response.body;
-      if (!data) {
-        return;
-      }
-      const reader = data.getReader();
-      const decoder = new TextDecoder();
-      let done = false;
-
-      let prompt = "";
-
-      while (!done) {
-        const { value, done: doneReading } = await reader.read();
-        done = doneReading;
-        const chunkValue = decoder.decode(value);
-        setResult((prev) => prev + chunkValue);
-        prompt = prompt + chunkValue;
-      }
-      // fetchImage(prompt);
-      saveRecepie(prompt, shortLocale);
+    if (!response.ok) {
+      throw new Error(response.statusText);
     }
+
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    let prompt = "";
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      setResult((prev) => prev + chunkValue);
+      prompt = prompt + chunkValue;
+    }
+    // fetchImage(prompt);
+    saveRecepie(prompt, shortLocale);
+
     // fetchImage();
     setLoading(false);
   };
@@ -335,33 +331,29 @@ const CreateRecipie = () => {
             hasProFeatures={hasProFeatures}
             setSpecialRecipe={setSpecialRecipe}
           />
-          {session?.status === "loading" ? (
-            <LoadingScreen />
-          ) : (
-            <LoadingButton
-              sx={{ mt: 5 }}
-              onClick={() =>
-                fetchData({
-                  foodType,
-                  targetProtein,
-                  targetCarbs,
-                  primaryIngredient,
-                  targetFats,
-                  selectedLanguage: getLanguage(shortLocale),
-                  personCount,
-                  countMacros,
-                  specialRecipe,
-                })
-              }
-              disabled={loading}
-              loading={loading}
-              size="large"
-              fullWidth
-              variant="contained"
-            >
-              <FormattedMessage id="generateReciepie" />
-            </LoadingButton>
-          )}
+          <LoadingButton
+            sx={{ mt: 5 }}
+            onClick={() =>
+              fetchData({
+                foodType,
+                targetProtein,
+                targetCarbs,
+                primaryIngredient,
+                targetFats,
+                selectedLanguage: getLanguage(shortLocale),
+                personCount,
+                countMacros,
+                specialRecipe,
+              })
+            }
+            disabled={loading}
+            loading={loading}
+            size="large"
+            fullWidth
+            variant="contained"
+          >
+            <FormattedMessage id="generateReciepie" />
+          </LoadingButton>
 
           <ExtraActions
             showMessage={() => showMessage("Copied")}
@@ -380,7 +372,7 @@ const CreateRecipie = () => {
             {result}
           </Typography>
 
-          <Button
+          {/* <Button
             color="secondary"
             sx={{ my: 2 }}
             variant="contained"
@@ -394,7 +386,7 @@ const CreateRecipie = () => {
             }}
           >
             <FormattedMessage id="seeAllRecipes" />
-          </Button>
+          </Button> */}
 
           {image !== "" && (
             <Box

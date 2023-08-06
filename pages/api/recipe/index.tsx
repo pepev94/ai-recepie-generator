@@ -16,7 +16,7 @@ export default async function handler(
   const { method } = req;
 
   await mongooseConnect();
-  const session = await getServerSession(req, res, authOptions);
+  // const session = await getServerSession(req, res, authOptions);
 
   if (true) {
     switch (method) {
@@ -25,7 +25,7 @@ export default async function handler(
           let { filter } = aqp(req.query);
           // const hasSubscriptionId = session.user.subscriptionId;
           // if (!hasSubscriptionId) throw new Error();
-          filter.email = session.user.email;
+          filter.email = "aifoodie@gmail.com";
           const recepies = await Recepie.find(filter);
           res.status(200).json({ data: recepies });
         } catch (error) {
@@ -37,7 +37,7 @@ export default async function handler(
           const parsedDto = createRecepieDtoSchema.parse(req.body);
           const recepie = await Recepie.create({
             ...parsedDto,
-            email: session.user.email,
+            email: "aifoodie@gmail.com",
             slug: slug(parsedDto.title),
             createdAt: new Date(),
             _id: new ObjectId(),

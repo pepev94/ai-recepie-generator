@@ -45,6 +45,7 @@ export async function OpenAIStream(payload: any, url: string) {
 
       const parser = createParser(onParse);
       for await (const chunk of res.body as any) {
+        console.log(decoder.decode(chunk));
         parser.feed(decoder.decode(chunk));
       }
     },
