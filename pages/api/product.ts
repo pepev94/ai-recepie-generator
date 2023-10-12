@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const getSKU = (prefix: string) => {
   const randomNum = `${Math.floor(Math.random() * 15) + 1}`;
-  if (randomNum.length === 2) return `${prefix}00${randomNum}`;
-  return `${prefix}000${randomNum}`;
+  if (randomNum.length === 2) return `${prefix}${randomNum}`;
+  return `${prefix}0${randomNum}`;
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
