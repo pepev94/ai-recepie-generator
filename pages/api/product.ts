@@ -16,7 +16,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   // Generate a random number between 3 (inclusive) and validMaxNum (inclusive)
   let numOfItems = Math.floor(Math.random() * (validMaxNum - 3 + 1)) + 3;
-  console.log(numOfItems);
   if (numOfItems < 3) numOfItems = 3;
   const arrayOfItems = [];
   for (let i = 0; i < numOfItems; i++) {
